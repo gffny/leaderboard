@@ -1,4 +1,0 @@
-<project name="leaderboard-shared" default="compile">
-	<property file="build.properties"/>
-	<import file="${common.dir}/common.xml"/>
-</project>
