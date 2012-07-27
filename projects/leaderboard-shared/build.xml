@@ -1,0 +1,4 @@
+<project name="leaderboard-shared" default="jar">
+	<property file="build.properties"/>
+	<import file="${common.dir}/common.xml"/>
+</project>
