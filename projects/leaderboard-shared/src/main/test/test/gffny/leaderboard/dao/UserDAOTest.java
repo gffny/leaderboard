@@ -1,7 +1,7 @@
 /**
  * 
  */
-package com.gffny.leaderboard.dao;
+package test.gffny.leaderboard.dao;
 
 import static org.junit.Assert.fail;
 
@@ -12,6 +12,7 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
+import com.gffny.leaderboard.dao.IUserDAO;
 import com.gffny.leaderboard.dao.mysql.DAOFactory;
 import com.gffny.leaderboard.layerUtils.DAOException;
 import com.gffny.leaderboard.layerUtils.DAOResult;
@@ -43,7 +44,7 @@ public class UserDAOTest {
 	}
 
 	/**
-	 * Test method for {@link com.gffny.leaderboard.dao.mysql.UserDAO#getAllGolfersList()}.
+	 * Test method for {@link test.gffny.leaderboard.dao.mysql.UserDAO#getAllGolfersList()}.
 	 */
 	@Test
 	public void testGetAllGolfersList() {
@@ -64,7 +65,7 @@ public class UserDAOTest {
 	}
 
 	/**
-	 * Test method for {@link com.gffny.leaderboard.dao.mysql.UserDAO#getAllSocietyMembersListBySocietyId(java.lang.String)}.
+	 * Test method for {@link test.gffny.leaderboard.dao.mysql.UserDAO#getAllSocietyMembersListBySocietyId(java.lang.String)}.
 	 */
 	@Test
 	public void testGetAllSocietyMembersListBySocietyId() {
@@ -85,7 +86,7 @@ public class UserDAOTest {
 	}
 
 	/**
-	 * Test method for {@link com.gffny.leaderboard.dao.mysql.UserDAO#getGolferBySocietyMemberId(java.lang.String)}.
+	 * Test method for {@link test.gffny.leaderboard.dao.mysql.UserDAO#getGolferBySocietyMemberId(java.lang.String)}.
 	 */
 	@Test
 	public void testGetGolferBySocietyMemberId() {
@@ -104,7 +105,7 @@ public class UserDAOTest {
 	}
 
 	/**
-	 * Test method for {@link com.gffny.leaderboard.dao.mysql.UserDAO#getGolferBySocietyMemberId(java.lang.String)}.
+	 * Test method for {@link test.gffny.leaderboard.dao.mysql.UserDAO#getGolferBySocietyMemberId(java.lang.String)}.
 	 */
 	@Test
 	public void testAddGolfer() {
