@@ -3,8 +3,7 @@
  */
 package com.gffny.leaderboard.portal.web.controllers;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -13,6 +12,8 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.gffny.leaderboard.layerUtils.ServiceException;
 import com.gffny.leaderboard.portal.web.utils.MapUtility;
+import com.gffny.leaderboard.portal.web.utils.ScorecardMap;
+import com.gffny.leaderboard.services.impl.GolfService;
 import com.gffny.leaderboard.services.impl.UserService;
 
 /**
@@ -35,6 +36,7 @@ public class ProfileController extends ApplicationController {
 		}
 		
 		UserService userService = new UserService();
+		GolfService golfService = new GolfService();
 
 		//get the profile template
         ModelAndView profile = new ModelAndView("profile");
@@ -42,6 +44,8 @@ public class ProfileController extends ApplicationController {
         //get the user info
         try {
         	profile.addObject("golfer", MapUtility.convertGolfer(userService.getGolferBySocietyMemberId(userId)));
+        	List<ScorecardMap> scorecardMapList = MapUtility.convertScorecardList(golfService.getAllScorecardByUserId(userId));
+        	profile.addObject("scorecardMapList", scorecardMapList);
         } catch (ServiceException ex) {
         	this.setErrorCode(ex.getMessage());
         	return new ModelAndView("error", "pageCode", this.getPageCode());
