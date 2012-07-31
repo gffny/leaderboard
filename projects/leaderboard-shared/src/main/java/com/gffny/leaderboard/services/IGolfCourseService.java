@@ -8,5 +8,6 @@ public interface IGolfCourseService {
 
 	public List<IGolfCourse> getAllGolfCoursesList();
 	
+	public List<IGolfCourse> getGolfCourseById(String courseId);
 
 }

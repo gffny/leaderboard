@@ -24,13 +24,9 @@ import com.mysql.jdbc.exceptions.MySQLIntegrityConstraintViolationException;
  */
 public class UserDAO extends AbstractMySQLDAO implements IUserDAO {
 	
-	private static Logger log = Logger.getLogger(AbstractMySQLDAO.class);
+	private static Logger log = Logger.getLogger(UserDAO.class);
 
 	private PreparedStatement stmnt;
-
-	protected UserDAO() {
-		super();
-	}
 
 	/**
 	 * 

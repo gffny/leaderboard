@@ -10,9 +10,9 @@ public interface IGolfCourseDAO {
 	public static String USA_COUNTRY_CODE = "USA";
 	public static String MA_USA_STATE_CODE = "MA";
 	
-	public IGolfCourse getGolfCourseById(String golfCourseId) throws DAOException;
+	public List<IGolfCourse> getGolfCourseById(String golfCourseId) throws DAOException;
 	
-	public IGolfCourse getGolfCourseByName(String golfCourseName) throws DAOException;
+	public List<IGolfCourse> getGolfCourseByName(String golfCourseName) throws DAOException;
 
 	public List<IGolfCourse> getCourseList() throws DAOException;
 	
