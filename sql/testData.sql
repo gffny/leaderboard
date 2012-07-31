@@ -54,5 +54,13 @@ INSERT INTO `leaderboard`.`t_golf_course` (`name`, `par`, `location`,
  `hole_six_shots`, `hole_seven_shots`, `hole_eight_shots`, `hole_nine_shots`,
  `hole_ten_shots`, `hole_eleven_shots`, `hole_twelve_shots`, `hole_thirteen_shots`, 
  `hole_fourteen_shots`, `hole_fifteen_shots`, `hole_sixteen_shots`, `hole_seventeen_shots`,
- `hole_eighteen_shots`, `round_notes`) 
- VALUES ('2', '1', 'WHITES', '6', '5', '5', '6', '8', '5', '9', '5', '4', '6', '5', '5', '6', '8', '5', '9', '5', '4', 'Good driving, poor putting!');
+ `hole_eighteen_shots`, `round_notes`, `round_date`) 
+ VALUES ('2', '1', 'WHITES', '6', '5', '5', '6', '8', '5', '9', '5', '4', '6', '5', '5', '6', '8', '5', '9', '5', '4', 'Good driving, poor putting!', '2012-07-25');
+ 
+ INSERT INTO `leaderboard`.`t_scorecard` (`golf_course_id`, `user_id`, `tee_played_off`, 
+ `hole_one_shots`, `hole_two_shots`, `hole_three_shots`, `hole_four_shots`, `hole_five_shots`, 
+ `hole_six_shots`, `hole_seven_shots`, `hole_eight_shots`, `hole_nine_shots`,
+ `hole_ten_shots`, `hole_eleven_shots`, `hole_twelve_shots`, `hole_thirteen_shots`, 
+ `hole_fourteen_shots`, `hole_fifteen_shots`, `hole_sixteen_shots`, `hole_seventeen_shots`,
+ `hole_eighteen_shots`, `round_notes`, `round_date`) 
+ VALUES ('2', '1', 'WHITES', '7', '4', '3', '5', '7', '6', '7', '5', '4', '7', '4', '3', '5', '7', '6', '7', '5', '4', 'Good driving, poor putting!', '2012-07-29');
