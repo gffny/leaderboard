@@ -5,6 +5,9 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
+import com.gffny.leaderboard.dao.mysql.DAOFactory;
+import com.gffny.leaderboard.layerUtils.DAOException;
+
 /**
  * 
  */
@@ -35,39 +38,12 @@ public class GolfCourseDAOTest {
 	 */
 	@Test
 	public final void testGetGolfCourseById() {
-		fail("Not yet implemented"); // TODO
+		try {
+			System.out.println(DAOFactory.getInstance().getGolfCourseDAO().getCourseById("1").toString());
+			System.out.println(DAOFactory.getInstance().getGolfCourseDAO().getCourseById("1").get(0).getHole(7).toString());
+		} catch (DAOException e) {
+			fail();
+			e.printStackTrace();
+		}
 	}
-
-	/**
-	 * Test method for {@link com.gffny.leaderboard.dao.mysql.GolfCourseDAO#getGolfCourseByName(java.lang.String)}.
-	 */
-	@Test
-	public final void testGetGolfCourseByName() {
-		fail("Not yet implemented"); // TODO
-	}
-
-	/**
-	 * Test method for {@link com.gffny.leaderboard.dao.mysql.GolfCourseDAO#getCourseList()}.
-	 */
-	@Test
-	public final void testGetCourseList() {
-		fail("Not yet implemented"); // TODO
-	}
-
-	/**
-	 * Test method for {@link com.gffny.leaderboard.dao.mysql.GolfCourseDAO#getCourseListByCountry(java.lang.String)}.
-	 */
-	@Test
-	public final void testGetCourseListByCountry() {
-		fail("Not yet implemented"); // TODO
-	}
-
-	/**
-	 * Test method for {@link com.gffny.leaderboard.dao.mysql.GolfCourseDAO#getCourseListByCountryAndState(java.lang.String, java.lang.String)}.
-	 */
-	@Test
-	public final void testGetCourseListByCountryAndState() {
-		fail("Not yet implemented"); // TODO
-	}
-
 }

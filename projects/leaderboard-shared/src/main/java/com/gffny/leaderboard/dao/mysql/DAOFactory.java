@@ -20,7 +20,7 @@ public class DAOFactory implements IDAOFactory {
 	private static IDAOFactory instance = null;
 	private UserDAO userDaoInstance = null;
 	private ScorecardDAO scorecardDaoInstance = null;
-	private GolfCourseDAO golfCourseDaoInstance;
+	private GolfCourseDAO golfCourseDaoInstance = null;
 	
 	private DAOFactory() {
 		

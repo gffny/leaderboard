@@ -50,23 +50,6 @@ public class ProfileController extends ApplicationController {
         	this.setErrorCode(ex.getMessage());
         	return new ModelAndView("error", "pageCode", this.getPageCode());
         }
-        /* to be done later 
-        //get the last 5 rounds
-        Map<String, Object> roundOneCourse = new HashMap<String, Object>();
-        roundOneCourse.put("name", "Fresh Pond GC");
-        roundOneCourse.put("holes", "9");
-        roundOneCourse.put("par", "35");
-
-        Map<String, Object> roundOne = new HashMap<String, Object>();
-        roundOne.put("date", "John Gaffney");
-        roundOne.put("course", roundOneCourse);
-        roundOne.put("score", "53");
-
-        Map<String, Object> roundList = new HashMap<String, Object>();
-        roundList.put("roundOne", roundOne);
-        profile.addObject("roundList", roundList);
-        */
 		return profile;
 	}
-
 }
