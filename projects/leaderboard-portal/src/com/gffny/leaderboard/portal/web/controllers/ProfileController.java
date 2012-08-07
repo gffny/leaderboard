@@ -28,7 +28,7 @@ public class ProfileController extends ApplicationController {
 	 */
 	public ModelAndView handleRequest(HttpServletRequest request,
 			HttpServletResponse response) throws Exception {
-		
+/*
 		String userId = request.getParameter("userId");
 		if(userId == null) {
         	this.setErrorCode("No UserId was passed to the controller.");
@@ -51,5 +51,7 @@ public class ProfileController extends ApplicationController {
         	return new ModelAndView("error", "pageCode", this.getPageCode());
         }
 		return profile;
+		*/
+		return new ModelAndView();
 	}
 }

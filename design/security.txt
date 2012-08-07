@@ -1,0 +1,7 @@
+/auth* 		permitAll
+/welcome 	permitAll
+/help 		permitAll
+/dashboard 	user
+/publish 	permitAll
+/society 	user
+/competition 	user

@@ -1,0 +1,26 @@
+USER & SOCIETY USE CASES
+1. User
+1.1 Create
+1.2 Update
+1.3 Delete (inactivate user)
+
+2. Society
+2.1 Create
+2.2 Update
+2.3 Delete (inactivate society)
+
+3. Society Membership
+3.1 Create
+3.2 Update
+3.3 Delete (inactivate society membership)
+
+COMPETITION USE CASES
+1 Create/Update Competition
+2 Add/Update Entrant(s)
+3 Score Competition
+4 Close Competition
+
+COURSE USE CASES
+1 Create
+2 Update Course
+3 Delete Course (inactivate course)
