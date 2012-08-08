@@ -7,31 +7,39 @@
                     http://www.springframework.org/schema/security/spring-security-3.1.xsd">
 
 	<http auto-config="true">
-		<intercept-url pattern="/index.html" access="IS_AUTHENTICATED_ANONYMOUSLY" />
+	
+		<!-- NO RESTRICITIONS -->
 		<intercept-url pattern="/auth*" access="IS_AUTHENTICATED_ANONYMOUSLY" />
+		<intercept-url pattern="/help" access="IS_AUTHENTICATED_ANONYMOUSLY" />
+		<intercept-url pattern="/" access="IS_AUTHENTICATED_ANONYMOUSLY" />
 		<intercept-url pattern="/publish*" access="IS_AUTHENTICATED_ANONYMOUSLY" />
+		
+		<!-- RESTRICTIONS! -->
+		<intercept-url pattern="/dashboard/*" access="ROLE_USER" />
 
 		<!-- login -->
-		<form-login login-page='/index.html' default-target-url='/profile.lb'
-            always-use-default-target='false' />
+		<!-- original 
+			<form-login login-page='/index.html' default-target-url='/profile.lb'
+    	        always-use-default-target='false' />
+		-->
 
-		<access-denied-handler error-page="/index.html?logout=2" />
+		<form-login login-page="/authentication/login"
+			authentication-failure-url="/authentication/login?login_error=1"
+			default-target-url="/dashboard/profile" />
+
+		<session-management invalid-session-url="/authentication/logout?session=invalid" />
+		<!-- <access-denied-handler error-page="/index.html?logout=2" />  -->
 
 		<!-- logout -->
-
-		<session-management>
-			<concurrency-control max-sessions="1" />
-		</session-management>
+		<logout logout-success-url="/authentication/logout" delete-cookies="JSESSIONID" />
 	</http>
 
 	<authentication-manager>
-		<authentication-provider>
-			<user-service>
-				<user name="rod" password="koala" authorities="ROLE_USER" />
-				<user name="dianne" password="emu" authorities="ROLE_USER" />
-				<user name="scott" password="wombat" authorities="ROLE_USER" />
-				<user name="peter" password="opal" authorities="ROLE_USER" />
-			</user-service>
+		<authentication-provider user-service-ref="customAuthenticationProvider">
+			<password-encoder hash="md5"/>
 		</authentication-provider>
 	</authentication-manager>
+
+	<beans:bean id="customAuthenticationProvider" class="com.gffny.leaderboard.portal.web.auth.LeaderboardUserDetailService" />
+
 </beans:beans>

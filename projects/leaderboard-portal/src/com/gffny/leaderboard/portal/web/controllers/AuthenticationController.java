@@ -19,6 +19,7 @@ public class AuthenticationController {
 	
 	@RequestMapping("/login")
 	public ModelAndView login() {
+		System.out.println("login");
 		ModelAndView model = new ModelAndView("auth/login");
 		return model;
 	}
