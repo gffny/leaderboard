@@ -15,7 +15,7 @@
 		<intercept-url pattern="/publish*" access="IS_AUTHENTICATED_ANONYMOUSLY" />
 		
 		<!-- RESTRICTIONS! -->
-		<intercept-url pattern="/dashboard/*" access="ROLE_USER" />
+		<intercept-url pattern="/dashboard/*" access="IS_AUTHENTICATED_ANONYMOUSLY" />
 
 		<!-- login -->
 		<!-- original 
