@@ -1,29 +1,33 @@
+/**
+ * 
+ */
 package test.gffny.leaderboard.dao;
-import static org.junit.Assert.*;
+
+import static org.junit.Assert.fail;
 
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
+import com.gffny.leaderboard.dao.IGolfCourseDAO;
 import com.gffny.leaderboard.dao.factory.DAOFactory;
 import com.gffny.leaderboard.layerUtils.DAOException;
 
 /**
- * 
- */
-
-/**
  * @author John Gaffney (john@gffny.com)
- * Jul 31, 2012
+ * Aug 14, 2012
  *
  */
-public class GolfCourseDAOTest {
+public class TestAbstractMongoDAO {
+	
+	private IGolfCourseDAO mongo = null;
 
 	/**
 	 * @throws java.lang.Exception
 	 */
 	@Before
 	public void setUp() throws Exception {
+		mongo  = DAOFactory.getInstance().getGolfCourseDAO();
 	}
 
 	/**
@@ -34,16 +38,16 @@ public class GolfCourseDAOTest {
 	}
 
 	/**
-	 * Test method for {@link com.gffny.leaderboard.dao.mysql.GolfCourseDAO#getGolfCourseById(java.lang.String)}.
+	 * Test method for {@link com.gffny.leaderboard.dao.mongodb.AbstractMongoDAO#getCollection(java.lang.String)}.
 	 */
 	@Test
-	public final void testGetGolfCourseById() {
+	public final void testGetCollection() {
 		try {
-			System.out.println(DAOFactory.getInstance().getGolfCourseDAO().getCourseById("1").toString());
-			System.out.println(DAOFactory.getInstance().getGolfCourseDAO().getCourseById("1").get(0).getHole(7).toString());
+			mongo.getCourseById("blah");
 		} catch (DAOException e) {
-			fail();
 			e.printStackTrace();
+			fail(e.getMessage());
 		}
 	}
+
 }

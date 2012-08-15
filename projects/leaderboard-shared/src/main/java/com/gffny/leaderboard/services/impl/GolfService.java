@@ -4,7 +4,7 @@ import java.util.List;
 
 import com.gffny.leaderboard.dao.IGolfCourseDAO;
 import com.gffny.leaderboard.dao.IScorecardDAO;
-import com.gffny.leaderboard.dao.mysql.DAOFactory;
+import com.gffny.leaderboard.dao.factory.DAOFactory;
 import com.gffny.leaderboard.layerUtils.ServiceException;
 import com.gffny.leaderboard.model.IGolfCourse;
 import com.gffny.leaderboard.model.IScorecard;

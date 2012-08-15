@@ -9,7 +9,7 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import com.gffny.leaderboard.dao.mysql.DAOFactory;
+import com.gffny.leaderboard.dao.factory.DAOFactory;
 import com.gffny.leaderboard.layerUtils.ServiceException;
 
 /**

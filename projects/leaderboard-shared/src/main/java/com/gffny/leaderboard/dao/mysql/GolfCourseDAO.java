@@ -108,4 +108,25 @@ public class GolfCourseDAO extends AbstractMySQLDAO implements IGolfCourseDAO {
 		}
 		return returnList;
 	}
+
+	@Override
+	public List<String> getCourseNameListByClub(String clubName)
+			throws DAOException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<IGolfCourse> getCourseByClubAndCourseName(String clubName,
+			String courseName) throws DAOException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<String> getGolfClubNameListByCountryAndState(String country,
+			String state) throws DAOException {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }
