@@ -11,7 +11,7 @@ import org.junit.Test;
 
 import com.gffny.leaderboard.dao.IGolfCourseDAO;
 import com.gffny.leaderboard.dao.factory.DAOFactory;
-import com.gffny.leaderboard.layerUtils.DAOException;
+import com.gffny.leaderboard.intralayer.DAOException;
 
 /**
  * @author John Gaffney (john@gffny.com)

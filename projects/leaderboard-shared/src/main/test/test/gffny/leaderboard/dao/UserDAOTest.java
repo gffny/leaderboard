@@ -14,8 +14,8 @@ import org.junit.Test;
 
 import com.gffny.leaderboard.dao.IUserDAO;
 import com.gffny.leaderboard.dao.factory.DAOFactory;
-import com.gffny.leaderboard.layerUtils.DAOException;
-import com.gffny.leaderboard.layerUtils.DAOResult;
+import com.gffny.leaderboard.intralayer.DAOException;
+import com.gffny.leaderboard.intralayer.DAOResult;
 import com.gffny.leaderboard.model.IGolfer;
 
 /**

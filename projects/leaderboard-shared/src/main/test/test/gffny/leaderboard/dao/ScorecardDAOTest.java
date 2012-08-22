@@ -10,7 +10,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import com.gffny.leaderboard.dao.factory.DAOFactory;
-import com.gffny.leaderboard.layerUtils.ServiceException;
+import com.gffny.leaderboard.intralayer.ServiceException;
 
 /**
  * @author John Gaffney (john@gffny.com)

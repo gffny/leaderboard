@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.gffny.leaderboard.dao.IGolfCourseDAO;
-import com.gffny.leaderboard.layerUtils.DAOException;
+import com.gffny.leaderboard.intralayer.DAOException;
 import com.gffny.leaderboard.model.IGolfCourse;
 import com.gffny.leaderboard.model.impl.GolfCourse;
 

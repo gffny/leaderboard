@@ -12,8 +12,8 @@ import java.util.List;
 import org.apache.log4j.Logger;
 
 import com.gffny.leaderboard.dao.IScorecardDAO;
-import com.gffny.leaderboard.layerUtils.DAOException;
-import com.gffny.leaderboard.layerUtils.ServiceException;
+import com.gffny.leaderboard.intralayer.DAOException;
+import com.gffny.leaderboard.intralayer.ServiceException;
 import com.gffny.leaderboard.model.IScorecard;
 import com.gffny.leaderboard.model.impl.Scorecard;
 
