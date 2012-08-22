@@ -1,0 +1,62 @@
+T_CMPTTN (T_COMPETITION)
+------------------------
+For each scoreable event of a society competition there will be a record inserted in this table to indicate the score to run. For example, the President's Day Cup, played over a weekend with daily individual and team prizes, as well as a overall individual prize. The Blood and Bandages' Sept. Matchplay Prize is a multi-round matchplay event, where winners progress to next round, and eventually a final, third/fourth place playoff, sixth/seventh place playoff, and an seventh/eighth place play-off. The Kendall Wanderers' Golf Classic is a team scramble prize played over one round.
+
+Cid	| Competition Name								| Competition Type 		| Date 			
+----------------------------------------------------------------------------------------------------
+1	| President's Day Cup Overall Individual Prize	| Individual Stableford	| 02/14/2012
+2	| President's Day Cup Thursday Team Prize		| Team Stableford		| 02/14/2012
+3 	| President's Day Cup Thursday Individual Prize	| Individual Stableford	| 02/14/2012
+4	| President's Day Cup Friday Team Prize			| Team Stableford		| 02/15/2012
+5 	| President's Day Cup Friday Individual Prize	| Individual Stableford	| 02/15/2012
+6	| President's Day Cup Saturday Team Prize		| Team Stableford		| 02/16/2012
+7 	| President's Day Cup Saturday Individual Prize	| Individual Stableford	| 02/16/2012
+8	| President's Day Cup Sunday Team Prize			| Team Stableford		| 02/17/2012
+9 	| President's Day Cup Sunday Individual Prize	| Individual Stableford	| 02/17/2012
+10	| Kendall Wanderers' Golf Classic				| Team Scramble			| 08/09/2012
+11	| Blood and Bandages' Sept. Matchplay Prize		| Individual Matchplay	| 09/12/2012
+
+T_CMPTTN_RND (T_COMPETITION_ROUND)
+----------------------------------
+For each scoreable round of an event, there will a record inserted in this table to indicated the scorer to run. For example, the President's Day Cup Overall Individual Prize is a multiround individual score event.
+
+Rid	| Cid	| Round Name							| Date
+----------------------------------------------------------------------------------------------------
+1	| 1		| PDC Overall Individual Prize Rnd 1	| 02/14/2012
+2	| 1		| PDC Overall Individual Prize Rnd 2	| 02/15/2012
+3	| 1		| PDC Overall Individual Prize Rnd 3	| 02/16/2012
+4	| 1		| PDC Overall Individual Prize Rnd 4	| 02/17/2012
+5	| 2		| PDC Thursday Team Prize				| 02/14/2012
+6	| 3		| PDC Thursday Individual Prize			| 02/14/2012
+7	| 4		| PDC Friday Team Prize					| 02/15/2012
+9	| 5		| PDC Friday Individual Prize			| 02/15/2012
+10	| 6		| PDC Saturday Team Prize				| 02/16/2012
+11	| 7		| PDC Saturday Individual Prize			| 02/16/2012
+12	| 8		| PDC Sunday Team Prize					| 02/16/2012
+13	| 9		| PDC Sunday Individual Prize			| 02/16/2012
+14	| 10	| KWGC									| 02/16/2012
+15	| 11	| BnB Sept. MP Rnd 1					| 02/16/2012 {Caffrey vs Boyle, O'Connor vs Barry, Lyons vs Gaffney, Regan vs Barden, A vs B, C vs D, E vs F, G vs H}
+16	| 11	| BnB Sept. MP Rnd 2					| 02/16/2012 {Caffrey vs B, Barry vs Lyons, C vs Regan, H vs F}
+17	| 11	| BnB Sept. MP Semi Final				| 02/16/2012 {Caffrey vs Regan, H vs Barry}
+18	| 11	| BnB Sept. MP Final					| 02/16/2012 {Caffrey vs Barry}
+
+T_CMPTTN_PRNG (T_COMPETITION_PAIRING)
+-------------------------------------
+For each round of a competition that requires one, or two golfers to play against another one, or two golfers respectively, a record will be created to identify the parings
+
+Pid	| Rid	| Paring Name								| Date
+1	| 15	| Caffrey vs Boyle							|
+1	| 15	| O'Connor vs Barry							|
+1	| 15	| Lyons vs Gaffney							|
+1	| 15	| Regan vs Barden							|
+1	| 15	| A vs B									|
+1	| 15	| C vs D									|
+1	| 15	| E vs F									|
+1	| 15	| G vs H									|
+1	| 16	| Caffrey vs Boyle							|
+1	| 16	| Caffrey vs Boyle							|
+1	| 16	| Caffrey vs Boyle							|
+1	| 16	| Caffrey vs B								|
+1	| 17	| H vs Barry								|
+1	| 17	| Caffrey vs Regan							|
+1	| 18	| Caffrey vs Barry							|

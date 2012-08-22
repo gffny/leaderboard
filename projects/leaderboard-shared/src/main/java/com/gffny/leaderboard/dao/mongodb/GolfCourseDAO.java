@@ -8,7 +8,7 @@ import java.util.List;
 import org.apache.log4j.Logger;
 
 import com.gffny.leaderboard.dao.IGolfCourseDAO;
-import com.gffny.leaderboard.layerUtils.DAOException;
+import com.gffny.leaderboard.intralayer.DAOException;
 import com.gffny.leaderboard.model.IGolfCourse;
 import com.mongodb.DBCollection;
 import com.mongodb.DBCursor;

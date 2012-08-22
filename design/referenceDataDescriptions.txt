@@ -1,0 +1,28 @@
+Golf Course:
+
+{
+	name: "Granite Links Old Course",
+	par: "71",
+	hole1: {
+		red: "456",
+		blue: "500",
+		white: "490",
+		green: "480",
+		lindex: "12",
+		mindex: "10",
+		par: "4"
+	}
+}
+{
+	name: "Granite Links New Course",
+	par: "72",
+	hole1: {
+		red: "500",
+		blue: "560",
+		white: "520",
+		green: "510",
+		lindex: "1",
+		mindex: "3",
+		par: "5"
+	}
+}

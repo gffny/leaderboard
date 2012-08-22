@@ -5,7 +5,7 @@ package com.gffny.leaderboard.dao;
 
 import java.util.List;
 
-import com.gffny.leaderboard.layerUtils.ServiceException;
+import com.gffny.leaderboard.intralayer.ServiceException;
 import com.gffny.leaderboard.model.IScorecard;
 
 /**

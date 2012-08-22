@@ -1,0 +1,9 @@
+BaseCompetitionScheduler abstract
+SimpleCompetitionScheduler
+	scheduleNextRound(Competition competition, String date, String firstTeeTime, List<IGolfer> competitiorList, int groupSize, boolean listOrdered) {
+		//shuffle the competitorList
+		//set the date and time of the round
+		//add the 
+	}
+MatchplayCompetitionScheduler
+	scheduleNextRound(Competition competition, String date, String firstTeeTime, List<IGolfer> competitiorList, int groupSize, boolean listOrdered) {

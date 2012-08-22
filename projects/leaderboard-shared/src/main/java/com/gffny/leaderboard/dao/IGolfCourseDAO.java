@@ -2,7 +2,7 @@ package com.gffny.leaderboard.dao;
 
 import java.util.List;
 
-import com.gffny.leaderboard.layerUtils.DAOException;
+import com.gffny.leaderboard.intralayer.DAOException;
 import com.gffny.leaderboard.model.IGolfCourse;
 
 public interface IGolfCourseDAO {

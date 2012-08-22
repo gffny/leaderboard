@@ -1,0 +1,42 @@
+COMPETITION SCORER
+
+
+COMPETITION GENERATOR (Better name required: service will take the list of applicable golfers and generate pairings, teams, foursomes, and/or tee times for a competition.)
+function: GenerateCompetition
+User selects a name, date, competition type, and course for a competition. The user then selects the competitiors from a list of society members, or adds an email address for a goler (which can be used to reference the db of known golfers or to invite the golfer to register). The generator, based on the passed variables, will compile pairings, and tee times for the competition, and save the relevant artifacts to the database. The service will also publish the competition information via the publish url function (i.e. give the competition a non-sequential, identifier. TODO: look into how to generate this identifier).
+
+function: RegenerateCompetition
+User selects a competition, and alters golfer list, then regenerates to create completely new golfer list, including purging the previous groupings from the database.
+
+fuction: ExtendCompetition
+User selects a competition, and alters golfer list, then extends to create addition groupings and tee times for the competition.
+
+function: GenerateCorrespondantCompetition
+User selects a competition to which the course, groups, and tee times will correspond, then select the name, and competition type that will differ. The competition type choice will be limited based on types that correspond neatly (i.e. THREE PERSON TEAM STABLEFORD and INDIVIDUAL STABLEFORD)
+
+//UI Data Input
+//Screen #1
+NAME: text input
+DATE: date field (validated input) or a date field chooser
+FIRST TEE OFF: time field (validated input) or a 24HR:5MM drop down (i.e. 13:05)
+TEE TIME DIFFERENTIAL: text input (validated input) or possibly a list of tee times ???
+TYPE: drop down (id) requires getting comp type list from service layer
+
+//Screen #2
+GOLF COURSE: drop down (id) requires getting course list from service layer - Show list of previously used courses (based on UserID or SocietyID)
+OTHER COURSE: button
+
+//Screen #3
+COUNTRY: drop down (id) prepopulate with user locale country
+STATE: drop down (id) prepopulate with user locale state
+GOLF COURSE: drop down (id) prepopulate with course list based on country id and state id from user locale (i.e. the values shown when screen is populated)
+
+//Screen #4
+GOLFER LIST: check box (id)
+ADDITIONAL GOLFER EMAIL: text input (email) 
+ADD GOLFER: button
+NUMBER OF GOLFERS PER GROUP: drop down (number 2..4) dependent on competition type, may be non-editable / default 4
+
+//Screen #5
+REVIEW DATA: non-editable text
+GENERATE COMPETITION: button

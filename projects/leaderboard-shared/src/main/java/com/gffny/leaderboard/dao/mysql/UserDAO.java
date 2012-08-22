@@ -12,8 +12,8 @@ import java.util.List;
 import org.apache.log4j.Logger;
 
 import com.gffny.leaderboard.dao.IUserDAO;
-import com.gffny.leaderboard.layerUtils.DAOException;
-import com.gffny.leaderboard.layerUtils.DAOResult;
+import com.gffny.leaderboard.intralayer.DAOException;
+import com.gffny.leaderboard.intralayer.DAOResult;
 import com.gffny.leaderboard.model.IGolfer;
 import com.gffny.leaderboard.model.impl.Golfer;
 import com.mysql.jdbc.exceptions.MySQLIntegrityConstraintViolationException;
