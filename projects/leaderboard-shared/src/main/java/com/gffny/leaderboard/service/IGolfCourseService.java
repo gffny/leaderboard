@@ -1,4 +1,4 @@
-package com.gffny.leaderboard.services;
+package com.gffny.leaderboard.service;
 
 import java.util.List;
 

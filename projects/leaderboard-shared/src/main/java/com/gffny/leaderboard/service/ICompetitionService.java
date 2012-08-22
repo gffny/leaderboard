@@ -1,9 +1,9 @@
-package com.gffny.leaderboard.services;
+package com.gffny.leaderboard.service;
 
-import com.gffny.leaderboard.layerUtils.ServiceException;
-import com.gffny.leaderboard.layerUtils.ServiceResult;
+import com.gffny.leaderboard.intralayer.ServiceException;
+import com.gffny.leaderboard.intralayer.ServiceResult;
 import com.gffny.leaderboard.model.ICompetition;
-import com.gffny.leaderboard.utils.ICompetitionScheduler;
+import com.gffny.leaderboard.util.ICompetitionScheduler;
 
 public interface ICompetitionService {
 

@@ -1,15 +1,15 @@
-package com.gffny.leaderboard.services.impl;
+package com.gffny.leaderboard.service.impl;
 
 import java.util.List;
 
 import com.gffny.leaderboard.dao.IGolfCourseDAO;
 import com.gffny.leaderboard.dao.IScorecardDAO;
 import com.gffny.leaderboard.dao.factory.DAOFactory;
-import com.gffny.leaderboard.layerUtils.ServiceException;
+import com.gffny.leaderboard.intralayer.ServiceException;
 import com.gffny.leaderboard.model.IGolfCourse;
 import com.gffny.leaderboard.model.IScorecard;
-import com.gffny.leaderboard.services.IGolfCourseService;
-import com.gffny.leaderboard.services.IScorecardService;
+import com.gffny.leaderboard.service.IGolfCourseService;
+import com.gffny.leaderboard.service.IScorecardService;
 
 
 public class GolfService implements IScorecardService, IGolfCourseService {

@@ -1,16 +1,16 @@
 /**
  * 
  */
-package com.gffny.leaderboard.services.impl;
+package com.gffny.leaderboard.service.impl;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import com.gffny.leaderboard.dao.factory.DAOFactory;
-import com.gffny.leaderboard.layerUtils.DAOException;
-import com.gffny.leaderboard.layerUtils.ServiceException;
+import com.gffny.leaderboard.intralayer.DAOException;
+import com.gffny.leaderboard.intralayer.ServiceException;
 import com.gffny.leaderboard.model.IGolfer;
-import com.gffny.leaderboard.services.IUserService;
+import com.gffny.leaderboard.service.IUserService;
 
 /**
  * @author jgaffney02
