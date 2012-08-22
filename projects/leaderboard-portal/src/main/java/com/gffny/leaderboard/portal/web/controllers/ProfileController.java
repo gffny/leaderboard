@@ -10,11 +10,11 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.web.servlet.ModelAndView;
 
-import com.gffny.leaderboard.layerUtils.ServiceException;
+import com.gffny.leaderboard.intralayer.ServiceException;
 import com.gffny.leaderboard.portal.web.utils.MapUtility;
 import com.gffny.leaderboard.portal.web.utils.ScorecardMap;
-import com.gffny.leaderboard.services.impl.GolfService;
-import com.gffny.leaderboard.services.impl.UserService;
+import com.gffny.leaderboard.service.impl.GolfService;
+import com.gffny.leaderboard.service.impl.UserService;
 
 /**
  * @author John Gaffney (john@gffny.com)
