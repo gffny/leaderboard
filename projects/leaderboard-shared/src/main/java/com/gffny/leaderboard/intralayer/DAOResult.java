@@ -1,4 +1,4 @@
-package com.gffny.leaderboard.layerUtils;
+package com.gffny.leaderboard.intralayer;
 
 public class DAOResult {
 
