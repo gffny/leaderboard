@@ -1,0 +1,24 @@
+society admin funcitons
+1. create society/update society profile
+a. name
+b. description
+c. membership (add/remove/invite)
+2. manage competitions
+a. create competition
+b. add memeber/non-member to the competition field
+	b.1. assign competition handicap
+c. schedule tee times/copy existing schedule
+d. score competition
+e. publish results
+
+
+CREATE SOCIETY
+----------------
+Society Name		entered
+Logo (optional)		entered
+Description			entered
+Primary Course		selected (choice)
+
+CREATE COMPETITION
+------------------
+Competition Name

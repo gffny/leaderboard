@@ -1,0 +1,41 @@
+Competition Hierarchy
+---------------------
+COMEPTITION PARENT has multiple CHILD COMPETITION
+CHILD COMPETITION is an individual competition, which can be scored, published, or managed on its own
+INDIVIDUAL COMPETITION can have sibling COMPETITION, which are scored seperately but organised identically
+a comeptition parent must have child competitions which are scored the same way (as a team, or as an individual, but not mixed) - objects implement different interfaces
+
+COMPETITION -> 1|* COMPETITION ROUNDS
+COMPETITION SCHEDULER creates competition round but should not store state. Static methods that crunch numbers to produce model pojos
+
+USE CASE ONE - RYDER CUP
+Team competition played over four days
+Mix of competition types but always team points scored
+
+USE CASE TWO - PRESIDENT'S DAY CUP
+Individual competition played over four days with individual day winners (and handicap changes per round)
+Daily team competition played each day parallel to three/four balls played in the individual competition
+
+Components
+-----------
+Competition Scheduler
+
+Select dates for each competition round/competition type for each day/indicate multiple competitions each day
+Select playing field for each day
+Select available tee times for each day
+
+abstract class CompetitionScheduler implements  	
+//name - the name of the overall competition, individualCompetition - true if overall competition is individual, false if overall competition is team
+public CompetitionScheduler
+
+	//creates the instance of the competition scheduler	
+	public CompetitionScheduler(String competitionName, boolean individualCompetition)
+
+	//returns competition round id
+	public int scheduleRound(Date roundDate, Array teeTimesArray, List competitorList, int playerGroupSize, int numberOfHoles)
+
+	//returns an array of rounds for that day, though there should be only one
+	public CompetitionRound[] getRoundByDate(Date roundDate)
+	
+	//returns the round for that id
+	public CompetitionRound getRoundByID(int roundId)
