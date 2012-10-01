@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="UTF-8"?>
-
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xmlns:context="http://www.springframework.org/schema/context"
@@ -18,7 +17,7 @@
 	<mvc:resources mapping = "/**" location = "/"/>
 	<mvc:annotation-driven/>
 
-	<context:component-scan base-package="com.gffny.leaderboard.portal.web.controllers.**" /> 
+	<context:component-scan base-package="com.gffny.leaderboard.portal.controller.**" /> 
 
 	<bean id="viewResolver" class="org.springframework.web.servlet.view.freemarker.FreeMarkerViewResolver">
 		<property name="cache" value="true"/>
@@ -32,5 +31,4 @@
 	<bean id="freemarkerConfig" class="org.springframework.web.servlet.view.freemarker.FreeMarkerConfigurer">
 		<property name="templateLoaderPath" value="/WEB-INF/freemarker/"/>
 	</bean>
-
 </beans>

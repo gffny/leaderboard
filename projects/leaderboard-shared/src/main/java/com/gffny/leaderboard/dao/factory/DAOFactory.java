@@ -15,7 +15,7 @@ import com.gffny.leaderboard.dao.mysql.UserDAO;
 
 /**
  * @author jgaffney02
- *
+ * 
  */
 public class DAOFactory implements IDAOFactory {
 
@@ -24,13 +24,13 @@ public class DAOFactory implements IDAOFactory {
 	private UserDAO userDaoInstance = null;
 	private ScorecardDAO scorecardDaoInstance = null;
 	private GolfCourseDAO golfCourseDaoInstance = null;
-	
+
 	private DAOFactory() {
-		
+
 	}
 
 	public static synchronized IDAOFactory getInstance() {
-		if(instance == null) {
+		if (instance == null) {
 			log.info("creating new instance of DAOFactory");
 			instance = new DAOFactory();
 		}
@@ -38,29 +38,29 @@ public class DAOFactory implements IDAOFactory {
 	}
 
 	public IUserDAO getUserDAO() {
-		if(userDaoInstance == null) {
+		if (userDaoInstance == null) {
 			log.info("creating instance of UserDAO in DAOFactory");
-			//TODO LOOK AT CLASS LOADING OR SPING LOADING THE DAO!
-			userDaoInstance = new UserDAO(); 
+			// TODO look at class loading or spring loading the dao!
+			userDaoInstance = new UserDAO();
 		}
 		log.info("retrieving instance of UserDAO from DAOFactory");
 		return userDaoInstance;
 	}
-	
+
 	public IScorecardDAO getScorecardDAO() {
-		if(scorecardDaoInstance == null) {
+		if (scorecardDaoInstance == null) {
 			log.info("creating instance of ScorecardDAO from DAOFactory");
-			//TODO LOOK AT CLASS LOADING OR SPING LOADING THE DAO!
-			scorecardDaoInstance  = new ScorecardDAO();
+			// TODO look at class loading or spring loading the dao!
+			scorecardDaoInstance = new ScorecardDAO();
 		}
 		return scorecardDaoInstance;
 	}
 
 	public IGolfCourseDAO getGolfCourseDAO() {
-		if(golfCourseDaoInstance == null) {
+		if (golfCourseDaoInstance == null) {
 			log.info("creating instance of GolfCourseDAO from DAOFactory");
-			//TODO LOOK AT CLASS LOADING OR SPING LOADING THE DAO!
-			golfCourseDaoInstance  = new GolfCourseDAO();
+			// TODO look at class loading or spring loading the dao!
+			golfCourseDaoInstance = new GolfCourseDAO();
 		}
 		return golfCourseDaoInstance;
 	}

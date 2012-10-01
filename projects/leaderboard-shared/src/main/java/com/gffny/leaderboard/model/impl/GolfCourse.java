@@ -9,11 +9,17 @@ import com.gffny.leaderboard.model.IGolfCourse;
 import com.gffny.leaderboard.model.IGolfCourseHole;
 
 /**
- * @author John Gaffney (john@gffny.com)
- * Jul 31, 2012
- *
+ * @author John Gaffney (john@gffny.com) Jul 31, 2012
+ * 
  */
 public class GolfCourse implements IGolfCourse {
+
+	/**
+	 * Used for testing to create a null course
+	 */
+	public GolfCourse() {
+
+	}
 
 	/**
 	 * @param name
@@ -27,8 +33,8 @@ public class GolfCourse implements IGolfCourse {
 	 * @param greenTeeDistance
 	 * @param redTeeDistance
 	 */
-	public GolfCourse(String name, String par, String location, String teeColour,
-			String[] holePar, String[] holeIndex, String[] teeDistance) {
+	public GolfCourse(String name, int par, String location, String teeColour,
+			int[] holePar, int[] holeIndex, int[] teeDistance) {
 		this.name = name;
 		this.par = par;
 		this.location = location;
@@ -63,12 +69,12 @@ public class GolfCourse implements IGolfCourse {
 	}
 
 	private String name;
-	private String par;
 	private String location;
 	private String teeColour;
-	private String[] holePar;
-	private String[] holeIndex;
-	private String[] teeDistance;
+	private int par;
+	private int[] holePar;
+	private int[] holeIndex;
+	private int[] teeDistance;
 
 	/**
 	 * 
@@ -80,14 +86,14 @@ public class GolfCourse implements IGolfCourse {
 	/**
 	 * 
 	 */
-	public String getPar() {
+	public int getPar() {
 		return par;
 	}
 
 	/**
 	 * 
 	 */
-	public String[] getHoleParArray() {
+	public int[] getHoleParArray() {
 		return holePar;
 	}
 
@@ -103,15 +109,14 @@ public class GolfCourse implements IGolfCourse {
 	 * @param holeNumber
 	 */
 	public IGolfCourseHole getHole(int holeNumber) {
-		return new GolfCourse.Hole(holePar[holeNumber-1],
-				holeIndex[holeNumber-1],
-				teeDistance[holeNumber-1]);
+		return new GolfCourse.Hole(holePar[holeNumber - 1],
+				holeIndex[holeNumber - 1], teeDistance[holeNumber - 1]);
 	}
 
 	/**
 	 * 
 	 */
-	public String[] getTeeDistanceArray() {
+	public int[] getTeeDistanceArray() {
 		return teeDistance;
 	}
 
@@ -119,14 +124,14 @@ public class GolfCourse implements IGolfCourse {
 	 * 
 	 * @param holeNumber
 	 */
-	public String getHolePar(int holeNumber) {
-		return holePar[holeNumber-1]; 
+	public int getHolePar(int holeNumber) {
+		return holePar[holeNumber - 1];
 	}
 
 	/**
 	 * 
 	 */
-	public String[] getHoleIndexArray() {
+	public int[] getHoleIndexArray() {
 		return holeIndex;
 	}
 
@@ -134,8 +139,8 @@ public class GolfCourse implements IGolfCourse {
 	 * 
 	 * @param holeNumber
 	 */
-	public String getHoleIndex(int holeNumber) {
-		return holeIndex[holeNumber-1];
+	public int getHoleIndex(int holeNumber) {
+		return holeIndex[holeNumber - 1];
 	}
 
 	/**
@@ -145,32 +150,31 @@ public class GolfCourse implements IGolfCourse {
 		return teeColour;
 	}
 
-	//HOLE CLASS
+	// HOLE CLASS
 	/**
-	 * @author John Gaffney (john@gffny.com)
-	 * Jul 31, 2012
-	 *
+	 * @author John Gaffney (john@gffny.com) Jul 31, 2012
+	 * 
 	 */
 	private class Hole implements IGolfCourseHole {
-		
+
 		/**
 		 * @return the par
 		 */
-		public String getPar() {
+		public int getPar() {
 			return par;
 		}
 
 		/**
 		 * @return the index
 		 */
-		public String getIndex() {
+		public int getIndex() {
 			return index;
 		}
 
 		/**
 		 * @return the goldTeeDistance
 		 */
-		public String getTeeDistance() {
+		public int getTeeDistance() {
 			return teeDistance;
 		}
 
@@ -178,8 +182,8 @@ public class GolfCourse implements IGolfCourse {
 		 * @see java.lang.Object#toString()
 		 */
 		public String toString() {
-			return "Hole [par=" + par + ", index=" + index
-					+ ", teeDistance=" + teeDistance + "]";
+			return "Hole [par=" + par + ", index=" + index + ", teeDistance="
+					+ teeDistance + "]";
 		}
 
 		/**
@@ -191,14 +195,14 @@ public class GolfCourse implements IGolfCourse {
 		 * @param greenTeeDistance
 		 * @param redTeeDistance
 		 */
-		public Hole(String par, String index, String teeDistance) {
+		public Hole(int par, int index, int teeDistance) {
 			this.par = par;
 			this.index = index;
 			this.teeDistance = teeDistance;
 		}
 
-		private String par;
-		private String index;
-		private String teeDistance;
+		private int par;
+		private int index;
+		private int teeDistance;
 	}
 }

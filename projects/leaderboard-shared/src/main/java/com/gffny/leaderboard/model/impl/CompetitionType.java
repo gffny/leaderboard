@@ -1,14 +1,13 @@
 /**
  * 
  */
-package test.gffny.leaderboard.model.impl;
+package com.gffny.leaderboard.model.impl;
 
 import com.gffny.leaderboard.model.ICompetitionType;
 
 /**
- * @author John Gaffney (john@gffny.com)
- * Aug 21, 2012
- *
+ * @author John Gaffney (john@gffny.com) Aug 21, 2012
+ * 
  */
 public class CompetitionType implements ICompetitionType {
 
@@ -30,26 +29,31 @@ public class CompetitionType implements ICompetitionType {
 	private int groupSize;
 	private boolean isMultiRound;
 	private int numberOfRounds;
-	
-	/* (non-Javadoc)
-	 * @see com.gffny.leaderboard.model.ICompetitionType#getCompetitionTypeName()
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * com.gffny.leaderboard.model.ICompetitionType#getCompetitionTypeName()
 	 */
 	@Override
 	public String getCompetitionTypeName() {
-		// TODO Auto-generated method stub
 		return name;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see com.gffny.leaderboard.model.ICompetitionType#getGroupSize()
 	 */
 	@Override
 	public int getGroupSize() {
-		// TODO Auto-generated method stub
 		return groupSize;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see com.gffny.leaderboard.model.ICompetitionType#getGroupName()
 	 */
 	@Override
@@ -58,21 +62,24 @@ public class CompetitionType implements ICompetitionType {
 		return null;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see com.gffny.leaderboard.model.ICompetitionType#isMultiRound()
 	 */
 	@Override
 	public boolean isMultiRound() {
-		// TODO Auto-generated method stub
+
 		return isMultiRound;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see com.gffny.leaderboard.model.ICompetitionType#getNumberOfRounds()
 	 */
 	@Override
 	public int getNumberOfRounds() {
-		// TODO Auto-generated method stub
 		return numberOfRounds;
 	}
 

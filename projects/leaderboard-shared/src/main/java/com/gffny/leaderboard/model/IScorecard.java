@@ -3,10 +3,11 @@
  */
 package com.gffny.leaderboard.model;
 
+import java.util.Date;
+
 /**
- * @author John Gaffney (john@gffny.com)
- * Jul 27, 2012
- *
+ * @author John Gaffney (john@gffny.com) Jul 27, 2012
+ * 
  */
 public interface IScorecard {
 
@@ -28,28 +29,32 @@ public interface IScorecard {
 	public static final int HOLE_16 = 16;
 	public static final int HOLE_17 = 17;
 	public static final int HOLE_18 = 18;
-	
+
 	public static final int GOLDS_CODE = 100;
 	public static final int WHITES_CODE = 200;
 	public static final int BLUES_CODE = 300;
 	public static final int REDS_CODE = 400;
 	public static final int GREENS_CODE = 500;
-	
+
 	public static final String GREENS_COLOUR = "GREENS_CODE";
 	public static final String REDS_COLOUR = "REDS_CODE";
 	public static final String WHITES_COLOUR = "WHITES_CODE";
 	public static final String BLUES_COLOUR = "BLUES_CODE";
 	public static final String GOLDS_COLOUR = "GOLDS_CODE";
-	
-	public String getScoreOnHole(int holeNumber);
-	
-	public String getGrossScore();
-	
+
+	public int getScoreOnHole(int holeNumber);
+
+	public int getGrossScore();
+
 	public int getTeesPlayedOffCode();
-	
+
 	public String getTeesPlayedOffColour();
 
 	public String getScorecardNotes();
-	
-	public String getScorecardDate();
+
+	public Date getScorecardDate();
+
+	public int getNumberOfHoles();
+
+	public int getHandicapForRound();
 }

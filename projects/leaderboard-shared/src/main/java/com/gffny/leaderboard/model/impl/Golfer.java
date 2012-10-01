@@ -6,18 +6,34 @@ package com.gffny.leaderboard.model.impl;
 import com.gffny.leaderboard.model.IGolfer;
 
 /**
- * @author 
- *
+ * @author
+ * 
  */
 public class Golfer implements IGolfer {
 
+	/**
+	 * 
+	 * @see java.lang.Object#toString()
+	 */
 	public String toString() {
 		return "Golfer [userId=" + userId + ", societyId=" + societyId
 				+ ", profileHandle=" + profileHandle + ", emailAddress="
 				+ emailAddress + ", firstName=" + firstName + ", lastName="
-				+ lastName + ", handicap=" + handicap + ", location=" + location +"]";
+				+ lastName + ", handicap=" + handicap + ", location="
+				+ location + "]";
 	}
 
+	/**
+	 * 
+	 * @param userId
+	 * @param societyId
+	 * @param profileHandle
+	 * @param emailAddress
+	 * @param firstName
+	 * @param lastName
+	 * @param location
+	 * @param handicap
+	 */
 	public Golfer(int userId, int societyId, String profileHandle,
 			String emailAddress, String firstName, String lastName,
 			String location, String handicap) {
@@ -32,69 +48,144 @@ public class Golfer implements IGolfer {
 		this.handicap = handicap;
 	}
 
-	public Golfer() {
+	/**
+	 * 
+	 * @param firstName
+	 * @param lastName
+	 * @param profileHandle
+	 */
+	public Golfer(int userId, String firstName, String lastName,
+			String profileHandle) {
+		this.userId = userId;
+		this.firstName = firstName;
+		this.lastName = lastName;
+		this.profileHandle = profileHandle;
 	}
 
+	/**
+	 * 
+	 * @see com.gffny.leaderboard.model.IGolfer#getUserId()
+	 */
 	public int getUserId() {
 		return userId;
 	}
 
+	/**
+	 * 
+	 * @param userId
+	 */
 	public void setUserId(int userId) {
 		this.userId = userId;
 	}
 
+	/**
+	 * 
+	 * @return
+	 */
 	public int getSocietyId() {
 		return societyId;
 	}
 
+	/**
+	 * 
+	 * @param societyId
+	 */
 	public void setSocietyId(int societyId) {
 		this.societyId = societyId;
 	}
 
+	/**
+	 * 
+	 * @see com.gffny.leaderboard.model.IGolfer#getProfileHandle()
+	 */
 	public String getProfileHandle() {
 		return profileHandle;
 	}
 
+	/**
+	 * 
+	 * @see com.gffny.leaderboard.model.IGolfer#setProfileHandle(java.lang.String)
+	 */
 	public void setProfileHandle(String profileHandle) {
 		this.profileHandle = profileHandle;
 	}
 
+	/**
+	 * 
+	 * @see com.gffny.leaderboard.model.IGolfer#getEmailAddress()
+	 */
 	public String getEmailAddress() {
 		return emailAddress;
 	}
 
+	/**
+	 * 
+	 * @see com.gffny.leaderboard.model.IGolfer#setEmailAddress(java.lang.String)
+	 */
 	public void setEmailAddress(String emailAddress) {
 		this.emailAddress = emailAddress;
 	}
 
+	/**
+	 * 
+	 * @see com.gffny.leaderboard.model.IGolfer#getFirstName()
+	 */
 	public String getFirstName() {
 		return firstName;
 	}
 
+	/**
+	 * 
+	 * @see com.gffny.leaderboard.model.IGolfer#setFirstName(java.lang.String)
+	 */
 	public void setFirstName(String firstName) {
 		this.firstName = firstName;
 	}
 
+	/**
+	 * 
+	 * @see com.gffny.leaderboard.model.IGolfer#getLastName()
+	 */
 	public String getLastName() {
 		return lastName;
 	}
 
+	/**
+	 * 
+	 * @see com.gffny.leaderboard.model.IGolfer#setLastName(java.lang.String)
+	 */
 	public void setLastName(String lastName) {
 		this.lastName = lastName;
 	}
 
+	/**
+	 * 
+	 * @see com.gffny.leaderboard.model.IGolfer#getLocation()
+	 */
 	public String getLocation() {
 		return location;
 	}
 
+	/**
+	 * 
+	 * @see com.gffny.leaderboard.model.IGolfer#setLocation(java.lang.String)
+	 */
 	public void setLocation(String location) {
 		this.location = location;
 	}
 
+	/**
+	 * 
+	 * @see com.gffny.leaderboard.model.IGolfer#getHandicap()
+	 */
 	public String getHandicap() {
 		return handicap;
 	}
 
+	/**
+	 * 
+	 * @see com.gffny.leaderboard.model.IGolfer#setHandicap(java.lang.String)
+	 */
 	public void setHandicap(String handicap) {
 		this.handicap = handicap;
 	}

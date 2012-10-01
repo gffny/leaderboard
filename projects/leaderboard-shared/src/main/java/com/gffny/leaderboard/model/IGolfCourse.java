@@ -1,22 +1,22 @@
 package com.gffny.leaderboard.model;
 
 public interface IGolfCourse {
-	
+
 	public String getName();
-	
-	public String getPar();
-	
+
+	public int getPar();
+
 	public String getTeeColour();
-	
-	public String[] getHoleParArray();
-	
-	public String getHolePar(int holeNumber);
-	
-	public String[] getHoleIndexArray();
-	
-	public String getHoleIndex(int holeNumber);
-	
+
+	public int[] getHoleParArray();
+
+	public int getHolePar(int holeNumber);
+
+	public int[] getHoleIndexArray();
+
+	public int getHoleIndex(int holeNumber);
+
 	public IGolfCourseHole getHole(int holeNumber);
-	
-	public String[] getTeeDistanceArray();
+
+	public int[] getTeeDistanceArray();
 }
