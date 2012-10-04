@@ -2,6 +2,8 @@ package com.gffny.leaderboard.model;
 
 public interface IGolfCourse {
 
+	public int getCourseId();
+
 	public String getName();
 
 	public int getPar();
@@ -19,4 +21,6 @@ public interface IGolfCourse {
 	public IGolfCourseHole getHole(int holeNumber);
 
 	public int[] getTeeDistanceArray();
+
+	public String toString();
 }

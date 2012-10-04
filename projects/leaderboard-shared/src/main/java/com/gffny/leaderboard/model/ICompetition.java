@@ -72,6 +72,12 @@ public interface ICompetition {
 		 * 
 		 * @return
 		 */
+		public int getRoundId();
+
+		/**
+		 * 
+		 * @return
+		 */
 		public String getRoundName();
 
 		/**
@@ -91,6 +97,12 @@ public interface ICompetition {
 		 * @return
 		 */
 		public String getDateAsString();
+
+		/**
+		 * 
+		 * @return
+		 */
+		public int getCourseId();
 
 		/**
 		 * 
@@ -127,6 +139,11 @@ public interface ICompetition {
 		 * @param competitionName
 		 */
 		public void setRoundName(String roundName);
+
+		/**
+		 * @param i
+		 */
+		public void setRoundId(int roundId);
 
 	}
 

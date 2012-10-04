@@ -12,6 +12,8 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.log4j.Logger;
+
 import com.gffny.leaderboard.component.scheduler.ICompetitionScheduler;
 import com.gffny.leaderboard.component.scheduler.IParallelCompetitionScheduler;
 import com.gffny.leaderboard.model.ICompetition;
@@ -31,6 +33,8 @@ public class SimpleCompetitionScheduler implements ICompetitionScheduler,
 		IParallelCompetitionScheduler {
 
 	private static ICompetitionScheduler INSTANCE = null;
+	private static Logger log = Logger
+			.getLogger(SimpleCompetitionScheduler.class);
 
 	/**
 	 * Privately override constructor to facilitate factory pattern
@@ -46,6 +50,7 @@ public class SimpleCompetitionScheduler implements ICompetitionScheduler,
 	 */
 	public static ICompetitionScheduler getInstance() {
 		if (INSTANCE == null) {
+			log.debug("creating instance of SimpleCompetitionScheduler()");
 			INSTANCE = new SimpleCompetitionScheduler();
 		}
 		return INSTANCE;
@@ -69,8 +74,16 @@ public class SimpleCompetitionScheduler implements ICompetitionScheduler,
 		if (competitionName != null && roundNumber > 0) {
 			roundName = getRoundName(competitionName, roundNumber);
 			// TODO set the round name
-		} // TODO else create competition round name/date or throw an error
-			// Generate the groupings for the round
+		} else {
+			// TODO else create competition round name/date or throw an error
+			if (competitionName == null) {
+				log.error("competitionName is null");
+			}
+			if (roundNumber < 1) {
+				log.error("round number is less that 1");
+			}
+		}
+		// Generate the groupings for the round
 		if (competitorList != null && playerGroupSize > 0
 				&& playerGroupSize < 5) {
 			if (competitorList.size() % playerGroupSize == 0) {
@@ -97,15 +110,41 @@ public class SimpleCompetitionScheduler implements ICompetitionScheduler,
 											teeTimeArray[groupNumber]));
 						} catch (ParseException e) {
 							// TODO handle bad tee time data
+							log.error("parse error on tee time array: "
+									+ teeTimeArray.toString());
 						}
-					} // TODO handle size of teetimearray is incorrect for
-						// number of golfers
+					} else {
+						// TODO handle size of teetimearray is incorrect for
+						log.error("not enough tee times ("
+								+ teeTimeArray.length
+								+ ") for number of groups (" + groupNumber
+								+ ")");
+					}
+					// number of golfers
 					groupNumber++;
 				}
-			} // TODO else throw an error or handle irregular sized groups
+			} else {
+				// TODO else throw an error or handle irregular sized groups
+				log.error("odd size competitor list length ("
+						+ competitorList.size() + ") for group size ("
+						+ playerGroupSize + ")");
+			}
+		} else {
+			if (competitorList == null) {
+				log.error("competitorList is null");
+			}
+			if (playerGroupSize < 1) {
+				log.error("player group size is less than one");
+			}
+			if (playerGroupSize > 4) {
+				log.error("player group size is greater than four");
+			}
 		}
-		return new CompetitionRound(roundName, roundNumber, roundDate,
-				groupList, teeTimeMap);
+		ICompetitionRound competitionRound = new CompetitionRound(roundName,
+				roundNumber, roundDate, roundCourse.getCourseId(), groupList,
+				teeTimeMap);
+		log.debug("Competition Round: " + competitionRound.toString());
+		return competitionRound;
 	}
 
 	/**

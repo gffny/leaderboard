@@ -5,17 +5,38 @@ import java.util.List;
 import com.gffny.leaderboard.dao.IGolfCourseDAO;
 import com.gffny.leaderboard.dao.IScorecardDAO;
 import com.gffny.leaderboard.dao.factory.DAOFactory;
+import com.gffny.leaderboard.intralayer.DAOException;
 import com.gffny.leaderboard.intralayer.ServiceException;
+import com.gffny.leaderboard.model.ICountry;
 import com.gffny.leaderboard.model.IGolfCourse;
 import com.gffny.leaderboard.model.IScorecard;
 import com.gffny.leaderboard.service.IGolfCourseService;
 import com.gffny.leaderboard.service.IScorecardService;
 
-
 public class GolfService implements IScorecardService, IGolfCourseService {
 
-	IScorecardDAO scorecardDao = DAOFactory.getInstance().getScorecardDAO();
-	IGolfCourseDAO courseDao = DAOFactory.getInstance().getGolfCourseDAO();
+	private IScorecardDAO scorecardDao;
+	private IGolfCourseDAO courseDao;
+	private static GolfService INSTANCE = null;
+
+	/**
+	 * 
+	 */
+	private GolfService() {
+		scorecardDao = DAOFactory.getInstance().getScorecardDAO();
+		courseDao = DAOFactory.getInstance().getGolfCourseDAO();
+	}
+
+	/**
+	 * 
+	 * @return
+	 */
+	public static GolfService getInstance() {
+		if (INSTANCE == null) {
+			INSTANCE = new GolfService();
+		}
+		return INSTANCE;
+	}
 
 	/**
 	 * 
@@ -30,7 +51,11 @@ public class GolfService implements IScorecardService, IGolfCourseService {
 	 * @param courseId
 	 */
 	public List<IGolfCourse> getGolfCourseById(String courseId) {
-		
+		try {
+			return courseDao.getCourseById(courseId);
+		} catch (DAOException e) {
+			// TODO
+		}
 		return null;
 	}
 
@@ -41,6 +66,7 @@ public class GolfService implements IScorecardService, IGolfCourseService {
 		try {
 			return scorecardDao.getLatestScorecardForUser(userId);
 		} catch (ServiceException e) {
+			// TODO
 			e.printStackTrace();
 		}
 		return null;
@@ -66,13 +92,24 @@ public class GolfService implements IScorecardService, IGolfCourseService {
 	 * @param xNumberOfScorecards
 	 * @return
 	 */
-	public List<IScorecard> getLatestXScorecardListByUserId(String userId, int xNumberOfScorecards) {
+	public List<IScorecard> getLatestXScorecardListByUserId(String userId,
+			int xNumberOfScorecards) {
 		try {
-			return scorecardDao.getLastXScorecardListForUser(userId, xNumberOfScorecards);
+			return scorecardDao.getLastXScorecardListForUser(userId,
+					xNumberOfScorecards);
 		} catch (ServiceException e) {
 
 			e.printStackTrace();
 		}
+		return null;
+	}
+
+	/**
+	 * @see com.gffny.leaderboard.service.IGolfCourseService#getSupportedCountryList()
+	 */
+	@Override
+	public List<ICountry> getSupportedCountryList() {
+		// TODO Auto-generated method stub
 		return null;
 	}
 }

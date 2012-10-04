@@ -14,12 +14,17 @@ import com.gffny.leaderboard.component.scheduler.ICompetitionScheduler;
 import com.gffny.leaderboard.component.scheduler.impl.SimpleCompetitionScheduler;
 import com.gffny.leaderboard.model.ICompetition;
 import com.gffny.leaderboard.model.ICompetition.ICompetitionRound;
+import com.gffny.leaderboard.model.ICountry;
+import com.gffny.leaderboard.model.ICountry.IState;
 import com.gffny.leaderboard.model.IGolfCourse;
 import com.gffny.leaderboard.model.IGolfer;
 import com.gffny.leaderboard.model.IScorecard;
 import com.gffny.leaderboard.model.impl.Competition;
+import com.gffny.leaderboard.model.impl.Country;
+import com.gffny.leaderboard.model.impl.GolfCourse;
 import com.gffny.leaderboard.model.impl.Golfer;
 import com.gffny.leaderboard.model.impl.Scorecard;
+import com.gffny.leaderboard.model.impl.State;
 
 /**
  * @author John Gaffney (john@gffny.com) Oct 1, 2012
@@ -29,6 +34,23 @@ public class TestUtilities {
 
 	public static ICompetitionScheduler getTestScheduler() {
 		return SimpleCompetitionScheduler.getInstance();
+	}
+
+	public static List<ICountry> getTestCountryList() {
+		List<IState> stateList = new ArrayList<IState>();
+		stateList.add(new State("Westmeath", "WH"));
+		stateList.add(new State("Kerry", "KY"));
+		stateList.add(new State("Down", "DN"));
+		stateList.add(new State("Kilkenny", "KK"));
+		List<ICountry> countryList = new ArrayList<ICountry>();
+		countryList.add(new Country("Ireland", "IE", stateList));
+		stateList.clear();
+		stateList.add(new State("Florida", "FL"));
+		stateList.add(new State("Massachussetts", "MA"));
+		stateList.add(new State("Hawaii", "HI"));
+		countryList
+				.add(new Country("United States of America", "US", stateList));
+		return countryList;
 	}
 
 	public static List<IGolfer> getTestGolferList() {
@@ -42,18 +64,43 @@ public class TestUtilities {
 		testList.add(new Golfer(17, "Dave", "Hughes", "dub"));
 		testList.add(new Golfer(18, "John", "Wyrcherly", "hair"));
 		testList.add(new Golfer(19, "Joe", "Regan", "chairman"));
-		testList.add(new Golfer(111, "Lar", "Barden", "bardo"));
-		testList.add(new Golfer(112, "Kenny", "McCarthy", "kenny"));
-		testList.add(new Golfer(113, "Mike", "Canny", "canny"));
-		testList.add(new Golfer(114, "Jeff", "Saunders", "jeff"));
-		testList.add(new Golfer(115, "John", "Crowley", "jc"));
-		testList.add(new Golfer(116, "Theo", "Foley", "theo"));
-		testList.add(new Golfer(117, "Mark", "Cahillane", "markie"));
-		testList.add(new Golfer(118, "Mike", "Moynihan", "mikey"));
-		testList.add(new Golfer(119, "John", "Foley", "foley"));
-		testList.add(new Golfer(1111, "Graham", "MacDowell", "gmac"));
-		testList.add(new Golfer(1112, "Rory", "McIlroy", "roy"));
+		testList.add(new Golfer(20, "Lar", "Barden", "bardo"));
+		testList.add(new Golfer(21, "Kenny", "McCarthy", "kenny"));
+		testList.add(new Golfer(22, "Mike", "Canny", "canny"));
+		testList.add(new Golfer(23, "Jeff", "Saunders", "jeff"));
+		testList.add(new Golfer(24, "John", "Crowley", "jc"));
+		testList.add(new Golfer(25, "Theo", "Foley", "theo"));
+		testList.add(new Golfer(26, "Mark", "Cahillane", "markie"));
+		testList.add(new Golfer(27, "Mike", "Moynihan", "mikey"));
+		testList.add(new Golfer(28, "John", "Foley", "foley"));
+		testList.add(new Golfer(29, "Graham", "MacDowell", "gmac"));
+		testList.add(new Golfer(30, "Rory", "McIlroy", "roy"));
 		return testList;
+	}
+
+	public static IGolfer getTestGolferByID(String golferId) {
+		Map<Integer, IGolfer> testMap = new HashMap<Integer, IGolfer>();
+		testMap.put(11, new Golfer(11, "John", "Gaffney", "gffny"));
+		testMap.put(12, new Golfer(12, "Eoin", "Barry", "eoindeb"));
+		testMap.put(13, new Golfer(13, "Mick", "Lyons", "leo"));
+		testMap.put(14, new Golfer(14, "Colm", "Caffrey", "mink"));
+		testMap.put(15, new Golfer(15, "Niall", "O'Connor", "nile"));
+		testMap.put(16, new Golfer(16, "Mick", "O'Connor", "big bear"));
+		testMap.put(17, new Golfer(17, "Dave", "Hughes", "dub"));
+		testMap.put(18, new Golfer(18, "John", "Wyrcherly", "hair"));
+		testMap.put(19, new Golfer(19, "Joe", "Regan", "chairman"));
+		testMap.put(20, new Golfer(20, "Lar", "Barden", "bardo"));
+		testMap.put(21, new Golfer(21, "Kenny", "McCarthy", "kenny"));
+		testMap.put(22, new Golfer(22, "Mike", "Canny", "canny"));
+		testMap.put(23, new Golfer(23, "Jeff", "Saunders", "jeff"));
+		testMap.put(24, new Golfer(24, "John", "Crowley", "jc"));
+		testMap.put(25, new Golfer(25, "Theo", "Foley", "theo"));
+		testMap.put(26, new Golfer(26, "Mark", "Cahillane", "markie"));
+		testMap.put(27, new Golfer(27, "Mike", "Moynihan", "mikey"));
+		testMap.put(28, new Golfer(28, "John", "Foley", "foley"));
+		testMap.put(29, new Golfer(29, "Graham", "MacDowell", "gmac"));
+		testMap.put(30, new Golfer(30, "Rory", "McIlroy", "roy"));
+		return testMap.get(new Integer(golferId));
 	}
 
 	public static Map<Integer, IGolfer> getTestGolferMap() {
@@ -74,13 +121,18 @@ public class TestUtilities {
 	}
 
 	/**
-	 * @param i
-	 * @param j
+	 * @param numberOfHoles
+	 * @param par
 	 * @return
 	 */
 	public static IGolfCourse getTestGolfCourse(int numberOfHoles, int par) {
-		// TODO Auto-generated method stub
-		return null;
+		int[] holePar = { 4, 5, 4, 3, 4, 3, 4, 5, 4, 4, 5, 4, 3, 4, 3, 4, 5, 4 };
+		int[] holeIndex = { 1, 7, 14, 2, 8, 15, 3, 9, 16, 4, 10, 17, 5, 11, 18,
+				6, 12, 13 };
+		int[] holeDistance = { 323, 545, 450, 160, 411, 200, 350, 602, 320,
+				323, 545, 450, 160, 411, 200, 350, 602, 320 };
+		return new GolfCourse(10001, "Newton Commonwealth", par, "Newton, MA",
+				"Blue", holePar, holeIndex, holeDistance);
 	}
 
 	/**
@@ -94,13 +146,16 @@ public class TestUtilities {
 	/**
 	 * @return
 	 */
-	public static ICompetitionRound getTestRound() {
-		return getTestScheduler().scheduleCompetitionRound(
-				getTestCompetition().getCompetitionName(), 1,
-				new Date(System.currentTimeMillis()),
-				getTestGolfCourse(18, 72),
-				getTestTeeTimeArray("12:00", "10", 5), getTestGolferList(), 4,
-				18);
+	public static ICompetitionRound getTestRound(int roundNumber) {
+		ICompetitionRound testRound = getTestScheduler()
+				.scheduleCompetitionRound(
+						getTestCompetition().getCompetitionName(), roundNumber,
+						new Date(System.currentTimeMillis()),
+						getTestGolfCourse(18, 72),
+						getTestTeeTimeArray("12:00", "10", 5),
+						getTestGolferList(), 4, 18);
+		testRound.setRoundId(roundNumber + 1000);
+		return testRound;
 	}
 
 	/**

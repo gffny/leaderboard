@@ -14,12 +14,14 @@ import com.gffny.leaderboard.model.IGolfCourseHole;
  */
 public class GolfCourse implements IGolfCourse {
 
-	/**
-	 * Used for testing to create a null course
-	 */
-	public GolfCourse() {
-
-	}
+	private int id = -1;
+	private String name;
+	private String location;
+	private String teeColour;
+	private int par;
+	private int[] holePar;
+	private int[] holeIndex;
+	private int[] teeDistance;
 
 	/**
 	 * @param name
@@ -45,36 +47,33 @@ public class GolfCourse implements IGolfCourse {
 	}
 
 	/**
-	 * @see java.lang.Object#toString()
+	 * @param name
+	 * @param par
+	 * @param location
+	 * @param holePar
+	 * @param holeIndex
+	 * @param teeDistance
+	 * @param blueTeeDistance
+	 * @param whiteTeeDistance
+	 * @param greenTeeDistance
+	 * @param redTeeDistance
 	 */
-	public String toString() {
-		final int maxLen = 5;
-		return "GolfCourse [name="
-				+ name
-				+ ", par="
-				+ par
-				+ ", location="
-				+ location
-				+ ", teeColour="
-				+ teeColour
-				+ ", holePar="
-				+ (holePar != null ? Arrays.asList(holePar).subList(0,
-						Math.min(holePar.length, maxLen)) : null)
-				+ ", holeIndex="
-				+ (holeIndex != null ? Arrays.asList(holeIndex).subList(0,
-						Math.min(holeIndex.length, maxLen)) : null)
-				+ ", teeDistance="
-				+ (teeDistance != null ? Arrays.asList(teeDistance).subList(0,
-						Math.min(teeDistance.length, maxLen)) : null) + "]";
+	public GolfCourse(int id, String name, int par, String location,
+			String teeColour, int[] holePar, int[] holeIndex, int[] teeDistance) {
+		this.id = id;
+		this.name = name;
+		this.par = par;
+		this.location = location;
+		this.teeColour = teeColour;
+		this.holePar = holePar;
+		this.holeIndex = holeIndex;
+		this.teeDistance = teeDistance;
 	}
 
-	private String name;
-	private String location;
-	private String teeColour;
-	private int par;
-	private int[] holePar;
-	private int[] holeIndex;
-	private int[] teeDistance;
+	@Override
+	public int getCourseId() {
+		return this.id;
+	};
 
 	/**
 	 * 
@@ -148,6 +147,20 @@ public class GolfCourse implements IGolfCourse {
 	 */
 	public String getTeeColour() {
 		return teeColour;
+	}
+
+	/**
+	 * @see java.lang.Object#toString()
+	 */
+	@Override
+	public String toString() {
+		final int maxLen = 18;
+		return "GolfCourse [holePar="
+				+ (holePar != null ? Arrays.toString(Arrays.copyOf(holePar,
+						Math.min(holePar.length, maxLen))) : null)
+				+ ", holeIndex="
+				+ (holeIndex != null ? Arrays.toString(Arrays.copyOf(holeIndex,
+						Math.min(holeIndex.length, maxLen))) : null) + "]";
 	}
 
 	// HOLE CLASS

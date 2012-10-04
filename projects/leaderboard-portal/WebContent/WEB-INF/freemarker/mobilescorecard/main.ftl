@@ -9,7 +9,7 @@
 		<link href=css/styles.css rel=stylesheet />
 		<link rel=icon type=image/ico href=http://eaps-www.mit.edu/paoc/sites/all/themes/paoc/favicon.ico>
 		<script type=text/javascript src=https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js></script>
-		<script type=text/javascript src=../../js/mobileScorecard.js></script>
+		<script type=text/javascript src=../js/mobileScorecard.js></script>
 	</head>
 	<body>
 		<header>

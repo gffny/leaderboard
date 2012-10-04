@@ -6,11 +6,20 @@ package test.gffny.leaderboard.component.scorer;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
 
+import java.util.List;
+import java.util.Map;
+
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
+import test.utilities.TestUtilities;
+
 import com.gffny.leaderboard.component.scorer.impl.StablefordCompetitionScorer;
+import com.gffny.leaderboard.model.ICompetition.ICompetitionRound;
+import com.gffny.leaderboard.model.IGolfCourse;
+import com.gffny.leaderboard.model.IGolfer;
+import com.gffny.leaderboard.model.IScorecard;
 
 /**
  * @author John Gaffney (john@gffny.com) Oct 1, 2012
@@ -52,7 +61,22 @@ public class TestStablefordCompetitionScorer {
 	 */
 	@Test
 	public final void testScoreGolferCard() {
-		fail("Not yet implemented"); // TODO
+		ICompetitionRound testRound = TestUtilities.getTestRound(1);
+		System.out.println("Scorecard Map");
+		Map<Integer, IScorecard> testScoreCardMap = TestUtilities
+				.getTestScoreCardMap();
+		IGolfCourse testGolfCourse = TestUtilities.getTestGolfCourse(18, 72);
+		System.out.println("\nGolf Course");
+		System.out.println(testGolfCourse.toString());
+		Map<Integer, Integer> scoreMap = scs.scoreCompetitionRound(testRound,
+				testScoreCardMap, testGolfCourse);
+		System.out.println("\nStableford Scores");
+		List<IGolfer> golferList = TestUtilities.getTestGolferList();
+		for (int i = 0; i < golferList.size(); i++) {
+			IGolfer golfer = golferList.get(i);
+			System.out.println(golfer.getLastName() + "|"
+					+ scoreMap.get(golfer.getUserId()));
+		}
 	}
 
 	/**

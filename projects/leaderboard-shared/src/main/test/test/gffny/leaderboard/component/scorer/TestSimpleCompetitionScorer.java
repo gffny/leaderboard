@@ -47,7 +47,7 @@ public class TestSimpleCompetitionScorer {
 	public final void testScoreCompetitionRound() {
 		ICompetitionRoundScorer competitionScorer = new SimpleCompetitionScorer();
 		Map<Integer, Integer> roundScores = competitionScorer
-				.scoreCompetitionRound(TestUtilities.getTestRound(),
+				.scoreCompetitionRound(TestUtilities.getTestRound(1),
 						TestUtilities.getTestScoreCardMap(),
 						TestUtilities.getTestGolfCourse(18, 72));
 		Iterator<IGolfer> golferItr = TestUtilities.getTestGolferList()
