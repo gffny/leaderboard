@@ -49,6 +49,12 @@ public class MobileScorecardController {
 		return model;
 	}
 
+	@RequestMapping("/app")
+	public ModelAndView application() {
+		ModelAndView model = new ModelAndView("mobilescorecard/app");
+		return model;
+	}
+
 	@RequestMapping("/asynch/competitionlist")
 	public @ResponseBody
 	List<ICompetition> getCompetitionListForUser(HttpServletRequest request,
@@ -79,15 +85,10 @@ public class MobileScorecardController {
 
 	@RequestMapping("/asynch/scorecardsubmission")
 	public @ResponseBody
-	List<IGolfCourse> submitScorecard(HttpServletRequest request,
+	String submitScorecard(HttpServletRequest request,
 			HttpServletResponse response) throws ServiceException {
 		request.getParameterValues("scorecardArray[]");
-		try {
-			return golfService.getGolfCourseById(request
-					.getParameter("courseId"));
-		} catch (ServiceException ex) {
-			log.error("service error in MobileScorecardController getCompetitionListForUser");
-		}
-		return new ArrayList<IGolfCourse>();
+
+		return "success";
 	}
 }
