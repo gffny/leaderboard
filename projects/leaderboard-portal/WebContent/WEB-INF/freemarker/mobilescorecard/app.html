@@ -67,7 +67,11 @@
 			<h3>Hole <span id=holeDetailNumber></span> | <span id=holeDetailDistance></span> | Par <span id=holeDetailHolePar></span> | Index <span id=holeDetailIndex></span></h3>
 			<h3>Score Details</h3>
 			<table id=holeDetailScoreTable>
-				<tr><td>Player</td><td>Score</td><td>To Par</td><td>Hole Score</td></tr>
+				<thead>
+					<tr><td>Player</td><td>Score</td><td>To Par</td><td>Hole Score</td></tr>
+				</thead>
+				<tbody id=holeDetailScoreTableBody>
+				</tbody>
 			</table>
 			<h3>Hole Score</h3>
 			<span id=mblscrdHoleDetailScore></span>

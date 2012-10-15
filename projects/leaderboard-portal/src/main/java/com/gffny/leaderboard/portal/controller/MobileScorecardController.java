@@ -87,8 +87,7 @@ public class MobileScorecardController {
 	public @ResponseBody
 	String submitScorecard(HttpServletRequest request,
 			HttpServletResponse response) throws ServiceException {
-		request.getParameterValues("scorecardArray[]");
-
+		request.getParameterValues("scorecard");
 		return "success";
 	}
 }
