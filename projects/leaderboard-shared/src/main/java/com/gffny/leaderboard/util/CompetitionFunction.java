@@ -29,4 +29,19 @@ public class CompetitionFunction {
 		return true;
 	}
 
+	/**
+	 * @param strokes
+	 * @param scoreArray
+	 * @return
+	 */
+	public static boolean strokesMatchesScoreArray(String strokes,
+			String[] scoreArray) {
+		int score = Integer.parseInt(strokes);
+		int cumulativeHoleScores = 0;
+		for (int i = 0; i < scoreArray.length; i++) {
+			cumulativeHoleScores += Integer.parseInt(scoreArray[i]);
+		}
+		return score == cumulativeHoleScores;
+	}
+
 }

@@ -2,8 +2,9 @@ var leaderboard = {};
 
 leaderboard.home = function () {
 
-	var APPLICATION_HOST='http://localhost:8080/leaderboard';
-	var holePointerIndex = 1, competitionList, course;
+	//var APPLICATION_HOST='http://localhost:8080/leaderboard';
+	var APPLICATION_HOST='/leaderboard';
+	var holePointerIndex = 1, competitionList, course, scorecardRoundId;
 	var golferArray = new Array();
 
 	//** ASYCHRONOUS FUNCTIONS **
@@ -35,38 +36,36 @@ leaderboard.home = function () {
 				leaderboard.home.course =  data[0];
 				var course = leaderboard.home.course;
 				//TODO handle courses with less that 18 holes (i.e. 9 holes)
-				if(course.par > 40) {
-					$('#eigthteenHoleCourse').show();
-					var tableRow = "<tr><td>Par</td>";
-					for (var par = 0; par < course.holeParArray.length; par++) {
-						tableRow += "<td>" + course.holeParArray[par] + "</td>";
-					}
-					$('#eighteenHoleCourseOverview tr:last').after('</tr>'+tableRow);
-					tableRow = "<tr><td>Index</td>";
-					for (var holeIndex = 0; holeIndex < course.holeIndexArray.length; holeIndex++) {
-						tableRow += "<td>" + course.holeIndexArray[holeIndex] + "</td>";
-					}
-					$('#eighteenHoleCourseOverview tr:last').after('</tr>'+tableRow);
-					tableRow = "<tr><td>Dist</td>";
-					for (var distance = 0; distance < course.teeDistanceArray.length; distance++) {
-						tableRow += "<td>" + course.teeDistanceArray[distance] + "</td>";
-					}
-					$('#eighteenHoleCourseOverview tr:last').after('</tr>'+tableRow);
+				//TODO make a showLandscape and showPortrait version
+				$('#courseOverviewTable').append('<thead><tr><td>Hole</td><td>Par</td><td>Index</td><td>Distance</td></tr></thead><tbody></tbody>');
+				var overallPar = 0, overallDistance = 0;
+				for(var holeIndex = 0; holeIndex < course.holeParArray.length; holeIndex++){
+					$('#courseOverviewTable tbody').append('<tr'+getAlt(holeIndex)+'><td>'+(holeIndex+1)+'</td><td>'+course.holeParArray[holeIndex]+
+							'</td><td>'+course.holeIndexArray[holeIndex]+'</td><td>'+course.teeDistanceArray[holeIndex]+'</td></tr>');
+					overallPar+=course.holeParArray[holeIndex];
+					overallDistance+=course.teeDistanceArray[holeIndex];
 				}
+				$('#courseOverviewTable tbody').append('<tr><td>Par</td><td>'+overallPar+'</td><td>Distance</td><td>'+overallDistance+'</td></tr>');
 				$('#competitionCourseName').append(course.name);
 				$('#competitionCourseLocation').append(course.location);
-				$('#competitionCoursePar').append(course.par);
 			},
 			dataType: "json"
 		});
 	}
-	
+
+	function getAlt(rowNumber) {
+		if(rowNumber%2==0) {
+			return ' class=alt';
+		} else {
+			return '';
+		}
+	}
+
 	function asynchScorecardSubmitRequest() {
-		var pass = JSON.stringify(getScorecardForSubmission());
 		$.ajax({
 			type: 'POST',
 			url: APPLICATION_HOST+'/mobilescorecard/asynch/scorecardsubmission',
-			data: { scorecard : pass }, //TODO put in data!
+			data: getScorecardForSubmission(), //TODO put in data!
 			success: null,
 			dataType: "json"
 		});
@@ -82,6 +81,7 @@ leaderboard.home = function () {
 	function showCompetitionDetail() {
 		//possible amendment; load all competition data during getUserCompetitionList to save overhead of second ajax call!
 		competitionRound = getCompetitionRoundDetail($('#mblscrdCompetitionSelectionDropdown').val());
+		scorecardRoundId = competitionRound.roundId;
 		asychCourseDetailRequest(competitionRound.courseId);
 		$('#competitionName').append(competitionRound.competitionName);
 		$('#competitionType').append(competitionRound.competitionType);
@@ -154,8 +154,6 @@ leaderboard.home = function () {
 		$('#holeDetailDistance').append(course.teeDistanceArray[holeNumber-1]);
 		$('#holeDetailHolePar').append(course.holeParArray[holeNumber-1]);
 		$('#holeDetailIndex').append(course.holeIndexArray[holeNumber-1]);
-		//<tr><td>Player</td><td>Score</td><td>To Par</td><td>Hole Score</td></tr>
-		//
 		for(var index = 0; index < golferArray.length; index++) {
 			var scoreRow = "<tr><td>"+golferArray[index].firstName+" "+golferArray[index].lastName+
 			"</td><td>"+golferArray[index].currentScore+
@@ -163,6 +161,7 @@ leaderboard.home = function () {
 			"<input id=mblscrdGolfer"+golferArray[index].userId+"Hole"+holeNumber+"Score type=number min=1 max=12 />"+
 			"</td></tr>";
 			$('#holeDetailScoreTableBody').append(scoreRow);
+			$('#mblscrdGolfer'+golferArray[index].userId+'Hole'+holeNumber+'Score').textinput();
 			//if no score has been registered for that hole, leave blank, otherwise fill the value
 			if((typeof golferArray[index].scorecard[holeNumber-1])!='undefined') {
 				$('#mblscrdGolfer'+golferArray[index].userId+'Hole'+holeNumber+'Score').val(golferArray[index].scorecard[holeNumber-1]);
@@ -170,8 +169,7 @@ leaderboard.home = function () {
 				$('#mblscrdGolfer'+golferArray[index].userId+'Hole'+holeNumber+'Score').val(course.holeParArray[holeNumber-1]);
 			}
 		}
-		$('#scorecardDetail').hide();
-		$('#holeDetail').show();
+
 	}
 
 	//** HELPER FUNCTIONS **
@@ -244,12 +242,15 @@ leaderboard.home = function () {
 	function getScorecardForSubmission() {
 		var scorecardSubmission = new Object();
 		scorecardSubmission.golfer = new Array();
+		scorecardSubmission.golferCount = golferArray.length;
+		scorecardSubmission.competitionRoundId = scorecardRoundId; 
 		for( var i = 0; i < golferArray.length; i++ ) {
 			scorecardSubmission.golfer[i] = new Object();
 			scorecardSubmission.golfer[i].userId = golferArray[i].userId;
 			scorecardSubmission.golfer[i].strokes = golferArray[i].currentScore;
 			scorecardSubmission.golfer[i].scorecard = golferArray[i].scorecard; 
 		}
+		
 		return scorecardSubmission;
 	}
 	

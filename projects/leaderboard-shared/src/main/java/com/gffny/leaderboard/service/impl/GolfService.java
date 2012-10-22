@@ -6,6 +6,7 @@ import com.gffny.leaderboard.dao.IGolfCourseDAO;
 import com.gffny.leaderboard.dao.IScorecardDAO;
 import com.gffny.leaderboard.dao.factory.DAOFactory;
 import com.gffny.leaderboard.intralayer.DAOException;
+import com.gffny.leaderboard.intralayer.IServiceResult;
 import com.gffny.leaderboard.intralayer.ServiceException;
 import com.gffny.leaderboard.model.ICountry;
 import com.gffny.leaderboard.model.IGolfCourse;
@@ -110,6 +111,25 @@ public class GolfService implements IScorecardService, IGolfCourseService {
 	@Override
 	public List<ICountry> getSupportedCountryList() {
 		// TODO Auto-generated method stub
+		return null;
+	}
+
+	/**
+	 * @see com.gffny.leaderboard.service.IScorecardService#submitScorecardForCompetitionRound(java.lang.String,
+	 *      java.lang.String, java.lang.String[])
+	 */
+	@Override
+	public IServiceResult submitScorecardForCompetitionRound(
+			String competitionRoundId, String userId, String[] scoreArray)
+			throws ServiceException {
+		// Check if the parameters are not null
+		if (competitionRoundId != null && userId != null && scoreArray != null
+				&& (scoreArray.length > 0 && scoreArray.length < 18)) {
+			scorecardDao.submitScorecardForCompetitionRound(competitionRoundId,
+					userId, scoreArray);
+		}
+		System.out.println(competitionRoundId + " " + userId + " "
+				+ scoreArray.toString());
 		return null;
 	}
 }

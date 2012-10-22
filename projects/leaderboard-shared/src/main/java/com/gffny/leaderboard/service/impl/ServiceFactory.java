@@ -16,6 +16,29 @@ import com.gffny.leaderboard.service.IUserService;
 public class ServiceFactory implements IServiceFactory {
 
 	/**
+	 * 
+	 */
+	private static IServiceFactory INSTANCE = null;
+
+	/**
+	 * 
+	 * @return
+	 */
+	public static IServiceFactory getInstance() {
+		if (INSTANCE == null) {
+			INSTANCE = new ServiceFactory();
+		}
+		return INSTANCE;
+	}
+
+	/**
+	 * 
+	 */
+	private ServiceFactory() {
+
+	}
+
+	/**
 	 * @see com.gffny.leaderboard.service.IServiceFactory#getCompetitionService()
 	 */
 	@Override
@@ -37,7 +60,7 @@ public class ServiceFactory implements IServiceFactory {
 	 */
 	@Override
 	public IScorecardService getScorecardService() {
-		return null;
+		return GolfService.getInstance();
 	}
 
 	/**

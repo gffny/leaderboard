@@ -14,7 +14,7 @@ import com.gffny.leaderboard.service.IUserService;
 
 /**
  * @author jgaffney02
- *
+ * 
  */
 public class UserService implements IUserService {
 
@@ -23,12 +23,13 @@ public class UserService implements IUserService {
 	 */
 	public List<IGolfer> getAllSocietyMembers(String societyId)
 			throws ServiceException {
-		
-		//handle shtuff here!
+
+		// handle shtuff here!
 		try {
-			return DAOFactory.getInstance().getUserDAO().getAllSocietyMembersListBySocietyId(societyId);
+			return DAOFactory.getInstance().getUserDAO()
+					.getAllSocietyMembersListBySocietyId(societyId);
 		} catch (DAOException e) {
-			//TODO handle exception
+			// TODO handle exception
 		}
 		return new ArrayList<IGolfer>();
 	}
@@ -39,11 +40,22 @@ public class UserService implements IUserService {
 	 */
 	public IGolfer getGolferBySocietyMemberId(String societyMemberId)
 			throws ServiceException {
-		//handle shtuff here!
+		// handle shtuff here!
 		try {
-			return DAOFactory.getInstance().getUserDAO().getGolferBySocietyMemberId(societyMemberId);
+			return DAOFactory.getInstance().getUserDAO()
+					.getGolferBySocietyMemberId(societyMemberId);
 		} catch (DAOException e) {
 			throw new ServiceException(e.getMessage());
 		}
+	}
+
+	/**
+	 * @see com.gffny.leaderboard.service.IUserService#getSocietyMemberListAssociatedWithUser(java.lang.String)
+	 */
+	@Override
+	public List<IGolfer> getSocietyMemberListAssociatedWithUser(
+			String societyMemberId) throws ServiceException {
+		// TODO Auto-generated method stub
+		return new ArrayList<IGolfer>();
 	}
 }

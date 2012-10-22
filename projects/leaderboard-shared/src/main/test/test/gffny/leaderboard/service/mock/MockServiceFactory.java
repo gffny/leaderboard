@@ -56,7 +56,7 @@ public class MockServiceFactory implements IServiceFactory {
 	 */
 	@Override
 	public IScorecardService getScorecardService() {
-		return null;
+		return MockGolfService.getInstance();
 	}
 
 	/**

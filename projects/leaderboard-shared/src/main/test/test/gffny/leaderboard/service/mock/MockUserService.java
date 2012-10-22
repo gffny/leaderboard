@@ -50,4 +50,16 @@ public class MockUserService implements IUserService {
 		return TestUtilities.getTestGolferByID(societyMemberId);
 	}
 
+	/**
+	 * @see com.gffny.leaderboard.service.IUserService#getSocietyMemberListAssociatedWithUser(java.lang.String)
+	 */
+	@Override
+	public List<IGolfer> getSocietyMemberListAssociatedWithUser(
+			String societyMemberId) throws ServiceException {
+		System.out
+				.println("mock UserService: getSocietyMemberListAssociatedWithUser("
+						+ societyMemberId + ")");
+		return TestUtilities.getTestGolferList();
+	}
+
 }

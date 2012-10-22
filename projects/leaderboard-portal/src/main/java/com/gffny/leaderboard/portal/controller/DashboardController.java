@@ -15,6 +15,7 @@ import org.apache.log4j.Logger;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import test.gffny.leaderboard.service.mock.MockServiceFactory;
@@ -26,6 +27,7 @@ import com.gffny.leaderboard.model.IGolfer;
 import com.gffny.leaderboard.service.ICompetitionService;
 import com.gffny.leaderboard.service.IGolfCourseService;
 import com.gffny.leaderboard.service.IUserService;
+import com.gffny.leaderboard.service.impl.ServiceFactory;
 
 /**
  * @author John Gaffney (john@gffny.com) Aug 6, 2012
@@ -36,12 +38,14 @@ import com.gffny.leaderboard.service.IUserService;
 public class DashboardController {
 
 	// Service Declaration
-	private IUserService userService = MockServiceFactory.getInstance()
+	private IUserService mockUserService = MockServiceFactory.getInstance()
 			.getUserService();
-	private IGolfCourseService golfService = MockServiceFactory.getInstance()
-			.getGolfCourseService();
-	private ICompetitionService competitionService = MockServiceFactory
+	private IGolfCourseService mockGolfService = MockServiceFactory
+			.getInstance().getGolfCourseService();
+	private ICompetitionService mockCompetitionService = MockServiceFactory
 			.getInstance().getCompetitionService();
+	private IUserService userService = ServiceFactory.getInstance()
+			.getUserService();
 
 	private static Logger log = Logger.getLogger(DashboardController.class);
 
@@ -123,9 +127,9 @@ public class DashboardController {
 		try {
 			model = new ModelAndView("dashboard/competition/create");
 			model.addObject("golferList",
-					userService.getAllSocietyMembers("MOCK"));
+					mockUserService.getAllSocietyMembers("MOCK"));
 			model.addObject("countryList",
-					golfService.getSupportedCountryList());
+					mockGolfService.getSupportedCountryList());
 			log.error("adding golfer list to the response");
 			System.out.println("adding golfer to the response");
 			return model;
@@ -134,6 +138,22 @@ public class DashboardController {
 			model = new ModelAndView("error");
 		}
 		return model;
+	}
+
+	@RequestMapping("/asynch/competitorlist")
+	public @ResponseBody
+	List<IGolfer> getCompetitionListForUser(HttpServletRequest request,
+			HttpServletResponse response) throws ServiceException {
+		log.info("getting list of potential competitors for ");
+		// get the users id
+		try {
+			return mockUserService
+					.getSocietyMemberListAssociatedWithUser(request
+							.getParameter("userId"));
+		} catch (ServiceException ex) {
+			log.error("service error in MobileScorecardController getCompetitionListForUser");
+		}
+		return new ArrayList<IGolfer>();
 	}
 
 	@RequestMapping("/competition/create/schedule")
@@ -150,13 +170,13 @@ public class DashboardController {
 		List<String> golferIdList = Arrays.asList(request
 				.getParameterValues("golferList"));
 		try {
-			IGolfCourse golfCourse = golfService.getGolfCourseById(
+			IGolfCourse golfCourse = mockGolfService.getGolfCourseById(
 					request.getParameter("golfCourse")).get(0);
 			for (int i = 0; i < golferIdList.size(); i++) {
-				competitorList.add(userService
+				competitorList.add(mockUserService
 						.getGolferBySocietyMemberId(golferIdList.get(i)));
 			}
-			ICompetitionScheduler competitionScheduler = competitionService
+			ICompetitionScheduler competitionScheduler = mockCompetitionService
 					.getCompetitionScheduler(ICompetitionService.STROKEPLAY);
 
 			model = new ModelAndView("dashboard/competition/show");

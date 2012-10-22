@@ -11,7 +11,7 @@ import test.utilities.TestUtilities;
 import com.gffny.leaderboard.component.scheduler.ICompetitionScheduler;
 import com.gffny.leaderboard.component.scheduler.impl.SimpleCompetitionScheduler;
 import com.gffny.leaderboard.intralayer.ServiceException;
-import com.gffny.leaderboard.intralayer.ServiceResult;
+import com.gffny.leaderboard.intralayer.IServiceResult;
 import com.gffny.leaderboard.model.ICompetition;
 import com.gffny.leaderboard.service.ICompetitionService;
 
@@ -72,7 +72,7 @@ public class MockCompetitionService implements ICompetitionService {
 	 * @see com.gffny.leaderboard.service.ICompetitionService#saveCompetition()
 	 */
 	@Override
-	public ServiceResult saveCompetition() throws ServiceException {
+	public IServiceResult saveCompetition() throws ServiceException {
 		// TODO Auto-generated method stub
 		return null;
 	}

@@ -14,11 +14,13 @@
 		<intercept-url pattern="/publish*" access="IS_AUTHENTICATED_ANONYMOUSLY" />
 		<!-- FIX THIS! 
 		<intercept-url pattern="/js/*.js" access="IS_AUTHENTICATED_ANONYMOUSLY" />
-		<intercept-url pattern="css/*.css" access="IS_AUTHENTICATED_ANONYMOUSLY" />
+		<intercept-url pattern="/css/*.css" access="IS_AUTHENTICATED_ANONYMOUSLY" />
+		<intercept-url pattern="/dashboard*" access="IS_AUTHENTICATED_ANONYMOUSLY" />
 		-->
+
+		<!-- RESTRICTIONS! --> 
+
 		
-		<!-- RESTRICTIONS! -->
-		<intercept-url pattern="/dashboard/*" access="ROLE_USER" />
 
 		<!-- login -->
 		<form-login

@@ -4,7 +4,7 @@ import java.util.List;
 
 import com.gffny.leaderboard.component.scheduler.ICompetitionScheduler;
 import com.gffny.leaderboard.intralayer.ServiceException;
-import com.gffny.leaderboard.intralayer.ServiceResult;
+import com.gffny.leaderboard.intralayer.IServiceResult;
 import com.gffny.leaderboard.model.ICompetition;
 
 public interface ICompetitionService {
@@ -17,7 +17,7 @@ public interface ICompetitionService {
 
 	public ICompetition createCompetition() throws ServiceException;
 
-	public ServiceResult saveCompetition() throws ServiceException;
+	public IServiceResult saveCompetition() throws ServiceException;
 
 	/**
 	 * @param userId

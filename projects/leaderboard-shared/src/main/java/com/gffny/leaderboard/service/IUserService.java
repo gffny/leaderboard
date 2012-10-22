@@ -7,7 +7,28 @@ import com.gffny.leaderboard.model.IGolfer;
 
 public interface IUserService {
 
-	public List<IGolfer> getAllSocietyMembers(String societyId) throws ServiceException;
+	/**
+	 * 
+	 * @param societyId
+	 * @return
+	 * @throws ServiceException
+	 */
+	public List<IGolfer> getAllSocietyMembers(String societyId)
+			throws ServiceException;
 
-	public IGolfer getGolferBySocietyMemberId(String societyMemberId) throws ServiceException;
+	/**
+	 * 
+	 * @param societyMemberId
+	 * @return
+	 * @throws ServiceException
+	 */
+	public IGolfer getGolferBySocietyMemberId(String societyMemberId)
+			throws ServiceException;
+
+	/**
+	 * @param parameter
+	 * @return
+	 */
+	public List<IGolfer> getSocietyMemberListAssociatedWithUser(
+			String societyMemberId) throws ServiceException;
 }

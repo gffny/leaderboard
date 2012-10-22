@@ -181,4 +181,23 @@ public class ScorecardDAO extends AbstractMySQLDAO implements IScorecardDAO {
 		}
 		return scorecardList;
 	}
+
+	/**
+	 * @see com.gffny.leaderboard.dao.IScorecardDAO#submitScorecardForCompetitionRound(java.lang.String,
+	 *      java.lang.String, java.lang.String[])
+	 */
+	@Override
+	public void submitScorecardForCompetitionRound(String competitionRoundId,
+			String userId, String[] scoreArray) throws ServiceException {
+		try {
+			stmnt = getConnection().prepareStatement("");
+
+		} catch (SQLException e) {
+			// TODO Handle SQL Exception submitScorecardForCompetitionRound
+			e.printStackTrace();
+		} catch (DAOException e) {
+			e.printStackTrace();
+		}
+
+	}
 }
