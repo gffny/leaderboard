@@ -35,7 +35,7 @@ import com.gffny.leaderboard.service.impl.ServiceFactory;
  */
 @Controller
 @RequestMapping("/dashboard")
-public class DashboardController {
+public class DashboardController extends AbstractController {
 
 	// Service Declaration
 	private IUserService mockUserService = MockServiceFactory.getInstance()

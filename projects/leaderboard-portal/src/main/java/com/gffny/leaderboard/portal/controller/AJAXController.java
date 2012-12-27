@@ -14,7 +14,7 @@ import org.springframework.web.servlet.ModelAndView;
  */
 @Controller
 @RequestMapping("/asynch")
-public class AJAXController {
+public class AJAXController extends AbstractController {
 
 	/**
 	 * 

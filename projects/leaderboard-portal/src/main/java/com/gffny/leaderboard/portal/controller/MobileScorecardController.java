@@ -33,14 +33,14 @@ import com.gffny.leaderboard.util.CompetitionFunction;
  */
 @Controller
 @RequestMapping("/mobilescorecard")
-public class MobileScorecardController {
+public class MobileScorecardController extends AbstractController {
 
 	// Service Declaration
 	// ***** MOCK SERVICES *****
-	private IUserService userService = MockServiceFactory.getInstance()
+	private IUserService mockUserService = MockServiceFactory.getInstance()
 			.getUserService();
-	private IGolfCourseService golfService = MockServiceFactory.getInstance()
-			.getGolfCourseService();
+	private IGolfCourseService mockGolfService = MockServiceFactory
+			.getInstance().getGolfCourseService();
 	private ICompetitionService mockCompetitionService = MockServiceFactory
 			.getInstance().getCompetitionService();
 	private IScorecardService mockScorecardService = MockServiceFactory
@@ -53,16 +53,33 @@ public class MobileScorecardController {
 	private static Logger log = Logger
 			.getLogger(MobileScorecardController.class);
 
-	@RequestMapping("/main")
+	@RequestMapping("/menu")
 	public ModelAndView welcome() {
-		ModelAndView model = new ModelAndView("mobilescorecard/main");
+		ModelAndView model = new ModelAndView("mobilescorecard/menu");
 		return model;
 	}
 
-	@RequestMapping("/app")
-	public ModelAndView application() {
-		ModelAndView model = new ModelAndView("mobilescorecard/app");
+	@RequestMapping("/competitionround")
+	public ModelAndView competition() {
+		ModelAndView model = new ModelAndView("mobilescorecard/competition");
 		return model;
+	}
+
+	@RequestMapping("/practiceround")
+	public ModelAndView practice() {
+		ModelAndView model = new ModelAndView("mobilescorecard/practice");
+		try {
+			model.addObject("courseList",
+					mockGolfService.getGolfCourseShortListByUserId("userId"));
+			// TODO add meaningful userId
+			model.addObject("countryList",
+					mockGolfService.getSupportedCountryList());
+			model.addObject("course", mockGolfService.getGolfCourseById(""));
+			return model;
+		} catch (ServiceException se) {
+			return new ModelAndView("exception/serviceError");
+			// TODO SERVICE EXCEPTION implement this in a more meaningful way!
+		}
 	}
 
 	@RequestMapping("/asynch/competitionlist")
@@ -85,7 +102,7 @@ public class MobileScorecardController {
 			HttpServletResponse response) throws ServiceException {
 		// get the users id
 		try {
-			return golfService.getGolfCourseById(request
+			return mockGolfService.getGolfCourseById(request
 					.getParameter("courseId"));
 		} catch (ServiceException ex) {
 			log.error("service error in MobileScorecardController getCompetitionListForUser");

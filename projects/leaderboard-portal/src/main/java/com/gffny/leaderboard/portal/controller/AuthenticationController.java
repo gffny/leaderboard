@@ -13,7 +13,7 @@ import org.springframework.web.servlet.ModelAndView;
  */
 @Controller
 @RequestMapping("/authentication")
-public class AuthenticationController {
+public class AuthenticationController extends AbstractController {
 
 	@RequestMapping("/login")
 	public ModelAndView login() {
