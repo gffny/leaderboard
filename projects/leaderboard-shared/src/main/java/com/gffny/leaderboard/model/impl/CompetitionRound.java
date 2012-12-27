@@ -20,8 +20,10 @@ import com.gffny.leaderboard.util.TimeFunction;
 public class CompetitionRound implements ICompetition.ICompetitionRound {
 
 	private int id;
+	private int competitionId;
 	private int courseId;
 	private int number;
+	private int holeListLength;
 	private String name;
 	private Date date;
 	private List<IGolfGroup> groupList;
@@ -65,6 +67,22 @@ public class CompetitionRound implements ICompetition.ICompetitionRound {
 		this.courseId = courseId;
 		this.groupList = groupList;
 		this.teeTimeMap = teeTimeMap;
+	}
+
+	/**
+	 * @see com.gffny.leaderboard.model.ICompetition.ICompetitionRound#getCompetitionId()
+	 */
+	@Override
+	public int getCompetitionId() {
+		return competitionId;
+	}
+
+	/**
+	 * @see com.gffny.leaderboard.model.ICompetition.ICompetitionRound#setCompetitionId(int)
+	 */
+	@Override
+	public void setCompetitionId(int competitionId) {
+		this.competitionId = competitionId;
 	}
 
 	/**
@@ -170,6 +188,22 @@ public class CompetitionRound implements ICompetition.ICompetitionRound {
 	public void setRoundName(String roundName) {
 		this.name = roundName;
 	};
+
+	/**
+	 * @see com.gffny.leaderboard.model.ICompetition.ICompetitionRound#getHoleListLength()
+	 */
+	@Override
+	public int getHoleListLength() {
+		return holeListLength;
+	}
+
+	/**
+	 * @see com.gffny.leaderboard.model.ICompetition.ICompetitionRound#setHoleListLength(int)
+	 */
+	@Override
+	public void setHoleListLength(int holeListLength) {
+		this.holeListLength = holeListLength;
+	}
 
 	/**
 	 * 

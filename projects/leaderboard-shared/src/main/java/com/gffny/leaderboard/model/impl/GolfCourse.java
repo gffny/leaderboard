@@ -4,6 +4,7 @@
 package com.gffny.leaderboard.model.impl;
 
 import java.util.Arrays;
+import java.util.List;
 
 import com.gffny.leaderboard.model.IGolfCourse;
 import com.gffny.leaderboard.model.IGolfCourseHole;
@@ -22,6 +23,7 @@ public class GolfCourse implements IGolfCourse {
 	private int[] holePar;
 	private int[] holeIndex;
 	private int[] teeDistance;
+	private List<IGolfCourseHole> holeList;
 
 	/**
 	 * @param name
@@ -44,6 +46,10 @@ public class GolfCourse implements IGolfCourse {
 		this.holePar = holePar;
 		this.holeIndex = holeIndex;
 		this.teeDistance = teeDistance;
+		for (int i = 0; i < holePar.length; i++) {
+			this.holeList
+					.add(new Hole(holePar[i], holeIndex[i], teeDistance[i]));
+		}
 	}
 
 	/**
@@ -217,5 +223,14 @@ public class GolfCourse implements IGolfCourse {
 		private int par;
 		private int index;
 		private int teeDistance;
+	}
+
+	/**
+	 * @see com.gffny.leaderboard.model.IGolfCourse#getHoleList()
+	 */
+	@Override
+	public List<IGolfCourseHole> getHoleList() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }

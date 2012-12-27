@@ -137,4 +137,13 @@ public class Competition implements ICompetition {
 				+ (roundNumberList != null ? roundNumberList.subList(0,
 						Math.min(roundNumberList.size(), maxLen)) : null) + "]";
 	}
+
+	/**
+	 * @see com.gffny.leaderboard.model.ICompetition#getCompetitionId()
+	 */
+	@Override
+	public int getCompetitionId() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
 }

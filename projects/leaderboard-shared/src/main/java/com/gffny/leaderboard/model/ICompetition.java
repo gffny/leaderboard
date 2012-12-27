@@ -18,6 +18,12 @@ public interface ICompetition {
 	 * 
 	 * @return
 	 */
+	public int getCompetitionId();
+
+	/**
+	 * 
+	 * @return
+	 */
 	public String getCompetitionName();
 
 	/**
@@ -108,6 +114,24 @@ public interface ICompetition {
 		 * 
 		 * @return
 		 */
+		public int getCompetitionId();
+
+		/**
+		 * returns the number of holes to be played in the round
+		 * 
+		 * @return
+		 */
+		public int getHoleListLength();
+
+		/**
+		 * @param holeListLength
+		 */
+		public void setHoleListLength(int holeListLength);
+
+		/**
+		 * 
+		 * @return
+		 */
 		public String getRoundFirstTeeTime();
 
 		/**
@@ -144,6 +168,12 @@ public interface ICompetition {
 		 * @param i
 		 */
 		public void setRoundId(int roundId);
+
+		/**
+		 * @param competitionId
+		 * @return
+		 */
+		public void setCompetitionId(int competitionId);
 
 	}
 
