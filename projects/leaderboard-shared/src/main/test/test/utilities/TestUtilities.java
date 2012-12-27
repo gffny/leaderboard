@@ -37,19 +37,19 @@ public class TestUtilities {
 	}
 
 	public static List<ICountry> getTestCountryList() {
-		List<IState> stateList = new ArrayList<IState>();
-		stateList.add(new State("Westmeath", "WH"));
-		stateList.add(new State("Kerry", "KY"));
-		stateList.add(new State("Down", "DN"));
-		stateList.add(new State("Kilkenny", "KK"));
+		List<IState> irishStateList = new ArrayList<IState>();
+		irishStateList.add(new State("Westmeath", "WH"));
+		irishStateList.add(new State("Kerry", "KY"));
+		irishStateList.add(new State("Down", "DN"));
+		irishStateList.add(new State("Kilkenny", "KK"));
 		List<ICountry> countryList = new ArrayList<ICountry>();
-		countryList.add(new Country("Ireland", "IE", stateList));
-		stateList.clear();
-		stateList.add(new State("Florida", "FL"));
-		stateList.add(new State("Massachussetts", "MA"));
-		stateList.add(new State("Hawaii", "HI"));
-		countryList
-				.add(new Country("United States of America", "US", stateList));
+		countryList.add(new Country("Ireland", "IE", irishStateList));
+		List<IState> usStateList = new ArrayList<IState>();
+		usStateList.add(new State("Florida", "FL"));
+		usStateList.add(new State("Massachussetts", "MA"));
+		usStateList.add(new State("Hawaii", "HI"));
+		countryList.add(new Country("United States of America", "US",
+				usStateList));
 		return countryList;
 	}
 
