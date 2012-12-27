@@ -20,8 +20,6 @@
 
 		<!-- RESTRICTIONS! --> 
 
-		
-
 		<!-- login -->
 		<form-login
 		    login-page="/authentication/login"
