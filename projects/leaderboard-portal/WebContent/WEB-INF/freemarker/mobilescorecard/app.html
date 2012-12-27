@@ -2,7 +2,7 @@
 <html>
 	<head>
 		<meta charset="ISO-8859-1">
-		<meta name=viewport content=width=device-width,initial-scale=1,maximum-scale=1>
+		<!-- <meta name=viewport content=width=device-width,initial-scale=1,maximum-scale=1> -->
 		<title>Leaderboard - Mobile Scorecard</title>
 		<!--[if lt IE 9]><script src=http://html5shiv.googlecode.com/svn/trunk/html5.js></script><![endif]-->
 		<!--[if lt IE 9]><script src=http://css3-mediaqueries-js.googlecode.com/svn/trunk/css3-mediaqueries.js></script><![endif]-->
@@ -61,25 +61,43 @@
 				value=Select />
 		</div>
 		<!-- hole details -->
-		<div data-role=page id=holeDetail hidden=true>
+		<div data-role=page id=holeDetail>
 			<div class="ui-header ui-bar-a" data-role=header role=banner>
 				<h1 class=ui-title role=heading aria-level=1>Hole <span id=holeDetailNumber></span> Detail</span></h1>
 				<h3><span id=holeDetailDistance></span> Yards | Par <span id=holeDetailHolePar></span> | Index <span id=holeDetailIndex></span></h3>
 			</div>
 			<h3>Score Details</h3>
-			<table id=holeDetailScoreTable>
-				<thead>
-					<tr><td>Player</td><td>Score</td><td>To Par</td><td>Hole Score</td></tr>
-				</thead>
-				<tbody id=holeDetailScoreTableBody>
-				</tbody>
+			<table>
+				<tr>
+					<td>
+						<span id=mblscrdHoleDetailPrevHoleSpan>
+							<a id=mblscrdHoleDetailPrevHole data-role=button data-corners=true data-shadow=true data-iconshadow=true data-wrapperels=span data-theme=c href=#holeDetail>Previous Hole</a>
+						</span>
+					</td>
+					<td>
+						<table id=holeDetailScoreTable>
+							<thead>
+								<tr><td>Player</td><td>Score</td><td>To Par</td><td>Hole Score</td></tr>
+							</thead>
+							<tbody id=holeDetailScoreTableBody>
+							</tbody>
+						</table>
+					</td>
+					<td>
+						<span id=mblscrdHoleDetailNextHoleSpan>
+							<a id=mblscrdHoleDetailNextHole data-role=button data-corners=true data-shadow=true data-iconshadow=true data-wrapperels=span data-theme=c href=#holeDetail>Next Hole</a>
+						</span>
+						<span id=mblscrdHoleDetailCompleteScorecardSpan>
+							<a id=mblscrdHoleDetailCompleteScorecard data-role=button data-corners=true data-shadow=true data-iconshadow=true data-wrapperels=span data-theme=c href=#scorecardDetail>Complete Scorecard</a>
+						</span>			
+					</td>
+				</tr>
 			</table>
-			<span id=mblscrdHoleDetailPrevHole><a id=mblscrdHoleDetailPrevHoleBtn data-role=button data-corners=true data-shadow=true data-iconshadow=true data-wrapperels=span data-theme=c href=#holeDetail>Previous Hole</a></span>
-			<span id=mblscrdHoleDetailNextHole><a id=mblscrdHoleDetailNextHoleBtn data-role=button data-corners=true data-shadow=true data-iconshadow=true data-wrapperels=span data-theme=c href=#holeDetail>Next Hole</a></span>
-			<span id=mblscrdHoleDetailCompleteScorecard><a id=mblscrdHoleDetailCompleteScorecardBtn data-role=button data-corners=true data-shadow=true data-iconshadow=true data-wrapperels=span data-theme=c href=#scorecardDetail>Complete Scorecard</a></span>
+			
+			
 		</div>
 		<!-- scorecard details -->
-		<div data-role=page id=scorecardDetail hidden=true>
+		<div data-role=page id=scorecardDetail>
 			<div class="ui-header ui-bar-a" data-role=header role=banner>
 				<h1 class=ui-title role=heading aria-level=1>Scorecard Overview</h1>
 			</div>
