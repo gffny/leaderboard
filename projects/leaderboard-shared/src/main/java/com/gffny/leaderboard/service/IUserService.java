@@ -31,4 +31,12 @@ public interface IUserService {
 	 */
 	public List<IGolfer> getSocietyMemberListAssociatedWithUser(
 			String societyMemberId) throws ServiceException;
+
+	public boolean isGolferActive(int userId);
+
+	/**
+	 * @param golferId
+	 * @return
+	 */
+	public IGolfer getGolferById(String golferId);
 }

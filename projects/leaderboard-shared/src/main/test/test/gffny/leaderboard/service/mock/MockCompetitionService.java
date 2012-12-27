@@ -10,9 +10,11 @@ import test.utilities.TestUtilities;
 
 import com.gffny.leaderboard.component.scheduler.ICompetitionScheduler;
 import com.gffny.leaderboard.component.scheduler.impl.SimpleCompetitionScheduler;
-import com.gffny.leaderboard.intralayer.ServiceException;
 import com.gffny.leaderboard.intralayer.IServiceResult;
+import com.gffny.leaderboard.intralayer.ServiceException;
 import com.gffny.leaderboard.model.ICompetition;
+import com.gffny.leaderboard.model.ICompetition.ICompetitionRound;
+import com.gffny.leaderboard.model.IGolfer;
 import com.gffny.leaderboard.service.ICompetitionService;
 
 /**
@@ -89,6 +91,38 @@ public class MockCompetitionService implements ICompetitionService {
 		competition.addCompetitionRound(TestUtilities.getTestRound(3));
 		competition.addCompetitionRound(TestUtilities.getTestRound(4));
 		return Arrays.asList(competition);
+	}
+
+	/**
+	 * @see com.gffny.leaderboard.service.ICompetitionService#getCompetition(java.lang.String)
+	 */
+	@Override
+	public ICompetition getCompetition(String competitionId)
+			throws ServiceException {
+		ICompetition competition = TestUtilities.getTestCompetition();
+		competition.addCompetitionRound(TestUtilities.getTestRound(1));
+		competition.addCompetitionRound(TestUtilities.getTestRound(2));
+		competition.addCompetitionRound(TestUtilities.getTestRound(3));
+		competition.addCompetitionRound(TestUtilities.getTestRound(4));
+		return competition;
+	}
+
+	/**
+	 * @see com.gffny.leaderboard.service.ICompetitionService#getCompetitorListForCompetition(java.lang.String)
+	 */
+	@Override
+	public List<IGolfer> getCompetitorListForCompetition(String competitionId)
+			throws ServiceException {
+		return TestUtilities.getTestGolferList();
+	}
+
+	/**
+	 * @see com.gffny.leaderboard.service.ICompetitionService#getCompetitionRound(java.lang.String)
+	 */
+	@Override
+	public ICompetitionRound getCompetitionRound(String competitionRoundId)
+			throws ServiceException {
+		return TestUtilities.getTestRound(1000);
 	}
 
 }

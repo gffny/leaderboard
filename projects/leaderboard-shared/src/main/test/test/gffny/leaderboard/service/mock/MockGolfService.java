@@ -45,6 +45,16 @@ public class MockGolfService implements IGolfCourseService, IScorecardService {
 
 	/**
 	 * 
+	 * @see com.gffny.leaderboard.service.IGolfCourseService#getGolfCourseShortListByUserId(java.lang.String)
+	 */
+	@Override
+	public java.util.List<IGolfCourse> getGolfCourseShortListByUserId(
+			String userId) {
+		return Arrays.asList(TestUtilities.getTestGolfCourse(18, 72));
+	};
+
+	/**
+	 * 
 	 * @see com.gffny.leaderboard.service.IGolfCourseService#getGolfCourseById(java.lang.String)
 	 */
 	@Override

@@ -33,4 +33,9 @@ public interface IServiceFactory {
 	 */
 	public IUserService getUserService();
 
+	/**
+	 * 
+	 * @return
+	 */
+	public IAuthorisationService getAuthorisationService();
 }

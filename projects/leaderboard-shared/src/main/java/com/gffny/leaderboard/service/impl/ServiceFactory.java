@@ -3,6 +3,7 @@
  */
 package com.gffny.leaderboard.service.impl;
 
+import com.gffny.leaderboard.service.IAuthorisationService;
 import com.gffny.leaderboard.service.ICompetitionService;
 import com.gffny.leaderboard.service.IGolfCourseService;
 import com.gffny.leaderboard.service.IScorecardService;
@@ -43,8 +44,7 @@ public class ServiceFactory implements IServiceFactory {
 	 */
 	@Override
 	public ICompetitionService getCompetitionService() {
-
-		return null;
+		return CompetitionService.getInstance();
 	}
 
 	/**
@@ -52,7 +52,7 @@ public class ServiceFactory implements IServiceFactory {
 	 */
 	@Override
 	public IGolfCourseService getGolfCourseService() {
-		return null;
+		return GolfService.getInstance();
 	}
 
 	/**
@@ -68,7 +68,14 @@ public class ServiceFactory implements IServiceFactory {
 	 */
 	@Override
 	public IUserService getUserService() {
+		return UserService.getInstance();
+	}
 
-		return null;
+	/**
+	 * @see com.gffny.leaderboard.service.IServiceFactory#getAuthorisationService()
+	 */
+	@Override
+	public IAuthorisationService getAuthorisationService() {
+		return AuthorisationService.getInstance();
 	}
 }

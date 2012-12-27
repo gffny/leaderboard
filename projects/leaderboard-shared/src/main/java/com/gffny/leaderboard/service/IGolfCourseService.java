@@ -8,9 +8,27 @@ import com.gffny.leaderboard.model.IGolfCourse;
 
 public interface IGolfCourseService {
 
-	public List<IGolfCourse> getAllGolfCoursesList();
+	/**
+	 * returns a list of country objects that have courses
+	 * 
+	 * @return
+	 */
+	public List<IGolfCourse> getAllGolfCoursesList() throws ServiceException;
 
+	/**
+	 * returns a list of country objects that have courses
+	 * 
+	 * @return
+	 */
 	public List<IGolfCourse> getGolfCourseById(String courseId)
+			throws ServiceException;
+
+	/**
+	 * returns a list of country objects that have courses
+	 * 
+	 * @return
+	 */
+	public List<IGolfCourse> getGolfCourseShortListByUserId(String userId)
 			throws ServiceException;
 
 	/**

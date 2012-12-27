@@ -62,4 +62,19 @@ public class MockUserService implements IUserService {
 		return TestUtilities.getTestGolferList();
 	}
 
+	/**
+	 * @see com.gffny.leaderboard.service.IUserService#isIndividualActive(int)
+	 */
+	public boolean isGolferActive(int userId) {
+		return true;
+	}
+
+	/**
+	 * @see com.gffny.leaderboard.service.IUserService#getGolferById(java.lang.String)
+	 */
+	@Override
+	public IGolfer getGolferById(String golferId) {
+		return TestUtilities.getTestGolferByID(golferId);
+	}
+
 }

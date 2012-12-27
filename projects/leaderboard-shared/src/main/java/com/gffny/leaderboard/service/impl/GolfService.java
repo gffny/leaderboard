@@ -11,10 +11,8 @@ import com.gffny.leaderboard.intralayer.ServiceException;
 import com.gffny.leaderboard.model.ICountry;
 import com.gffny.leaderboard.model.IGolfCourse;
 import com.gffny.leaderboard.model.IScorecard;
-import com.gffny.leaderboard.service.IGolfCourseService;
-import com.gffny.leaderboard.service.IScorecardService;
 
-public class GolfService implements IScorecardService, IGolfCourseService {
+public class GolfService implements IGolfService {
 
 	private IScorecardDAO scorecardDao;
 	private IGolfCourseDAO courseDao;
@@ -59,6 +57,16 @@ public class GolfService implements IScorecardService, IGolfCourseService {
 		}
 		return null;
 	}
+
+	/**
+	 * 
+	 * @see com.gffny.leaderboard.service.IGolfCourseService#getGolfCourseShortListByUserId(java.lang.String)
+	 */
+	@Override
+	public java.util.List<IGolfCourse> getGolfCourseShortListByUserId(
+			String userId) {
+		return null; // TODO implement meaningfully
+	};
 
 	/**
 	 * 

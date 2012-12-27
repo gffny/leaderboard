@@ -3,6 +3,7 @@
  */
 package test.gffny.leaderboard.service.mock;
 
+import com.gffny.leaderboard.service.IAuthorisationService;
 import com.gffny.leaderboard.service.ICompetitionService;
 import com.gffny.leaderboard.service.IGolfCourseService;
 import com.gffny.leaderboard.service.IScorecardService;
@@ -65,6 +66,14 @@ public class MockServiceFactory implements IServiceFactory {
 	@Override
 	public IUserService getUserService() {
 		return MockUserService.getInstance();
+	}
+
+	/**
+	 * @see com.gffny.leaderboard.service.IServiceFactory#getAuthorisationService()
+	 */
+	@Override
+	public IAuthorisationService getAuthorisationService() {
+		return MockAuthorisationService.getInstance();
 	}
 
 }

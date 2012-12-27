@@ -19,6 +19,29 @@ import com.gffny.leaderboard.service.IUserService;
 public class UserService implements IUserService {
 
 	/**
+	 * 
+	 */
+	private static IUserService INSTANCE = null;
+
+	/**
+	 * 
+	 * @return
+	 */
+	public static IUserService getInstance() {
+		if (INSTANCE == null) {
+			INSTANCE = new UserService();
+		}
+		return INSTANCE;
+	}
+
+	/**
+	 * 
+	 */
+	private UserService() {
+
+	}
+
+	/**
 	 *
 	 */
 	public List<IGolfer> getAllSocietyMembers(String societyId)
@@ -57,5 +80,23 @@ public class UserService implements IUserService {
 			String societyMemberId) throws ServiceException {
 		// TODO Auto-generated method stub
 		return new ArrayList<IGolfer>();
+	}
+
+	/**
+	 * @see com.gffny.leaderboard.service.IUserService#isGolferActive(int)
+	 */
+	@Override
+	public boolean isGolferActive(int userId) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	/**
+	 * @see com.gffny.leaderboard.service.IUserService#getGolferById(java.lang.String)
+	 */
+	@Override
+	public IGolfer getGolferById(String golferId) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }
