@@ -29,8 +29,6 @@ public class InitializationFilter extends OncePerRequestFilter {
 			HttpServletResponse response, FilterChain filterChain)
 			throws ServletException, IOException {
 
-		log.debug("doFilter");
-
 		StopWatch monitor = new StopWatch();
 		monitor.start();
 

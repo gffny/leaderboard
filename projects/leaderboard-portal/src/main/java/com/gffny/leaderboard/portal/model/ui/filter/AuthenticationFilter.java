@@ -59,36 +59,30 @@ public class AuthenticationFilter extends OncePerRequestFilter {
 		ServletData servletData = RequestContext.get().getServletData();
 
 		IGolfer user = initializeUser(servletData);
-		if (user == null) {
-			// initializeOrganizationByUrl();
-
-			// unsuccessful ajax request
-			if (servletData.isAjaxRequest()) {
-				servletData.redirectRequest(
-						"/authentication/logout?ajaxSession=1", true);
-				return;
-			}
-
-			servletData.redirectRequest("/authentication/logout", true);
-			return;
-		}
-
+		/*
+		 * if (user == null) { // initializeOrganizationByUrl();
+		 * 
+		 * // unsuccessful ajax request if (servletData.isAjaxRequest()) { //
+		 * servletData.redirectRequest( //
+		 * "/authentication/logout?ajaxSession=1", true); return; }
+		 * 
+		 * // servletData.redirectRequest("/authentication/logout", true);
+		 * return; }
+		 */
 		/*
 		 * OrganizationUnit organizationUnit = initializeOrganization(user);
 		 * RequestContext.get().setOrganizationUnit(organizationUnit); if
 		 * (organizationUnit.isDomainInvalid()) { initializeOrganizationByUrl();
 		 * servletData.redirectRequest("/logout?domain=1", true); return; }
 		 */
-		RequestContext.get().setUser(user);
-		if (!servletData.isReturningContext()) {
-			if (!userService.isGolferActive(user.getUserId())) {
-				logger.info("User is inactive: " + user);
-				servletData.redirectRequest(
-						"/authentication/logout?inactive=1", true);
-				return;
-			}
-		}
-
+		/*
+		 * RequestContext.get().setUser(user); if
+		 * (!servletData.isReturningContext()) { if
+		 * (!userService.isGolferActive(user.getUserId())) {
+		 * logger.info("User is inactive: " + user);
+		 * servletData.redirectRequest( "/authentication/logout?inactive=1",
+		 * true); return; } }
+		 */
 		servletData.setRegistered(true);
 
 		/*
