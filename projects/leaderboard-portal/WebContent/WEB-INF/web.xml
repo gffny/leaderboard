@@ -53,6 +53,7 @@
 		<servlet-name>leaderboard-secure</servlet-name>
 		<url-pattern>/*</url-pattern>
 	</servlet-mapping>
+
 	<!-- end secure servlet -->
 
 	<!-- unsecured servlet for leaderboard application -->
@@ -77,15 +78,6 @@
 		<url-pattern>/authentication/*</url-pattern>
 	</servlet-mapping>
 
-	<servlet-mapping>
-		<servlet-name>leaderboard</servlet-name>
-		<url-pattern>/publish/*</url-pattern>
-	</servlet-mapping>	
-
-	<servlet-mapping>
-		<servlet-name>leaderboard</servlet-name>
-		<url-pattern>/competition/*</url-pattern>
-	</servlet-mapping>
 	<!-- end unsecured servlet -->
 
 	<mime-mapping>
