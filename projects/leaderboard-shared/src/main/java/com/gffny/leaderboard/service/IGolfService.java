@@ -1,10 +1,8 @@
 /**
  * 
  */
-package com.gffny.leaderboard.service.impl;
+package com.gffny.leaderboard.service;
 
-import com.gffny.leaderboard.service.IGolfCourseService;
-import com.gffny.leaderboard.service.IScorecardService;
 
 /**
  * @author John Gaffney (john@gffny.com) Dec 27, 2012
