@@ -1,0 +1,1 @@
+INSERT INTO t_cmpttn_ty (ty_id, ty_nm) VALUES (1, 'STABLEFORD');
