@@ -1,6 +1,9 @@
 package com.gffny.leaderboard.service.impl;
 
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
 
 import com.gffny.leaderboard.dao.IGolfCourseDAO;
 import com.gffny.leaderboard.dao.IScorecardDAO;
@@ -11,6 +14,7 @@ import com.gffny.leaderboard.intralayer.ServiceException;
 import com.gffny.leaderboard.model.ICountry;
 import com.gffny.leaderboard.model.IGolfCourse;
 import com.gffny.leaderboard.model.IScorecard;
+import com.gffny.leaderboard.service.IGolfService;
 
 public class GolfService implements IGolfService {
 
@@ -139,5 +143,27 @@ public class GolfService implements IGolfService {
 		System.out.println(competitionRoundId + " " + userId + " "
 				+ scoreArray.toString());
 		return null;
+	}
+
+	/**
+	 * @throws ServiceException
+	 * @see com.gffny.leaderboard.service.IScorecardService#submitScorecardMapForCompetitionRound(java.lang.String,
+	 *      java.util.Map)
+	 */
+	@Override
+	public void submitScorecardMapForCompetitionRound(
+			String competitionRoundId, Map<String, String[]> scoreMap)
+			throws ServiceException {
+		// check if the parameters are not null
+		if (competitionRoundId != null && scoreMap != null
+				&& !scoreMap.isEmpty()) {
+			Iterator<Entry<String, String[]>> iterator = scoreMap.entrySet()
+					.iterator();
+			while (iterator.hasNext()) {
+				Map.Entry<String, String[]> pair = iterator.next();
+				submitScorecardForCompetitionRound(competitionRoundId,
+						pair.getKey(), pair.getValue());
+			}
+		}
 	}
 }

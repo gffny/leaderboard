@@ -22,7 +22,6 @@ import javax.servlet.RequestDispatcher;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.jsp.PageContext;
 
 import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.codec.net.URLCodec;
@@ -31,7 +30,6 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.web.servlet.DispatcherServlet;
 
 import com.gffny.leaderboard.util.ApplicationConfiguration;
-import com.gffny.leaderboard.util.CollectionUtils;
 import com.gffny.leaderboard.util.DateUtils;
 import com.gffny.leaderboard.util.JsonUtils;
 import com.gffny.leaderboard.util.MapUtils;
@@ -763,160 +761,6 @@ public class ServletData {
 		// .getOrgUnitId()));
 	}
 
-	public Cookie getPortalContextCookie() {
-		return getCookie(ApplicationConfiguration.getPortalContextCookieName());
-	}
-
-	public void removePortalContextCookie() {
-		removeCookie(ApplicationConfiguration.getPortalContextCookieName());
-	}
-
-	public PortalContext getPortalContextFromCookie() {
-		Cookie cookie = getPortalContextCookie();
-		if (cookie == null)
-			return null;
-
-		try {
-			String cookieValue = encoder.decode(cookie.getValue());
-			logger.info("cookie value:" + cookieValue);
-			String json = new String(Base64.decodeBase64(cookieValue));
-			logger.info("json:" + json);
-
-			return JsonUtils.fromJsonNullable(json, PortalContext.class);
-		} catch (Throwable ex) {
-			logger.error("Unable to get user cookie: " + ex);
-			return null;
-		}
-	}
-
-	public void storePortalContextCookie(PortalContext context) {
-		storeContextCookie(
-				ApplicationConfiguration.getPortalContextCookieName(), context);
-	}
-
-	public PageContext getPageContextFromCookie() {
-		return getContextFromCookie(
-				ApplicationConfiguration.getPageContextCookieName(),
-				PageContext.class);
-	}
-
-	public void storePageContextCookie(PageContext context) {
-		storeContextCookie(ApplicationConfiguration.getPageContextCookieName(),
-				context);
-	}
-
-	public void removePageContextCookie() {
-		removeCookie(ApplicationConfiguration.getPageContextCookieName());
-	}
-
-	// public GroupContext getGroupContextFromCookie() {
-	// return getContextFromCookie(
-	// ApplicationConfiguration.getGroupContextCookieName(),
-	// GroupContext.class);
-	// }
-	//
-	// public void storeGroupContextCookie(GroupContext context) {
-	// storeContextCookie(
-	// ApplicationConfiguration.getGroupContextCookieName(), context);
-	// }
-
-	public void removeGroupContextCookie() {
-		removeCookie(ApplicationConfiguration.getGroupContextCookieName());
-	}
-
-	public boolean hasAssessmentContextFromCookie() {
-		return getCookie(ApplicationConfiguration
-				.getAssessmentContextCookieName()) != null;
-	}
-
-	// public AssessmentContext getAssessmentContextFromCookie() {
-	// return getContextFromCookie(
-	// ApplicationConfiguration.getAssessmentContextCookieName(),
-	// AssessmentContext.class);
-	// }
-	//
-	// public void storeAssessmentContextCookie(AssessmentContext context) {
-	// storeContextCookie(
-	// ApplicationConfiguration.getAssessmentContextCookieName(),
-	// context);
-	// }
-
-	public void removeAssessmentContextCookie() {
-		removeCookie(ApplicationConfiguration.getAssessmentContextCookieName());
-	}
-
-	// public RewardsContext getRewardsContextFromCookie() {
-	// return getContextFromCookie(
-	// ApplicationConfiguration.getRewardsContextCookieName(),
-	// RewardsContext.class);
-	// }
-	//
-	// public IncentivesContext getIncentivesContextFromCookie() {
-	// return getContextFromCookie(
-	// ApplicationConfiguration.getIncentivesContextCookieName(),
-	// IncentivesContext.class);
-	// }
-	//
-	// public void storeIncentivesContextCookie(IncentivesContext context) {
-	// storeContextCookie(
-	// ApplicationConfiguration.getIncentivesContextCookieName(),
-	// context);
-	// storeRewardsUpdateFlag(context != null ? context.isUpdate() : false);
-	// }
-	//
-	// public void removeIncentivesContextCookie() {
-	// removeCookie(ApplicationConfiguration.getIncentivesContextCookieName());
-	// removeCookie(ApplicationConfiguration.getRewardsUpdateFlagCookieName());
-	// }
-	//
-	// public void storeRewardsContextCookie(RewardsContext context) {
-	// storeContextCookie(
-	// ApplicationConfiguration.getRewardsContextCookieName(), context);
-	// storeRewardsUpdateFlag(context != null ? context.isUpdate() : false);
-	// }
-	//
-	public void removeRewardsContextCookie() {
-		removeCookie(ApplicationConfiguration.getRewardsContextCookieName());
-		removeCookie(ApplicationConfiguration.getRewardsUpdateFlagCookieName());
-	}
-
-	public void storeRewardsUpdateFlag(boolean update) {
-		addCookie(ApplicationConfiguration.getRewardsUpdateFlagCookieName(),
-				update ? "1" : "0", -1);
-	}
-
-	public void removeMessageCenterUnviewedCountCookie() {
-		removeCookie(ApplicationConfiguration
-				.getMessageCenterUnviewedCountCookieName());
-	}
-
-	public boolean hasRegistered() {
-		return getBooleanCookieValue(
-				ApplicationConfiguration.getRegisteredCookieName(), false);
-	}
-
-	public void setRegistered(boolean registered) {
-		if (registered) {
-			addCookie(ApplicationConfiguration.getRegisteredCookieName(),
-					registered);
-		} else {
-			removeCookie(ApplicationConfiguration.getRegisteredCookieName());
-		}
-	}
-
-	/*
-	 * Associate Poll with the Session to be consistent
-	 */
-	// public void setSessionPoll(String pollName) {
-	// addSessionCookie(ApplicationConfiguration.getSessionPollCookie(),
-	// pollName);
-	// }
-	//
-	// public String getSessionPoll() {
-	// return getCookieValue(ApplicationConfiguration.getSessionPollCookie(),
-	// "NotSet");
-	// }
-
 	public <T> T getContextFromCookie(String cookieName, Class<T> c) {
 		try {
 			Cookie cookie = getCookie(cookieName);
@@ -999,57 +843,38 @@ public class ServletData {
 		}
 	}
 
-	// public void storeSSOContextCookie(SSOContext context) {
-	// storeLimitedTTLContextCookie(
-	// ApplicationConfiguration.getSSOContextCookieName(), context,
-	// ApplicationConfiguration.getSSOContextCookieTTL());
-	// }
-	//
-	// public boolean hasSSOContextCookie() {
-	// return getCookie(ApplicationConfiguration.getSSOContextCookieName()) !=
-	// null;
-	// }
-	//
-	// public SSOContext getSSOContextCookie() {
-	// return getContextFromCookieNoDefault(
-	// ApplicationConfiguration.getSSOContextCookieName(),
-	// SSOContext.class);
-	// }
-	//
-	public void removeSSOContextCookie() {
-		removeCookie(ApplicationConfiguration.getSSOContextCookieName());
-	}
-
-	public String getTestUser() {
-		String cookieName = "local-testuser";
-		String username = getParameter("test-user");
-
-		if (StringUtils.isNotEmpty(username)) {
-			addSessionCookie(cookieName, username);
-			return username;
+	private String getTestGolferName() {
+		String cookieName = "local.test.golfer";
+		String golferName = getParameter("test.golfer.name");
+		if (StringUtils.isNotEmpty(golferName)) {
+			addSessionCookie(cookieName, golferName);
+			return golferName;
 		}
-
 		Cookie cookie = getCookie(cookieName);
-		if (cookie != null)
+		if (cookie != null) {
 			return cookie.getValue();
-
+		}
 		return null;
 	}
 
-	public String getTestGolferId() {
-		String cookieName = "local-testid";
-		String individualId = getParameter("test-id");
+	private String getTestGolferId() {
 
-		if (StringUtils.isNotEmpty(individualId)) {
-			addSessionCookie(cookieName, individualId);
-			return individualId;
-		}
+		return ApplicationConfiguration.getTestGolferId();
+		/*
+		 * String cookieName = "local.test.golfer.id"; String golferId =
+		 * getParameter("test.golfer.id");
+		 * 
+		 * if (StringUtils.isNotEmpty(golferId)) { addSessionCookie(cookieName,
+		 * golferId); return golferId; }
+		 * 
+		 * Cookie cookie = getCookie(cookieName); if (cookie != null) { return
+		 * cookie.getValue(); }
+		 */
+	}
 
-		Cookie cookie = getCookie(cookieName);
-		if (cookie != null)
-			return cookie.getValue();
-
-		return null;
+	public String getTestCompetitionRoundId() {
+		return new String("123");
+		// return getParameter("test.competition.round.id");
 	}
 
 	public void removeLocalCookies() {
@@ -1088,51 +913,26 @@ public class ServletData {
 	}
 
 	public String getGolferId() {
-		if (ApplicationConfiguration.isLocalEnvironment())
+		if (ApplicationConfiguration.useMockEnvironment()) {
 			return getTestGolferId();
-
-		String golferId = getWebgateGolferId();
-
-		if (golferId == null) {
-			logger.info("Assuming that this is a request from mobile device so checking different header.");
-			golferId = getMobileWebgateGolferId();
 		}
-		return golferId;
-	}
-
-	public String getWebgateGolferId() {
-		String key = ApplicationConfiguration.getWebGateIndividualHeaderName();
+		String key = ApplicationConfiguration.getGolferIdHeaderName();
 		return getHeader(key);
 	}
 
-	public String getMobileWebgateGolferId() {
-		String key = ApplicationConfiguration
-				.getMobileWebGateIndividualHeaderName();
+	public String getGolferName() {
+		if (ApplicationConfiguration.useMockEnvironment()) {
+			return getTestGolferName();
+		}
+		String key = ApplicationConfiguration.getGolferNameHeaderName();
 		return getHeader(key);
 	}
 
-	public String getUsername() {
-		if (ApplicationConfiguration.isLocalEnvironment()) {
-			return getTestUser();
+	public String getCompetitionRoundId() {
+		if (ApplicationConfiguration.useMockEnvironment()) {
+			return getTestCompetitionRoundId();
 		}
-		return getWebgateUsername();
+		String key = ApplicationConfiguration.getCompetitionRoundIdHeaderName();
+		return getHeader(key);
 	}
-
-	public String getWebgateUsername() {
-		// Following are the header-names which provide us user-name. Different
-		// login-type (SSO, Duallogin, Direct Login, Mobile device etc) might
-		// have different header which provides user-name value.
-
-		String[] keys = ApplicationConfiguration.getWebGateHeaderName();
-		if (CollectionUtils.isNotEmpty(keys)) {
-			for (String key : keys) {
-				String userName = getHeader(key);
-				if (StringUtils.isNotEmpty(userName)) {
-					return userName;
-				}
-			}
-		}
-		return null;
-	}
-
 }

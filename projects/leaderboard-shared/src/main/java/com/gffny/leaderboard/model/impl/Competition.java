@@ -3,13 +3,13 @@
  */
 package com.gffny.leaderboard.model.impl;
 
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import com.gffny.leaderboard.model.ICompetition;
+import com.gffny.leaderboard.util.CollectionUtils;
 import com.gffny.leaderboard.util.CompetitionFunction;
 
 /**
@@ -18,9 +18,11 @@ import com.gffny.leaderboard.util.CompetitionFunction;
  */
 public class Competition implements ICompetition {
 
+	private int id;
 	private String name;
 	private String competitionTypeName;
-	private List<ICompetition.ICompetitionRound> roundNumberList;
+	private String competitionVisibility;
+	private Map<Integer, ICompetition.ICompetitionRound> roundNumberMap;
 	private Map<Date, ICompetition.ICompetitionRound> roundDateMap;
 
 	/**
@@ -28,16 +30,34 @@ public class Competition implements ICompetition {
 	 * @param date
 	 * @param firstTeeTime
 	 * @param competitionTypeName
-	 * @param roundNumberList
+	 * @param roundNumberMap
 	 */
 	public Competition(String name, String competitionTypeName,
-			int numberOfRounds) {
+			String competitionVisibility, int numberOfRounds) {
 		this.name = name;
 		this.competitionTypeName = competitionTypeName;
-		this.roundNumberList = new ArrayList<ICompetition.ICompetitionRound>(
+		this.competitionVisibility = competitionVisibility;
+		this.roundNumberMap = new HashMap<Integer, ICompetition.ICompetitionRound>(
 				numberOfRounds);
 		this.roundDateMap = new HashMap<Date, ICompetition.ICompetitionRound>(
 				numberOfRounds);
+	}
+
+	/**
+	 * @see com.gffny.leaderboard.model.ICompetition#getCompetitionId()
+	 */
+	@Override
+	public int getCompetitionId() {
+		return id;
+	}
+
+	/**
+	 * 
+	 * @see com.gffny.leaderboard.model.ICompetition#getCompetitionIdAsString()
+	 */
+	@Override
+	public String getCompetitionIdAsString() {
+		return String.valueOf(id);
 	}
 
 	/**
@@ -59,12 +79,22 @@ public class Competition implements ICompetition {
 	}
 
 	/**
+	 * @return the competitionVisibility
+	 */
+	public String getCompetitionVisibility() {
+		return competitionVisibility;
+	}
+
+	/**
 	 * 
 	 * 
 	 * @see com.gffny.leaderboard.model.ICompetition#getCompetitionRoundList()
 	 */
 	public List<ICompetitionRound> getCompetitionRoundList() {
-		return roundNumberList;
+		ICompetitionRound[] competitionRoundArray = new CompetitionRound[roundNumberMap
+				.size()];
+		return CollectionUtils.asList(roundNumberMap.values().toArray(
+				competitionRoundArray));
 	}
 
 	/**
@@ -72,9 +102,9 @@ public class Competition implements ICompetition {
 	 * @author John Gaffney (john@gffny.com) Aug 21, 2012
 	 */
 	public void addCompetitionRound(ICompetitionRound newRound) {
-		if (newRound != null && roundNumberList != null && roundDateMap != null) {
+		if (newRound != null && roundNumberMap != null && roundDateMap != null) {
 			if (CompetitionFunction.checkCompetitionRoundType(this, newRound)) {
-				this.roundNumberList.add(
+				this.roundNumberMap.put(
 						getRoundIndexFromNumber(newRound.getRoundNumber()),
 						newRound);
 				this.roundDateMap.put(newRound.getRoundDate(), newRound);
@@ -82,7 +112,7 @@ public class Competition implements ICompetition {
 			// TODO handle if rounds are not compatible
 		}
 		// TODO handle newRound being null
-		// TODO handle roundNumberList or roundDateMap null
+		// TODO handle roundNumberMap or roundDateMap null
 	}
 
 	/**
@@ -98,7 +128,7 @@ public class Competition implements ICompetition {
 	 */
 	@Override
 	public ICompetitionRound getRoundByNumber(int roundNumber) {
-		return this.roundNumberList.get(getRoundIndexFromNumber(roundNumber));
+		return this.roundNumberMap.get(getRoundIndexFromNumber(roundNumber));
 	}
 
 	/**
@@ -134,16 +164,8 @@ public class Competition implements ICompetition {
 				+ ", competitionTypeName="
 				+ competitionTypeName
 				+ ", roundList="
-				+ (roundNumberList != null ? roundNumberList.subList(0,
-						Math.min(roundNumberList.size(), maxLen)) : null) + "]";
-	}
-
-	/**
-	 * @see com.gffny.leaderboard.model.ICompetition#getCompetitionId()
-	 */
-	@Override
-	public int getCompetitionId() {
-		// TODO Auto-generated method stub
-		return 0;
+				+ (roundNumberMap != null ? getCompetitionRoundList().subList(
+						0, Math.min(roundNumberMap.size(), maxLen)) : null)
+				+ "]";
 	}
 }

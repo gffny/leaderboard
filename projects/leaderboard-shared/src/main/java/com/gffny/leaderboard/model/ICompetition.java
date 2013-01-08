@@ -7,6 +7,8 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
+import com.gffny.leaderboard.model.ICompetition.IGolfGroup;
+
 /**
  * 
  * @author John Gaffney (john@gffny.com) Sep 26, 2012
@@ -24,6 +26,12 @@ public interface ICompetition {
 	 * 
 	 * @return
 	 */
+	public String getCompetitionIdAsString();
+
+	/**
+	 * 
+	 * @return
+	 */
 	public String getCompetitionName();
 
 	/**
@@ -31,6 +39,12 @@ public interface ICompetition {
 	 * @return
 	 */
 	public String getCompetitionTypeName();
+
+	/**
+	 * 
+	 * @return
+	 */
+	public String getCompetitionVisibility();
 
 	/**
 	 * 
@@ -84,6 +98,12 @@ public interface ICompetition {
 		 * 
 		 * @return
 		 */
+		public String getRoundIdAsString();
+
+		/**
+		 * 
+		 * @return
+		 */
 		public String getRoundName();
 
 		/**
@@ -109,6 +129,12 @@ public interface ICompetition {
 		 * @return
 		 */
 		public int getCourseId();
+
+		/**
+		 * 
+		 * @return
+		 */
+		public String getCourseIdAsString();
 
 		/**
 		 * 
@@ -175,6 +201,21 @@ public interface ICompetition {
 		 */
 		public void setCompetitionId(int competitionId);
 
+		/**
+		 * 
+		 * @param competitionType
+		 */
+		public void setCompetitionType(ICompetitionType competitionType);
+
+		/**
+		 * 
+		 * @return
+		 */
+		public ICompetitionType getCompetitionType();
+
+		public abstract void addGroup(IGolfGroup group, Date dateTime);
+
+		public abstract void clearGroups();
 	}
 
 	/**

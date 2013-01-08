@@ -12,6 +12,8 @@ import org.springframework.stereotype.Component;
 import org.springframework.util.StopWatch;
 import org.springframework.web.filter.OncePerRequestFilter;
 
+import test.utilities.TestUtilities;
+
 import com.gffny.leaderboard.portal.model.ui.RequestContext;
 import com.gffny.leaderboard.portal.model.ui.ServletData;
 import com.gffny.leaderboard.util.PerfLogger;
@@ -35,6 +37,7 @@ public class InitializationFilter extends OncePerRequestFilter {
 		try {
 			RequestContext.get().setServletData(
 					new ServletData(request, response));
+			RequestContext.get().setUser(TestUtilities.getTestGolferByID("11"));
 			filterChain.doFilter(request, response);
 		} finally {
 			RequestContext.get().release();

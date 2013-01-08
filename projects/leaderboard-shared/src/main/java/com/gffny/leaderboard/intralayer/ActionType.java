@@ -10,5 +10,7 @@ package com.gffny.leaderboard.intralayer;
 public interface ActionType {
 
 	public static String ENTER_SCORECARD = null;
+	public static String SCORE_COMPETITION = null;
+	public static String CREATE_COMPETITION = null;
 
 }

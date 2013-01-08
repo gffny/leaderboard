@@ -17,13 +17,12 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import com.gffny.leaderboard.model.IGolfer;
-import com.gffny.leaderboard.portal.model.ui.PortalContext;
 import com.gffny.leaderboard.portal.model.ui.RequestContext;
 import com.gffny.leaderboard.portal.model.ui.ServletData;
 import com.gffny.leaderboard.service.IAuthorisationService;
+import com.gffny.leaderboard.service.IGolfService;
 import com.gffny.leaderboard.service.IUserService;
 import com.gffny.leaderboard.service.impl.CompetitionService;
-import com.gffny.leaderboard.service.impl.IGolfService;
 import com.gffny.leaderboard.util.ApplicationConfiguration;
 import com.gffny.leaderboard.util.StringUtils;
 
@@ -59,6 +58,7 @@ public class AuthenticationFilter extends OncePerRequestFilter {
 		ServletData servletData = RequestContext.get().getServletData();
 
 		IGolfer user = initializeUser(servletData);
+
 		/*
 		 * if (user == null) { // initializeOrganizationByUrl();
 		 * 
@@ -75,15 +75,17 @@ public class AuthenticationFilter extends OncePerRequestFilter {
 		 * (organizationUnit.isDomainInvalid()) { initializeOrganizationByUrl();
 		 * servletData.redirectRequest("/logout?domain=1", true); return; }
 		 */
+
+		RequestContext.get().setUser(user);
+
 		/*
-		 * RequestContext.get().setUser(user); if
-		 * (!servletData.isReturningContext()) { if
+		 * if (!servletData.isReturningContext()) { if
 		 * (!userService.isGolferActive(user.getUserId())) {
 		 * logger.info("User is inactive: " + user);
 		 * servletData.redirectRequest( "/authentication/logout?inactive=1",
 		 * true); return; } }
 		 */
-		servletData.setRegistered(true);
+		// servletData.setRegistered(true);
 
 		/*
 		 * if (ApplicationConfiguration.isI18nEnabled() &&
@@ -99,19 +101,10 @@ public class AuthenticationFilter extends OncePerRequestFilter {
 	protected IGolfer initializeUser(ServletData servletData) {
 
 		printDebugInformation(servletData);
-		String username = servletData.getUsername();
+		String username = servletData.getGolferName();
 
 		if (StringUtils.isEmpty(username)) {
 			return null;
-		}
-
-		PortalContext context = servletData.getPortalContextFromCookie();
-		if (context != null && context.isValid(username)) {
-			IGolfer user = userService.getGolferById(context.getUid());
-			if (user != null) {
-				servletData.setReturningContext();
-				return user;
-			}
 		}
 
 		String golferId = servletData.getGolferId();
@@ -119,9 +112,8 @@ public class AuthenticationFilter extends OncePerRequestFilter {
 			return null;
 		}
 
-		context = new PortalContext();
-
 		IGolfer user = userService.getGolferById(golferId);
+
 		if (user == null) {
 			// This indicates that the user needs to be registered, so we get
 			// them from the service
@@ -129,11 +121,7 @@ public class AuthenticationFilter extends OncePerRequestFilter {
 			// user.setFirstTimeUser(true);
 			// userDao.save(user);
 		}
-		context.setUsername(username);
-		context.setUid(String.valueOf(user.getUserId()));
-		servletData.storePortalContextCookie(context);
 
-		logger.info("setting new login attribute: " + user.toString());
 		servletData.setAttribute("new-login", true);
 
 		return user;
@@ -152,7 +140,7 @@ public class AuthenticationFilter extends OncePerRequestFilter {
 		if (ApplicationConfiguration.getBoolean(
 				"print.authentication.messages", false)) {
 
-			logger.info("username: " + servletData.getUsername());
+			logger.info("username: " + servletData.getGolferName());
 			logger.info("individualId: " + servletData.getGolferId());
 
 			Principal principal = servletData.getRequest().getUserPrincipal();

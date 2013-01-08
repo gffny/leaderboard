@@ -3,13 +3,16 @@
  */
 package com.gffny.leaderboard.service.impl;
 
+import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 import com.gffny.leaderboard.component.scheduler.ICompetitionScheduler;
 import com.gffny.leaderboard.intralayer.IServiceResult;
 import com.gffny.leaderboard.intralayer.ServiceException;
 import com.gffny.leaderboard.model.ICompetition;
 import com.gffny.leaderboard.model.ICompetition.ICompetitionRound;
+import com.gffny.leaderboard.model.ICompetitionType;
 import com.gffny.leaderboard.model.IGolfer;
 import com.gffny.leaderboard.service.ICompetitionService;
 
@@ -48,24 +51,6 @@ public class CompetitionService implements ICompetitionService {
 	@Override
 	public ICompetitionScheduler getCompetitionScheduler(int competitionType)
 			throws ServiceException {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	/**
-	 * @see com.gffny.leaderboard.service.ICompetitionService#createCompetition()
-	 */
-	@Override
-	public ICompetition createCompetition() throws ServiceException {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	/**
-	 * @see com.gffny.leaderboard.service.ICompetitionService#saveCompetition()
-	 */
-	@Override
-	public IServiceResult saveCompetition() throws ServiceException {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -110,4 +95,69 @@ public class CompetitionService implements ICompetitionService {
 		return null;
 	}
 
+	/**
+	 * @see com.gffny.leaderboard.service.ICompetitionService#scoreRound(java.lang.String)
+	 */
+	@Override
+	public Map<String, String[]> scoreRound(String competitionRoundId)
+			throws ServiceException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	/**
+	 * @see com.gffny.leaderboard.service.ICompetitionService#scoreCompetition(java.lang.String)
+	 */
+	@Override
+	public Map<String, String[]> scoreCompetition(String competitionId)
+			throws ServiceException {
+		ICompetition competition = getCompetition(competitionId);
+		for (ICompetitionRound competitionRound : competition
+				.getCompetitionRoundList()) {
+		}
+		return null;
+	}
+
+	/**
+	 * @see com.gffny.leaderboard.service.ICompetitionService#createCompetition(java.lang.String,
+	 *      java.lang.String, java.lang.String, int)
+	 */
+	@Override
+	public ICompetition createCompetition(String competitionName,
+			String competitionScoringSystem, String competitionVisibility,
+			int numberOfRounds) throws ServiceException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	/**
+	 * @see com.gffny.leaderboard.service.ICompetitionService#saveCompetition(com.gffny.leaderboard.model.ICompetition)
+	 */
+	@Override
+	public IServiceResult saveCompetition(ICompetition competitionToSave)
+			throws ServiceException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	/**
+	 * @see com.gffny.leaderboard.service.ICompetitionService#getCompetitionScoringSystemList()
+	 */
+	@Override
+	public List<ICompetitionType> getCompetitionScoringSystemList()
+			throws ServiceException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	/**
+	 * @see com.gffny.leaderboard.service.ICompetitionService#createCompetitionRound(java.lang.String,
+	 *      java.lang.String, java.util.Date, int, int)
+	 */
+	@Override
+	public ICompetitionRound createCompetitionRound(String roundNumber,
+			String roundName, Date roundDate, int groupSize, int courseId) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }

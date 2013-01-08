@@ -5,12 +5,16 @@ package com.gffny.leaderboard.model.impl;
 
 import java.util.Collection;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Iterator;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
 import com.gffny.leaderboard.model.ICompetition;
+import com.gffny.leaderboard.model.ICompetition.ICompetitionRound;
 import com.gffny.leaderboard.model.ICompetition.IGolfGroup;
+import com.gffny.leaderboard.model.ICompetitionType;
 import com.gffny.leaderboard.util.TimeFunction;
 
 /**
@@ -28,6 +32,7 @@ public class CompetitionRound implements ICompetition.ICompetitionRound {
 	private Date date;
 	private List<IGolfGroup> groupList;
 	private Map<IGolfGroup, Date> teeTimeMap;
+	private ICompetitionType competitionType;
 
 	/**
 	 * 
@@ -47,6 +52,25 @@ public class CompetitionRound implements ICompetition.ICompetitionRound {
 		this.courseId = courseId;
 		this.groupList = groupList;
 		this.teeTimeMap = teeTimeMap;
+	}
+
+	/**
+	 * 
+	 * @param name
+	 * @param roundNumber
+	 * @param date
+	 * @param groupList
+	 * @param teeTimeMap
+	 */
+	public CompetitionRound(final String name, int roundNumber,
+			final Date date, int courseId) {
+		this.id = -1;
+		this.name = name;
+		this.date = date;
+		this.number = roundNumber;
+		this.courseId = courseId;
+		this.groupList = new LinkedList<IGolfGroup>();
+		this.teeTimeMap = new HashMap<IGolfGroup, Date>();
 	}
 
 	/**
@@ -93,6 +117,11 @@ public class CompetitionRound implements ICompetition.ICompetitionRound {
 		return id;
 	}
 
+	@Override
+	public String getRoundIdAsString() {
+		return String.valueOf(id);
+	}
+
 	/**
 	 * 
 	 */
@@ -134,7 +163,16 @@ public class CompetitionRound implements ICompetition.ICompetitionRound {
 	@Override
 	public int getCourseId() {
 		return courseId;
-	};
+	}
+
+	/**
+	 * 
+	 * @see com.gffny.leaderboard.model.ICompetition.ICompetitionRound#getCourseIdAsString()
+	 */
+	@Override
+	public String getCourseIdAsString() {
+		return String.valueOf(courseId);
+	}
 
 	/**
 	 * 
@@ -173,6 +211,39 @@ public class CompetitionRound implements ICompetition.ICompetitionRound {
 
 	/**
 	 * 
+	 * @see com.gffny.leaderboard.model.ICompetition.ICompetitionRound#addGroup(com.gffny.leaderboard.model.ICompetition.IGolfGroup,
+	 *      java.util.Date)
+	 */
+	@Override
+	public void addGroup(IGolfGroup group, Date dateTime) {
+		if (groupList == null) {
+			groupList = new LinkedList<IGolfGroup>();
+		}
+		if (teeTimeMap == null) {
+			teeTimeMap = new HashMap<ICompetition.IGolfGroup, Date>();
+		}
+		groupList.add(group);
+		teeTimeMap.put(group, dateTime);
+	}
+
+	/**
+	 * 
+	 * @see com.gffny.leaderboard.model.ICompetition.ICompetitionRound#clearGroups()
+	 */
+	@Override
+	public void clearGroups() {
+		if (groupList == null) {
+			groupList = new LinkedList<IGolfGroup>();
+		}
+		if (teeTimeMap == null) {
+			teeTimeMap = new HashMap<ICompetition.IGolfGroup, Date>();
+		}
+		groupList.clear();
+		teeTimeMap.clear();
+	}
+
+	/**
+	 * 
 	 * @see com.gffny.leaderboard.model.ICompetition.ICompetitionRound#setRoundId(int)
 	 */
 	@Override
@@ -206,12 +277,29 @@ public class CompetitionRound implements ICompetition.ICompetitionRound {
 	}
 
 	/**
+	 * @return the competitionType
+	 */
+	@Override
+	public ICompetitionType getCompetitionType() {
+		return competitionType;
+	}
+
+	/**
+	 * @param competitionType
+	 *            the competitionType to set
+	 */
+	@Override
+	public void setCompetitionType(ICompetitionType competitionType) {
+		this.competitionType = competitionType;
+	}
+
+	/**
 	 * 
 	 * @see java.lang.Object#clone()
 	 */
 	@Override
-	public CompetitionRound clone() {
-		CompetitionRound clone = new CompetitionRound(this.name, this.number,
+	public ICompetitionRound clone() {
+		ICompetitionRound clone = new CompetitionRound(this.name, this.number,
 				this.date, this.courseId, this.groupList, this.teeTimeMap);
 		return clone;
 	}

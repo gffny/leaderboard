@@ -14,17 +14,20 @@ import com.gffny.leaderboard.component.scheduler.ICompetitionScheduler;
 import com.gffny.leaderboard.component.scheduler.impl.SimpleCompetitionScheduler;
 import com.gffny.leaderboard.model.ICompetition;
 import com.gffny.leaderboard.model.ICompetition.ICompetitionRound;
+import com.gffny.leaderboard.model.ICompetitionType;
 import com.gffny.leaderboard.model.ICountry;
 import com.gffny.leaderboard.model.ICountry.IState;
 import com.gffny.leaderboard.model.IGolfCourse;
 import com.gffny.leaderboard.model.IGolfer;
 import com.gffny.leaderboard.model.IScorecard;
 import com.gffny.leaderboard.model.impl.Competition;
+import com.gffny.leaderboard.model.impl.CompetitionType;
 import com.gffny.leaderboard.model.impl.Country;
 import com.gffny.leaderboard.model.impl.GolfCourse;
 import com.gffny.leaderboard.model.impl.Golfer;
 import com.gffny.leaderboard.model.impl.Scorecard;
 import com.gffny.leaderboard.model.impl.State;
+import com.gffny.leaderboard.util.CollectionUtils;
 
 /**
  * @author John Gaffney (john@gffny.com) Oct 1, 2012
@@ -139,7 +142,7 @@ public class TestUtilities {
 	 * @return
 	 */
 	public static ICompetition getTestCompetition() {
-		return new Competition("President's Day Cup 2012",
+		return new Competition("President's Day Cup 2012", "Stableford",
 				"President's Day Cup 2012", 4);
 	}
 
@@ -195,5 +198,16 @@ public class TestUtilities {
 		// http://stackoverflow.com/questions/363681/generating-random-number-in-a-range-with-java
 		// Min + (int)(Math.random() * ((Max - Min) + 1)
 		return min + (int) (Math.random() * ((max - min) + 1));
+	}
+
+	/**
+	 * @return
+	 */
+	public static List<ICompetitionType> getTestCompetitionTypeList() {
+		ICompetitionType stableford = new CompetitionType("Stableford",
+				"STABLEFORD", "STABLEFORD", true, true, true);
+		ICompetitionType matchplay = new CompetitionType("Matchplay",
+				"MATCHPLAY", "MATCHPLAY", false, true, true);
+		return CollectionUtils.asList(stableford, matchplay);
 	}
 }

@@ -4,9 +4,10 @@
 package com.gffny.leaderboard.service;
 
 import java.util.List;
+import java.util.Map;
 
-import com.gffny.leaderboard.intralayer.ServiceException;
 import com.gffny.leaderboard.intralayer.IServiceResult;
+import com.gffny.leaderboard.intralayer.ServiceException;
 import com.gffny.leaderboard.model.IScorecard;
 
 /**
@@ -32,4 +33,14 @@ public interface IScorecardService {
 			String competitionRoundId, String userId, String[] scoreArray)
 			throws ServiceException;
 
+	/**
+	 * @param competitionRoundId
+	 * @param scoreMap
+	 *            <String golferId, String[] scorecard>
+	 * @return
+	 * @throws ServiceException
+	 */
+	public void submitScorecardMapForCompetitionRound(
+			String competitionRoundId, Map<String, String[]> scoreMap)
+			throws ServiceException;
 }

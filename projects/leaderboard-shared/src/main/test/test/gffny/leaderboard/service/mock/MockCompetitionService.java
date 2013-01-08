@@ -4,7 +4,10 @@
 package test.gffny.leaderboard.service.mock;
 
 import java.util.Arrays;
+import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import test.utilities.TestUtilities;
 
@@ -14,7 +17,10 @@ import com.gffny.leaderboard.intralayer.IServiceResult;
 import com.gffny.leaderboard.intralayer.ServiceException;
 import com.gffny.leaderboard.model.ICompetition;
 import com.gffny.leaderboard.model.ICompetition.ICompetitionRound;
+import com.gffny.leaderboard.model.ICompetitionType;
 import com.gffny.leaderboard.model.IGolfer;
+import com.gffny.leaderboard.model.impl.Competition;
+import com.gffny.leaderboard.model.impl.CompetitionRound;
 import com.gffny.leaderboard.service.ICompetitionService;
 
 /**
@@ -25,6 +31,8 @@ public class MockCompetitionService implements ICompetitionService {
 
 	//
 	private static MockCompetitionService INSTANCE = null;
+
+	private Map<String, ICompetition> competitionCache = new HashMap<String, ICompetition>();
 
 	/**
 	 * singleton constructor
@@ -62,24 +70,6 @@ public class MockCompetitionService implements ICompetitionService {
 	}
 
 	/**
-	 * @see com.gffny.leaderboard.service.ICompetitionService#createCompetition()
-	 */
-	@Override
-	public ICompetition createCompetition() throws ServiceException {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	/**
-	 * @see com.gffny.leaderboard.service.ICompetitionService#saveCompetition()
-	 */
-	@Override
-	public IServiceResult saveCompetition() throws ServiceException {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	/**
 	 * @see com.gffny.leaderboard.service.ICompetitionService#getCompetitionListForUserId(java.lang.String)
 	 */
 	@Override
@@ -99,12 +89,15 @@ public class MockCompetitionService implements ICompetitionService {
 	@Override
 	public ICompetition getCompetition(String competitionId)
 			throws ServiceException {
-		ICompetition competition = TestUtilities.getTestCompetition();
-		competition.addCompetitionRound(TestUtilities.getTestRound(1));
-		competition.addCompetitionRound(TestUtilities.getTestRound(2));
-		competition.addCompetitionRound(TestUtilities.getTestRound(3));
-		competition.addCompetitionRound(TestUtilities.getTestRound(4));
-		return competition;
+		if (competitionCache.get(competitionId) == null) {
+			ICompetition competition = TestUtilities.getTestCompetition();
+			competition.addCompetitionRound(TestUtilities.getTestRound(1));
+			competition.addCompetitionRound(TestUtilities.getTestRound(2));
+			competition.addCompetitionRound(TestUtilities.getTestRound(3));
+			competition.addCompetitionRound(TestUtilities.getTestRound(4));
+			return competition;
+		}
+		return competitionCache.get(competitionId);
 	}
 
 	/**
@@ -125,4 +118,68 @@ public class MockCompetitionService implements ICompetitionService {
 		return TestUtilities.getTestRound(1000);
 	}
 
+	/**
+	 * @see com.gffny.leaderboard.service.ICompetitionService#scoreRound(java.lang.String)
+	 */
+	@Override
+	public Map<String, String[]> scoreRound(String competitionRoundId)
+			throws ServiceException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	/**
+	 * @see com.gffny.leaderboard.service.ICompetitionService#scoreCompetition(java.lang.String)
+	 */
+	@Override
+	public Map<String, String[]> scoreCompetition(String competitionId)
+			throws ServiceException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	/**
+	 * @see com.gffny.leaderboard.service.ICompetitionService#getCompetitionScoringSystemList()
+	 */
+	@Override
+	public List<ICompetitionType> getCompetitionScoringSystemList()
+			throws ServiceException {
+		return TestUtilities.getTestCompetitionTypeList();
+	}
+
+	/**
+	 * @see com.gffny.leaderboard.service.ICompetitionService#createCompetition(java.lang.String,
+	 *      java.util.Date, int)
+	 */
+	@Override
+	public ICompetition createCompetition(String name,
+			String competitionScoringSystem, String competitionVisiblity,
+			int numberOfRounds) throws ServiceException {
+		ICompetition competition = new Competition(name,
+				competitionScoringSystem, competitionVisiblity, numberOfRounds);
+		competitionCache.put(competition.getCompetitionIdAsString(),
+				competition);
+		return competition;
+	}
+
+	/**
+	 * @see com.gffny.leaderboard.service.ICompetitionService#saveCompetition(com.gffny.leaderboard.model.ICompetition)
+	 */
+	@Override
+	public IServiceResult saveCompetition(ICompetition competitionToSave)
+			throws ServiceException {
+		competitionCache.put(competitionToSave.getCompetitionIdAsString(),
+				competitionToSave);
+		return null;
+	}
+
+	/**
+	 * @see com.gffny.leaderboard.service.ICompetitionService#createCompetitionRound(java.lang.String,
+	 *      java.lang.String, java.util.Date, int, int)
+	 */
+	@Override
+	public ICompetitionRound createCompetitionRound(int roundNumber,
+			String roundName, Date roundDate, int groupSize, int courseId) {
+		return new CompetitionRound(roundName, roundNumber, roundDate, courseId);
+	}
 }

@@ -33,7 +33,7 @@ public class UnauthenticationFilter extends AuthenticationFilter {
 	}
 
 	private boolean skipFilter() {
-		if (!ApplicationConfiguration.isLocalEnvironment()) {
+		if (!ApplicationConfiguration.useMockEnvironment()) {
 			return false;
 		}
 

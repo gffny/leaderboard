@@ -2,14 +2,16 @@ package com.gffny.leaderboard.model;
 
 public interface ICompetitionType {
 
-	public String getCompetitionTypeName();
+	public boolean isIndividual();
 
-	public int getGroupSize();
+	public boolean isPair();
 
-	public String getGroupName();
+	public boolean isTeam();
 
-	public boolean isMultiRound();
-	
-	public int getNumberOfRounds();
+	public String getScorer();
+
+	public String getScheduler();
+
+	public String getName();
 
 }

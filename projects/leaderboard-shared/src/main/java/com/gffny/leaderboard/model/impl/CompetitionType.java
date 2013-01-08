@@ -12,75 +12,85 @@ import com.gffny.leaderboard.model.ICompetitionType;
 public class CompetitionType implements ICompetitionType {
 
 	/**
-	 * @param name
-	 * @param groupSize
-	 * @param isMultiRound
-	 * @param numberOfRounds
-	 */
-	public CompetitionType(String name, int groupSize, boolean isMultiRound,
-			int numberOfRounds) {
-		this.name = name;
-		this.groupSize = groupSize;
-		this.isMultiRound = isMultiRound;
-		this.numberOfRounds = numberOfRounds;
-	}
-
-	private String name;
-	private int groupSize;
-	private boolean isMultiRound;
-	private int numberOfRounds;
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * com.gffny.leaderboard.model.ICompetitionType#getCompetitionTypeName()
+	 * @return the name
 	 */
 	@Override
-	public String getCompetitionTypeName() {
+	public String getName() {
 		return name;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see com.gffny.leaderboard.model.ICompetitionType#getGroupSize()
+	/**
+	 * @return the scheduler
 	 */
 	@Override
-	public int getGroupSize() {
-		return groupSize;
+	public String getScheduler() {
+		return scheduler;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see com.gffny.leaderboard.model.ICompetitionType#getGroupName()
+	/**
+	 * @return the scorer
 	 */
 	@Override
-	public String getGroupName() {
-		// TODO Auto-generated method stub
-		return null;
+	public String getScorer() {
+		return scorer;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see com.gffny.leaderboard.model.ICompetitionType#isMultiRound()
+	/**
+	 * @return the isTeam
 	 */
 	@Override
-	public boolean isMultiRound() {
-
-		return isMultiRound;
+	public boolean isTeam() {
+		return isTeam;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see com.gffny.leaderboard.model.ICompetitionType#getNumberOfRounds()
+	/**
+	 * @return the isPair
 	 */
 	@Override
-	public int getNumberOfRounds() {
-		return numberOfRounds;
+	public boolean isPair() {
+		return isPair;
 	}
 
+	/**
+	 * @return the isIndividual
+	 */
+	@Override
+	public boolean isIndividual() {
+		return isIndividual;
+	}
+
+	/**
+	 * @param name
+	 * @param scheduler
+	 * @param scorer
+	 * @param isTeam
+	 * @param isPair
+	 * @param isIndividual
+	 */
+	public CompetitionType(String name, String scheduler, String scorer,
+			boolean isTeam, boolean isPair, boolean isIndividual) {
+		this.name = name;
+		this.scheduler = scheduler;
+		this.scorer = scorer;
+		this.isTeam = isTeam;
+		this.isPair = isPair;
+		this.isIndividual = isIndividual;
+	}
+
+	/**
+	 * @see java.lang.Object#toString()
+	 */
+	@Override
+	public String toString() {
+		return "CompetitionType [name=" + name + ", scheduler=" + scheduler
+				+ ", scorer=" + scorer + ", isTeam=" + isTeam + ", isPair="
+				+ isPair + ", isIndividual=" + isIndividual + "]";
+	}
+
+	private String name;
+	private String scheduler;
+	private String scorer;
+	private boolean isTeam;
+	private boolean isPair;
+	private boolean isIndividual;
 }
