@@ -385,12 +385,20 @@ public class CompetitionController extends AbstractController {
 					}
 					competitionService.saveCompetition(competition);
 					model.addObject("competition", competition);
+					if (competition.getCompetitionVisibility()
+							.equalsIgnoreCase(ICompetition.PUBLIC_VISIBILITY)) {
+						model.addObject("competitionUrl",
+								"http://localhost:8080/leaderboard/dashboard/competition/"
+										+ competition.getCompetitionId());
+					}
 				} catch (ServiceException e) {
 					// TODO handle service exception
-					e.printStackTrace();
+					model = new ModelAndView("errorpage");
+					model.addObject("errorMessage", e.getMessage());
 				}
 			} else { // handle non authorised user requests
-
+				model = new ModelAndView("errorpage");
+				model.addObject("errorMessage", "unauthorised user");
 			}
 		} else {
 			// handle issue with null or invalid

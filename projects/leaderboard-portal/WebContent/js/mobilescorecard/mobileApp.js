@@ -4,7 +4,7 @@ leaderboard.home = function () {
 
 	//var APPLICATION_HOST='http://localhost:8080/leaderboard';
 	var APPLICATION_HOST='/leaderboard';
-	var holePointerIndex = 1, competitionList, course, scorecardRoundId;
+	var holePointerIndex = 1, scorecardRoundId = 0;
 	var golferArray = new Array();
 
 	//** ASYCHRONOUS FUNCTIONS **

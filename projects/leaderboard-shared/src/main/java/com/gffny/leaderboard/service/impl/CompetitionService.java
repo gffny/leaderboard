@@ -155,7 +155,7 @@ public class CompetitionService implements ICompetitionService {
 	 *      java.lang.String, java.util.Date, int, int)
 	 */
 	@Override
-	public ICompetitionRound createCompetitionRound(String roundNumber,
+	public ICompetitionRound createCompetitionRound(int roundNumber,
 			String roundName, Date roundDate, int groupSize, int courseId) {
 		// TODO Auto-generated method stub
 		return null;

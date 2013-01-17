@@ -7,8 +7,6 @@ leaderboard.home = function() {
 	var toPar=0;
 	var holePointerIndex = 1;
 
-	var competitionList;
-	var course;
 	var golferArray = new Array();
 
 	function attachNavHandlers() {

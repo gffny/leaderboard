@@ -110,6 +110,13 @@ public class DashboardController extends AbstractController {
 	@RequestMapping("/competition/{id}")
 	public ModelAndView competitionDetail(@PathVariable Long id) {
 		ModelAndView model = new ModelAndView("dashboard/competition/detail");
+		try {
+			model.addObject("competition",
+					mockCompetitionService.getCompetition(String.valueOf(id)));
+		} catch (ServiceException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		return model;
 	}
 

@@ -6,19 +6,16 @@
 	</head>
 	<body>
 		<form action=rounds method=post>
-			<label for=competitionName>Competition Name</label>
-			${competition.competitionName}
-			<br />
-			<label for=competitionVisibilty>Competition Visibility</label>
-			${competition.competitionVisibility}
-			<br />
-			<label for=competitionScoringSystem>Competition Scoring System</label>
-			
-			<br />
-			<label for=competitionRounds>Number of Competition Rounds</label>
-			<input name=competitionRounds />
-			<br />
-			<input type=submit value=next />
+			<label for=competitionName>Competition Name:</label>
+			${competition.competitionName} <br />
+			<label for=competitionVisibilty>Competition Visibility:</label>
+			${competition.competitionVisibility} <br />
+			<label for=competitionScoringSystem>Competition Scoring System:</label>
+			${competition.competitionScoringSystem}	<br />
+			<#list competition.competitionRoundList as competitionRound>
+				${competitionRound.roundName}<br />
+			</#list>
+			<#if competitionUrl??>Competition URL <a href=${competitionUrl}>(${competitionUrl})</a></#if>
 		</form>
 	</body>
 </html>

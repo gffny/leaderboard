@@ -9,7 +9,7 @@
 			<label>Competition Name: ${competition.competitionName}</label>
 			<input type=hidden name=competitionId value=${competition.competitionId} />
 			<br />
-			<label>Competition Visibity: ${competition.competitionTypeName}</label>
+			<label>Competition Visibity: ${competition.competitionVisibility}</label>
 			<br />
 			<#list 1..numberOfRounds as roundNumber>
 				<h3>Round ${roundNumber}</h3>
