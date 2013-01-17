@@ -16,11 +16,9 @@ import com.gffny.leaderboard.util.CompetitionFunction;
  * @author John Gaffney (john@gffny.com) Aug 21, 2012
  * 
  */
-public class Competition implements ICompetition {
+public class Competition extends Entity implements ICompetition {
 
-	private int id;
-	private String name;
-	private String competitionTypeName;
+	private String competitionScoringSystem;
 	private String competitionVisibility;
 	private Map<Integer, ICompetition.ICompetitionRound> roundNumberMap;
 	private Map<Date, ICompetition.ICompetitionRound> roundDateMap;
@@ -29,13 +27,33 @@ public class Competition implements ICompetition {
 	 * @param name
 	 * @param date
 	 * @param firstTeeTime
-	 * @param competitionTypeName
+	 * @param competitionScoringSystem
 	 * @param roundNumberMap
 	 */
-	public Competition(String name, String competitionTypeName,
+	public Competition(int competitionId, String name,
+			String competitionScoringSystem, String competitionVisibility,
+			int numberOfRounds) {
+		super(name);
+		this.setId(competitionId);
+		this.competitionScoringSystem = competitionScoringSystem;
+		this.competitionVisibility = competitionVisibility;
+		this.roundNumberMap = new HashMap<Integer, ICompetition.ICompetitionRound>(
+				numberOfRounds);
+		this.roundDateMap = new HashMap<Date, ICompetition.ICompetitionRound>(
+				numberOfRounds);
+	}
+
+	/**
+	 * @param name
+	 * @param date
+	 * @param firstTeeTime
+	 * @param competitionScoringSystem
+	 * @param roundNumberMap
+	 */
+	public Competition(String name, String competitionScoringSystem,
 			String competitionVisibility, int numberOfRounds) {
-		this.name = name;
-		this.competitionTypeName = competitionTypeName;
+		super(name);
+		this.competitionScoringSystem = competitionScoringSystem;
 		this.competitionVisibility = competitionVisibility;
 		this.roundNumberMap = new HashMap<Integer, ICompetition.ICompetitionRound>(
 				numberOfRounds);
@@ -48,7 +66,7 @@ public class Competition implements ICompetition {
 	 */
 	@Override
 	public int getCompetitionId() {
-		return id;
+		return this.getId();
 	}
 
 	/**
@@ -57,7 +75,7 @@ public class Competition implements ICompetition {
 	 */
 	@Override
 	public String getCompetitionIdAsString() {
-		return String.valueOf(id);
+		return String.valueOf(this.getId());
 	}
 
 	/**
@@ -66,16 +84,16 @@ public class Competition implements ICompetition {
 	 * @see com.gffny.leaderboard.model.ICompetition#getCompetitionName()
 	 */
 	public String getCompetitionName() {
-		return name;
+		return this.getName();
 	}
 
 	/**
 	 * 
 	 * 
-	 * @see com.gffny.leaderboard.model.ICompetition#getCompetitionTypeName()
+	 * @see com.gffny.leaderboard.model.ICompetition#getCompetitionScoringSystem()
 	 */
-	public String getCompetitionTypeName() {
-		return competitionTypeName;
+	public String getCompetitionScoringSystem() {
+		return competitionScoringSystem;
 	}
 
 	/**
@@ -160,9 +178,9 @@ public class Competition implements ICompetition {
 	public String toString() {
 		final int maxLen = 2;
 		return "Competition [name="
-				+ name
-				+ ", competitionTypeName="
-				+ competitionTypeName
+				+ this.getName()
+				+ ", competitionScoringSystem="
+				+ competitionScoringSystem
 				+ ", roundList="
 				+ (roundNumberMap != null ? getCompetitionRoundList().subList(
 						0, Math.min(roundNumberMap.size(), maxLen)) : null)

@@ -13,9 +13,8 @@ import com.gffny.leaderboard.model.IGolfer;
  * @author John Gaffney (john@gffny.com) Sep 26, 2012
  * 
  */
-public class GolfGroup implements IGolfGroup {
+public class GolfGroup extends Entity implements IGolfGroup {
 
-	private String groupName;
 	private int groupSize;
 	private List<IGolfer> groupList;
 	private String groupType;
@@ -25,7 +24,32 @@ public class GolfGroup implements IGolfGroup {
 	 * @param groupSize
 	 */
 	public GolfGroup(String groupName, int groupSize) {
-		this.groupName = groupName;
+		super(groupName);
+		this.groupList = new ArrayList<IGolfer>(groupSize);
+		this.groupSize = groupSize;
+		switch (groupSize) {
+		case 2:
+			groupType = TWOBALL;
+			break;
+		case 3:
+			groupType = THREEBALL;
+			break;
+		case 4:
+			groupType = FOURBALL;
+			break;
+		default:
+			groupType = FOURBALL;
+			break;
+		}
+	}
+
+	/**
+	 * 
+	 * @param groupSize
+	 */
+	public GolfGroup(int groupId, String groupName, int groupSize) {
+		super(groupName);
+		this.setId(groupId);
 		this.groupList = new ArrayList<IGolfer>(groupSize);
 		this.groupSize = groupSize;
 		switch (groupSize) {
@@ -49,7 +73,7 @@ public class GolfGroup implements IGolfGroup {
 	 */
 	@Override
 	public String getGroupName() {
-		return groupName;
+		return this.getName();
 	}
 
 	/**

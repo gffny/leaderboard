@@ -14,7 +14,7 @@ import com.gffny.leaderboard.util.TimeFunction;
  * @author John Gaffney (john@gffny.com) Jul 30, 2012
  * 
  */
-public class Scorecard implements IScorecard {
+public class Scorecard extends Entity implements IScorecard {
 
 	private String teesPlayedOff = new String();
 	private int[] scoreArray = null;
@@ -31,6 +31,25 @@ public class Scorecard implements IScorecard {
 	 */
 	public Scorecard(String teesPlayedOff, int handicap, int[] grossScoreArray,
 			String scorecardNotes, String scorecardDate) {
+		super("");
+		this.teesPlayedOff = teesPlayedOff;
+		this.handicap = handicap;
+		this.scoreArray = grossScoreArray;
+		this.scorecardNotes = scorecardNotes;
+		this.scorecardDate = formatDate(scorecardDate);
+	}
+
+	/**
+	 * 
+	 * @param teesPlayedOff
+	 * @param grossScoreArray
+	 * @param scorecardNotes
+	 * @param scorecardDate
+	 */
+	public Scorecard(int scorecardId, String teesPlayedOff, int handicap,
+			int[] grossScoreArray, String scorecardNotes, String scorecardDate) {
+		super("");
+		this.setId(scorecardId);
 		this.teesPlayedOff = teesPlayedOff;
 		this.handicap = handicap;
 		this.scoreArray = grossScoreArray;

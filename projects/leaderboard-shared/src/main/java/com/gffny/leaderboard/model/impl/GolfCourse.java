@@ -13,10 +13,8 @@ import com.gffny.leaderboard.model.IGolfCourseHole;
  * @author John Gaffney (john@gffny.com) Jul 31, 2012
  * 
  */
-public class GolfCourse implements IGolfCourse {
+public class GolfCourse extends Entity implements IGolfCourse {
 
-	private int id = -1;
-	private String name;
 	private String location;
 	private String teeColour;
 	private int par;
@@ -39,7 +37,7 @@ public class GolfCourse implements IGolfCourse {
 	 */
 	public GolfCourse(String name, int par, String location, String teeColour,
 			int[] holePar, int[] holeIndex, int[] teeDistance) {
-		this.name = name;
+		super(name);
 		this.par = par;
 		this.location = location;
 		this.teeColour = teeColour;
@@ -66,8 +64,8 @@ public class GolfCourse implements IGolfCourse {
 	 */
 	public GolfCourse(int id, String name, int par, String location,
 			String teeColour, int[] holePar, int[] holeIndex, int[] teeDistance) {
-		this.id = id;
-		this.name = name;
+		super(name);
+		this.setId(id);
 		this.par = par;
 		this.location = location;
 		this.teeColour = teeColour;
@@ -78,15 +76,8 @@ public class GolfCourse implements IGolfCourse {
 
 	@Override
 	public int getCourseId() {
-		return this.id;
+		return this.getId();
 	};
-
-	/**
-	 * 
-	 */
-	public String getName() {
-		return name;
-	}
 
 	/**
 	 * 
@@ -174,7 +165,7 @@ public class GolfCourse implements IGolfCourse {
 	 * @author John Gaffney (john@gffny.com) Jul 31, 2012
 	 * 
 	 */
-	private class Hole implements IGolfCourseHole {
+	private class Hole extends Entity implements IGolfCourseHole {
 
 		/**
 		 * @return the par
@@ -206,15 +197,27 @@ public class GolfCourse implements IGolfCourse {
 		}
 
 		/**
+		 * 
 		 * @param par
 		 * @param index
-		 * @param goldTeeDistance
-		 * @param blueTeeDistance
-		 * @param whiteTeeDistance
-		 * @param greenTeeDistance
-		 * @param redTeeDistance
+		 * @param teeDistance
 		 */
 		public Hole(int par, int index, int teeDistance) {
+			super("");
+			this.par = par;
+			this.index = index;
+			this.teeDistance = teeDistance;
+		}
+
+		/**
+		 * 
+		 * @param holeName
+		 * @param par
+		 * @param index
+		 * @param teeDistance
+		 */
+		public Hole(String holeName, int par, int index, int teeDistance) {
+			super(holeName);
 			this.par = par;
 			this.index = index;
 			this.teeDistance = teeDistance;

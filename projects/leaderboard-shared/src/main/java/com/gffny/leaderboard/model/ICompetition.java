@@ -7,14 +7,27 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
-import com.gffny.leaderboard.model.ICompetition.IGolfGroup;
-
 /**
  * 
  * @author John Gaffney (john@gffny.com) Sep 26, 2012
  * 
  */
-public interface ICompetition {
+public interface ICompetition extends IEntity {
+
+	/**
+	 * 
+	 */
+	public static String PRIVATE_VISIBILITY = "private";
+
+	/**
+	 * 
+	 */
+	public static String PUBLIC_VISIBILITY = "public";
+
+	/**
+	 * 
+	 */
+	public static String SOCIETY_VISIBILITY = "society";
 
 	/**
 	 * 
@@ -38,7 +51,7 @@ public interface ICompetition {
 	 * 
 	 * @return
 	 */
-	public String getCompetitionTypeName();
+	public String getCompetitionScoringSystem();
 
 	/**
 	 * 

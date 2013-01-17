@@ -9,14 +9,50 @@ import com.gffny.leaderboard.model.ICompetitionType;
  * @author John Gaffney (john@gffny.com) Aug 21, 2012
  * 
  */
-public class CompetitionType implements ICompetitionType {
+public class CompetitionType extends Entity implements ICompetitionType {
+
+	private String name;
+	private String scheduler;
+	private String scorer;
+	private boolean isTeam;
+	private boolean isPair;
+	private boolean isIndividual;
 
 	/**
-	 * @return the name
+	 * @param name
+	 * @param scheduler
+	 * @param scorer
+	 * @param isTeam
+	 * @param isPair
+	 * @param isIndividual
 	 */
-	@Override
-	public String getName() {
-		return name;
+	public CompetitionType(String name, String scheduler, String scorer,
+			boolean isTeam, boolean isPair, boolean isIndividual) {
+		super(name);
+		this.scheduler = scheduler;
+		this.scorer = scorer;
+		this.isTeam = isTeam;
+		this.isPair = isPair;
+		this.isIndividual = isIndividual;
+	}
+
+	/**
+	 * @param name
+	 * @param scheduler
+	 * @param scorer
+	 * @param isTeam
+	 * @param isPair
+	 * @param isIndividual
+	 */
+	public CompetitionType(int id, String name, String scheduler,
+			String scorer, boolean isTeam, boolean isPair, boolean isIndividual) {
+		super(name);
+		this.setId(id);
+		this.scheduler = scheduler;
+		this.scorer = scorer;
+		this.isTeam = isTeam;
+		this.isPair = isPair;
+		this.isIndividual = isIndividual;
 	}
 
 	/**
@@ -60,24 +96,6 @@ public class CompetitionType implements ICompetitionType {
 	}
 
 	/**
-	 * @param name
-	 * @param scheduler
-	 * @param scorer
-	 * @param isTeam
-	 * @param isPair
-	 * @param isIndividual
-	 */
-	public CompetitionType(String name, String scheduler, String scorer,
-			boolean isTeam, boolean isPair, boolean isIndividual) {
-		this.name = name;
-		this.scheduler = scheduler;
-		this.scorer = scorer;
-		this.isTeam = isTeam;
-		this.isPair = isPair;
-		this.isIndividual = isIndividual;
-	}
-
-	/**
 	 * @see java.lang.Object#toString()
 	 */
 	@Override
@@ -87,10 +105,4 @@ public class CompetitionType implements ICompetitionType {
 				+ isPair + ", isIndividual=" + isIndividual + "]";
 	}
 
-	private String name;
-	private String scheduler;
-	private String scorer;
-	private boolean isTeam;
-	private boolean isPair;
-	private boolean isIndividual;
 }

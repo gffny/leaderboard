@@ -9,18 +9,26 @@ import com.gffny.leaderboard.model.IGolfer;
  * @author
  * 
  */
-public class Golfer implements IGolfer {
+public class Golfer extends Entity implements IGolfer {
+
+	private int societyId;
+	private String profileHandle;
+	private String emailAddress;
+	private String firstName;
+	private String lastName;
+	private String location;
+	private String handicap;
 
 	/**
 	 * 
 	 * @see java.lang.Object#toString()
 	 */
 	public String toString() {
-		return "Golfer [userId=" + userId + ", societyId=" + societyId
-				+ ", profileHandle=" + profileHandle + ", emailAddress="
-				+ emailAddress + ", firstName=" + firstName + ", lastName="
-				+ lastName + ", handicap=" + handicap + ", location="
-				+ location + "]";
+		return "Golfer [userId=" + this.getUserId() + ", societyId="
+				+ societyId + ", profileHandle=" + profileHandle
+				+ ", emailAddress=" + emailAddress + ", firstName=" + firstName
+				+ ", lastName=" + lastName + ", handicap=" + handicap
+				+ ", location=" + location + "]";
 	}
 
 	/**
@@ -37,8 +45,8 @@ public class Golfer implements IGolfer {
 	public Golfer(int userId, int societyId, String profileHandle,
 			String emailAddress, String firstName, String lastName,
 			String location, String handicap) {
-		super();
-		this.userId = userId;
+		super(profileHandle);
+		this.setId(userId);
 		this.societyId = societyId;
 		this.profileHandle = profileHandle;
 		this.emailAddress = emailAddress;
@@ -56,7 +64,8 @@ public class Golfer implements IGolfer {
 	 */
 	public Golfer(int userId, String firstName, String lastName,
 			String profileHandle) {
-		this.userId = userId;
+		super(profileHandle);
+		this.setId(userId);
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.profileHandle = profileHandle;
@@ -67,7 +76,7 @@ public class Golfer implements IGolfer {
 	 * @see com.gffny.leaderboard.model.IGolfer#getUserId()
 	 */
 	public int getUserId() {
-		return userId;
+		return this.getId();
 	}
 
 	/**
@@ -75,7 +84,7 @@ public class Golfer implements IGolfer {
 	 * @param userId
 	 */
 	public void setUserId(int userId) {
-		this.userId = userId;
+		this.setId(userId);
 	}
 
 	/**
@@ -99,7 +108,7 @@ public class Golfer implements IGolfer {
 	 * @see com.gffny.leaderboard.model.IGolfer#getProfileHandle()
 	 */
 	public String getProfileHandle() {
-		return profileHandle;
+		return this.getName();
 	}
 
 	/**
@@ -107,7 +116,7 @@ public class Golfer implements IGolfer {
 	 * @see com.gffny.leaderboard.model.IGolfer#setProfileHandle(java.lang.String)
 	 */
 	public void setProfileHandle(String profileHandle) {
-		this.profileHandle = profileHandle;
+		this.setName(profileHandle);
 	}
 
 	/**
@@ -189,13 +198,4 @@ public class Golfer implements IGolfer {
 	public void setHandicap(String handicap) {
 		this.handicap = handicap;
 	}
-
-	private int userId;
-	private int societyId;
-	private String profileHandle;
-	private String emailAddress;
-	private String firstName;
-	private String lastName;
-	private String location;
-	private String handicap;
 }

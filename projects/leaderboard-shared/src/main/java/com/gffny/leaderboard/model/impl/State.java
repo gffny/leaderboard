@@ -9,7 +9,7 @@ import com.gffny.leaderboard.model.ICountry.IState;
  * @author John Gaffney (john@gffny.com) Oct 3, 2012
  * 
  */
-public class State implements IState {
+public class State extends Entity implements IState {
 
 	private String name, code;
 
@@ -19,7 +19,18 @@ public class State implements IState {
 	 * @param code
 	 */
 	public State(String name, String code) {
-		this.name = name;
+		super(name);
+		this.code = code;
+	}
+
+	/**
+	 * 
+	 * @param name
+	 * @param code
+	 */
+	public State(int stateId, String name, String code) {
+		super(name);
+		this.setId(stateId);
 		this.code = code;
 	}
 
