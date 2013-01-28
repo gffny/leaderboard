@@ -22,8 +22,14 @@ import com.gffny.leaderboard.model.IScorecard;
  */
 public class ScorecardDAO extends AbstractMySQLDAO implements IScorecardDAO {
 
+	/**
+	 * 
+	 */
 	private static Logger log = Logger.getLogger(ScorecardDAO.class);
 
+	/**
+	 * 
+	 */
 	private PreparedStatement stmnt;
 
 	/**
@@ -66,11 +72,11 @@ public class ScorecardDAO extends AbstractMySQLDAO implements IScorecardDAO {
 				 * res.getString("round_date") ));
 				 */
 			}
-		} catch (SQLException e) {
+		} catch (DAOException e) {
 			log.error(e.getMessage());
 			e.printStackTrace();
 			throw new ServiceException(e.getMessage());
-		} catch (DAOException e) {
+		} catch (SQLException e) {
 			log.error(e.getMessage());
 			e.printStackTrace();
 			throw new ServiceException(e.getMessage());
@@ -119,13 +125,13 @@ public class ScorecardDAO extends AbstractMySQLDAO implements IScorecardDAO {
 				 */
 				firstScorecard = false;
 			}
-		} catch (SQLException e) {
-			log.error(e.getMessage());
-			e.printStackTrace();
 		} catch (DAOException e) {
 			log.error(e.getMessage());
 			e.printStackTrace();
 			throw new ServiceException(e.getMessage());
+		} catch (SQLException e) {
+			log.error(e.getMessage());
+			e.printStackTrace();
 		}
 		return scorecardList;
 	}
@@ -171,13 +177,13 @@ public class ScorecardDAO extends AbstractMySQLDAO implements IScorecardDAO {
 				 */
 				scorecardCount++;
 			}
-		} catch (SQLException e) {
-			log.error(e.getMessage());
-			e.printStackTrace();
 		} catch (DAOException e) {
 			log.error(e.getMessage());
 			e.printStackTrace();
 			throw new ServiceException(e.getMessage());
+		} catch (SQLException e) {
+			log.error(e.getMessage());
+			e.printStackTrace();
 		}
 		return scorecardList;
 	}
@@ -192,12 +198,13 @@ public class ScorecardDAO extends AbstractMySQLDAO implements IScorecardDAO {
 		try {
 			stmnt = getConnection().prepareStatement("");
 
-		} catch (SQLException e) {
-			// TODO Handle SQL Exception submitScorecardForCompetitionRound
-			e.printStackTrace();
 		} catch (DAOException e) {
+			log.error(e.getMessage());
+			e.printStackTrace();
+			throw new ServiceException(e.getMessage());
+		} catch (SQLException e) {
+			log.error(e.getMessage());
 			e.printStackTrace();
 		}
-
 	}
 }

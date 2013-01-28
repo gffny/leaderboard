@@ -21,6 +21,7 @@ import com.gffny.leaderboard.model.ICompetitionType;
 import com.gffny.leaderboard.model.IGolfer;
 import com.gffny.leaderboard.model.impl.Competition;
 import com.gffny.leaderboard.model.impl.CompetitionRound;
+import com.gffny.leaderboard.model.impl.CompetitionType;
 import com.gffny.leaderboard.service.ICompetitionService;
 
 /**
@@ -29,29 +30,7 @@ import com.gffny.leaderboard.service.ICompetitionService;
  */
 public class MockCompetitionService implements ICompetitionService {
 
-	//
-	private static MockCompetitionService INSTANCE = null;
-
 	private Map<String, ICompetition> competitionCache = new HashMap<String, ICompetition>();
-
-	/**
-	 * singleton constructor
-	 */
-	private MockCompetitionService() {
-
-	}
-
-	/**
-	 * factory method
-	 * 
-	 * @return
-	 */
-	public static MockCompetitionService getInstance() {
-		if (INSTANCE == null) {
-			INSTANCE = new MockCompetitionService();
-		}
-		return INSTANCE;
-	}
 
 	/**
 	 * @see com.gffny.leaderboard.service.ICompetitionService#getCompetitionScheduler(int)
@@ -155,8 +134,11 @@ public class MockCompetitionService implements ICompetitionService {
 	public ICompetition createCompetition(String name,
 			String competitionScoringSystem, String competitionVisiblity,
 			int numberOfRounds) throws ServiceException {
-		ICompetition competition = new Competition(name,
-				competitionScoringSystem, competitionVisiblity, numberOfRounds);
+		ICompetition competition = new Competition(name, new CompetitionType(
+				"Stableford", "Stableford", "Stableford", true, true, false),
+				competitionVisiblity, numberOfRounds);
+
+		// TODO Use a service layer to cache objects - abstraction task
 		competitionCache.put(competition.getCompetitionIdAsString(),
 				competition);
 		return competition;
@@ -179,7 +161,7 @@ public class MockCompetitionService implements ICompetitionService {
 	 */
 	@Override
 	public ICompetitionRound createCompetitionRound(int roundNumber,
-			String roundName, Date roundDate, int groupSize, int courseId) {
+			String roundName, Date roundDate, int groupSize, String courseId) {
 		return new CompetitionRound(roundName, roundNumber, roundDate, courseId);
 	}
 }

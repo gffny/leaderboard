@@ -5,7 +5,7 @@
 		<title>Insert title here</title>
 	</head>
 	<body>
-		<form action=save method=post>
+		<form action=persist method=post>
 			<label>Competition Name: ${competition.competitionName}</label>
 			<input type=hidden name=competitionId value=${competition.competitionId} />
 			<br />
@@ -28,7 +28,7 @@
 				<br />
 				<select name=${competition.competitionId}.${roundNumber?string.computer}.rndCrs>
 				<#list courseList as course>
-					<option name=${competition.competitionId}.${roundNumber?string.computer}.rndCrs value=${course.courseId?string.computer}>${course.name}</option>
+					<option name=${competition.competitionId}.${roundNumber?string.computer}.rndCrs value=${course.courseId}>${course.name}</option>
 				</#list>
 				</select>
 			</#list>

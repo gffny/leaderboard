@@ -9,6 +9,8 @@ import java.util.List;
 import java.util.Map;
 
 import com.gffny.leaderboard.model.ICompetition;
+import com.gffny.leaderboard.model.ICompetitionType;
+import com.gffny.leaderboard.model.abst.SQLEntity;
 import com.gffny.leaderboard.util.CollectionUtils;
 import com.gffny.leaderboard.util.CompetitionFunction;
 
@@ -16,9 +18,9 @@ import com.gffny.leaderboard.util.CompetitionFunction;
  * @author John Gaffney (john@gffny.com) Aug 21, 2012
  * 
  */
-public class Competition extends Entity implements ICompetition {
+public class Competition extends SQLEntity implements ICompetition {
 
-	private String competitionScoringSystem;
+	private ICompetitionType competitionScoringSystem;
 	private String competitionVisibility;
 	private Map<Integer, ICompetition.ICompetitionRound> roundNumberMap;
 	private Map<Date, ICompetition.ICompetitionRound> roundDateMap;
@@ -31,10 +33,9 @@ public class Competition extends Entity implements ICompetition {
 	 * @param roundNumberMap
 	 */
 	public Competition(int competitionId, String name,
-			String competitionScoringSystem, String competitionVisibility,
-			int numberOfRounds) {
-		super(name);
-		this.setId(competitionId);
+			ICompetitionType competitionScoringSystem,
+			String competitionVisibility, int numberOfRounds) {
+		super(name, competitionId);
 		this.competitionScoringSystem = competitionScoringSystem;
 		this.competitionVisibility = competitionVisibility;
 		this.roundNumberMap = new HashMap<Integer, ICompetition.ICompetitionRound>(
@@ -50,9 +51,9 @@ public class Competition extends Entity implements ICompetition {
 	 * @param competitionScoringSystem
 	 * @param roundNumberMap
 	 */
-	public Competition(String name, String competitionScoringSystem,
+	public Competition(String name, ICompetitionType competitionScoringSystem,
 			String competitionVisibility, int numberOfRounds) {
-		super(name);
+		super(name, 0);
 		this.competitionScoringSystem = competitionScoringSystem;
 		this.competitionVisibility = competitionVisibility;
 		this.roundNumberMap = new HashMap<Integer, ICompetition.ICompetitionRound>(
@@ -92,7 +93,16 @@ public class Competition extends Entity implements ICompetition {
 	 * 
 	 * @see com.gffny.leaderboard.model.ICompetition#getCompetitionScoringSystem()
 	 */
-	public String getCompetitionScoringSystem() {
+	public String getCompetitionScoringSystemName() {
+		return competitionScoringSystem.getName();
+	}
+
+	/**
+	 * 
+	 * 
+	 * @see com.gffny.leaderboard.model.ICompetition#getCompetitionScoringSystem()
+	 */
+	public ICompetitionType getCompetitionScoringSystem() {
 		return competitionScoringSystem;
 	}
 

@@ -3,11 +3,13 @@
  */
 package test.gffny.leaderboard.service.mock;
 
+import java.util.Arrays;
 import java.util.List;
 
 import test.utilities.TestUtilities;
 
 import com.gffny.leaderboard.intralayer.ServiceException;
+import com.gffny.leaderboard.model.IGolfCourse;
 import com.gffny.leaderboard.model.IGolfer;
 import com.gffny.leaderboard.service.IUserService;
 
@@ -16,21 +18,6 @@ import com.gffny.leaderboard.service.IUserService;
  * 
  */
 public class MockUserService implements IUserService {
-
-	private static MockUserService INSTANCE = null;
-
-	/**
-	 * 
-	 */
-	private MockUserService() {
-	}
-
-	public static MockUserService getInstance() {
-		if (INSTANCE == null) {
-			INSTANCE = new MockUserService();
-		}
-		return INSTANCE;
-	}
 
 	/**
 	 * @see com.gffny.leaderboard.service.IUserService#getAllSocietyMembers(java.lang.String)
@@ -77,4 +64,22 @@ public class MockUserService implements IUserService {
 		return TestUtilities.getTestGolferByID(golferId);
 	}
 
+	/**
+	 * @see com.gffny.leaderboard.service.IUserService#getGolferHomeCity(java.lang.String)
+	 */
+	@Override
+	public String getGolferHomeCity(String userId) throws ServiceException {
+		// TODO Auto-generated method stub
+		return "Dublin";
+	}
+
+	/**
+	 * @see com.gffny.leaderboard.service.IUserService#getGolferFavouriteClub(java.lang.String)
+	 */
+	@Override
+	public List<IGolfCourse> getGolferFavouriteClub(String userId)
+			throws ServiceException {
+		// Get some list from the golfService!
+		return Arrays.asList(TestUtilities.getTestGolfCourse(18, 72));
+	}
 }

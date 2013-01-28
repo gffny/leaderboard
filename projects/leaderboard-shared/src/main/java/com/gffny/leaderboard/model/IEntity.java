@@ -17,7 +17,13 @@ public interface IEntity {
 
 	/**
 	 * 
+	 * @param name
+	 */
+	public void setName(String name);
+
+	/**
+	 * 
 	 * @return
 	 */
-	public int getId();
+	public Object getId();
 }

@@ -134,15 +134,16 @@ public class TestUtilities {
 				6, 12, 13 };
 		int[] holeDistance = { 323, 545, 450, 160, 411, 200, 350, 602, 320,
 				323, 545, 450, 160, 411, 200, 350, 602, 320 };
-		return new GolfCourse(10001, "Newton Commonwealth", par, "Newton, MA",
-				"Blue", holePar, holeIndex, holeDistance);
+		return new GolfCourse("10001", "Newton Commonwealth", par,
+				"Newton, MA", "Blue", holePar, holeIndex, holeDistance);
 	}
 
 	/**
 	 * @return
 	 */
 	public static ICompetition getTestCompetition() {
-		return new Competition("President's Day Cup 2012", "Stableford",
+		return new Competition("President's Day Cup 2012", new CompetitionType(
+				"Stableford", "Stableford", "Stableford", true, true, true),
 				"President's Day Cup 2012", 4);
 	}
 

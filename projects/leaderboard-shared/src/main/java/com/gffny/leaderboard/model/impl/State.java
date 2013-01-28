@@ -4,12 +4,13 @@
 package com.gffny.leaderboard.model.impl;
 
 import com.gffny.leaderboard.model.ICountry.IState;
+import com.gffny.leaderboard.model.abst.SQLEntity;
 
 /**
  * @author John Gaffney (john@gffny.com) Oct 3, 2012
  * 
  */
-public class State extends Entity implements IState {
+public class State extends SQLEntity implements IState {
 
 	private String name, code;
 
@@ -19,7 +20,7 @@ public class State extends Entity implements IState {
 	 * @param code
 	 */
 	public State(String name, String code) {
-		super(name);
+		super(name, 0);
 		this.code = code;
 	}
 
@@ -29,7 +30,7 @@ public class State extends Entity implements IState {
 	 * @param code
 	 */
 	public State(int stateId, String name, String code) {
-		super(name);
+		super(name, stateId);
 		this.setId(stateId);
 		this.code = code;
 	}

@@ -25,5 +25,17 @@ public interface IGolfCourseHole extends IEntity {
 	 * 
 	 * @return
 	 */
+	public String getIndexAsString();
+
+	/**
+	 * 
+	 * @return
+	 */
 	public int getTeeDistance();
+
+	/**
+	 * 
+	 * @return
+	 */
+	public String getTeeDistanceAsString();
 }

@@ -1,13 +1,15 @@
 package com.gffny.leaderboard.service.impl;
 
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import org.springframework.beans.factory.annotation.Autowired;
+
 import com.gffny.leaderboard.dao.IGolfCourseDAO;
 import com.gffny.leaderboard.dao.IScorecardDAO;
-import com.gffny.leaderboard.dao.factory.DAOFactory;
 import com.gffny.leaderboard.intralayer.DAOException;
 import com.gffny.leaderboard.intralayer.IServiceResult;
 import com.gffny.leaderboard.intralayer.ServiceException;
@@ -18,28 +20,17 @@ import com.gffny.leaderboard.service.IGolfService;
 
 public class GolfService implements IGolfService {
 
+	/**
+	 * 
+	 */
+	@Autowired
 	private IScorecardDAO scorecardDao;
+
+	/**
+	 * 
+	 */
+	@Autowired
 	private IGolfCourseDAO courseDao;
-	private static GolfService INSTANCE = null;
-
-	/**
-	 * 
-	 */
-	private GolfService() {
-		scorecardDao = DAOFactory.getInstance().getScorecardDAO();
-		courseDao = DAOFactory.getInstance().getGolfCourseDAO();
-	}
-
-	/**
-	 * 
-	 * @return
-	 */
-	public static GolfService getInstance() {
-		if (INSTANCE == null) {
-			INSTANCE = new GolfService();
-		}
-		return INSTANCE;
-	}
 
 	/**
 	 * 
@@ -53,9 +44,10 @@ public class GolfService implements IGolfService {
 	 * 
 	 * @param courseId
 	 */
-	public List<IGolfCourse> getGolfCourseById(String courseId) {
+	public List<IGolfCourse> getGolfCourseByIdAndTeeColour(String courseId,
+			String teeColour) {
 		try {
-			return courseDao.getCourseById(courseId);
+			return courseDao.getCourseByIdAndTeeColour(courseId, teeColour);
 		} catch (DAOException e) {
 			// TODO
 		}
@@ -165,5 +157,25 @@ public class GolfService implements IGolfService {
 						pair.getKey(), pair.getValue());
 			}
 		}
+	}
+
+	/**
+	 * @see com.gffny.leaderboard.service.IGolfCourseService#getGolfCourseById(java.lang.String)
+	 */
+	@Override
+	public List<IGolfCourse> getGolfCourseById(String courseId)
+			throws ServiceException {
+		// TODO Auto-generated method stub
+		return new ArrayList<IGolfCourse>();
+	}
+
+	/**
+	 * @see com.gffny.leaderboard.service.IGolfCourseService#getGolfCourseByCity(java.lang.String)
+	 */
+	@Override
+	public List<IGolfCourse> getGolfCourseByCity(String city)
+			throws ServiceException {
+		// TODO Auto-generated method stub
+		return new ArrayList<IGolfCourse>();
 	}
 }

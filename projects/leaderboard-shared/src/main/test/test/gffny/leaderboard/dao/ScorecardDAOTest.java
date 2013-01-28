@@ -8,8 +8,9 @@ import static org.junit.Assert.fail;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import org.springframework.beans.factory.annotation.Autowired;
 
-import com.gffny.leaderboard.dao.factory.DAOFactory;
+import com.gffny.leaderboard.dao.IScorecardDAO;
 import com.gffny.leaderboard.intralayer.ServiceException;
 
 /**
@@ -17,6 +18,9 @@ import com.gffny.leaderboard.intralayer.ServiceException;
  * 
  */
 public class ScorecardDAOTest {
+
+	@Autowired
+	private IScorecardDAO scorecardDao;
 
 	/**
 	 * @throws java.lang.Exception
@@ -40,8 +44,7 @@ public class ScorecardDAOTest {
 	@Test
 	public final void testGetScorecardListForUser() {
 		try {
-			DAOFactory.getInstance().getScorecardDAO()
-					.getScorecardListForUser("1");
+			scorecardDao.getScorecardListForUser("1");
 		} catch (ServiceException e) {
 			e.printStackTrace();
 			fail();
@@ -56,8 +59,8 @@ public class ScorecardDAOTest {
 	@Test
 	public final void testGetLatestScorecardForUser() {
 		try {
-			System.out.println(DAOFactory.getInstance().getScorecardDAO()
-					.getScorecardListForUser("1").toString());
+			System.out.println(scorecardDao.getScorecardListForUser("1")
+					.toString());
 		} catch (ServiceException e) {
 			e.printStackTrace();
 			fail();
@@ -72,8 +75,8 @@ public class ScorecardDAOTest {
 	@Test
 	public final void testGetLastXScorecardListForUser() {
 		try {
-			System.out.println(DAOFactory.getInstance().getScorecardDAO()
-					.getScorecardListForUser("1").toString());
+			System.out.println(scorecardDao.getScorecardListForUser("1")
+					.toString());
 		} catch (ServiceException e) {
 			e.printStackTrace();
 			fail();

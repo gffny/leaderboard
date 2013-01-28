@@ -11,9 +11,9 @@ import org.apache.log4j.Logger;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import com.gffny.leaderboard.dao.IUserDAO;
-import com.gffny.leaderboard.dao.factory.DAOFactory;
 import com.gffny.leaderboard.intralayer.DAOException;
 import com.gffny.leaderboard.intralayer.DAOResult;
 import com.gffny.leaderboard.model.IGolfer;
@@ -24,16 +24,17 @@ import com.gffny.leaderboard.model.IGolfer;
  */
 public class UserDAOTest {
 
-	private static Logger log = Logger.getLogger(UserDAOTest.class);
+	@Autowired
+	private IUserDAO userDao;
 
-	private IUserDAO userDao = null;
+	private static Logger log = Logger.getLogger(UserDAOTest.class);
 
 	/**
 	 * @throws java.lang.Exception
 	 */
 	@Before
 	public void setUp() throws Exception {
-		userDao = DAOFactory.getInstance().getUserDAO();
+
 	}
 
 	/**

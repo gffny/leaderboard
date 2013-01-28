@@ -104,5 +104,5 @@ public interface ICompetitionService {
 	 * @return
 	 */
 	public ICompetitionRound createCompetitionRound(int roundNumber,
-			String roundName, Date roundDate, int groupSize, int courseId);
+			String roundName, Date roundDate, int groupSize, String courseId);
 }

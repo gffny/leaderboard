@@ -15,17 +15,18 @@ import com.gffny.leaderboard.model.ICompetition;
 import com.gffny.leaderboard.model.ICompetition.ICompetitionRound;
 import com.gffny.leaderboard.model.ICompetition.IGolfGroup;
 import com.gffny.leaderboard.model.ICompetitionType;
+import com.gffny.leaderboard.model.abst.SQLEntity;
 import com.gffny.leaderboard.util.TimeFunction;
 
 /**
  * @author John Gaffney (john@gffny.com) Sep 26, 2012
  * 
  */
-public class CompetitionRound extends Entity implements
+public class CompetitionRound extends SQLEntity implements
 		ICompetition.ICompetitionRound {
 
 	private int competitionId;
-	private int courseId;
+	private String courseId;
 	private int number;
 	private int holeListLength;
 	private Date date;
@@ -42,9 +43,9 @@ public class CompetitionRound extends Entity implements
 	 * @param teeTimeMap
 	 */
 	public CompetitionRound(final String name, int roundNumber,
-			final Date date, int courseId, final List<IGolfGroup> groupList,
+			final Date date, String courseId, final List<IGolfGroup> groupList,
 			final Map<IGolfGroup, Date> teeTimeMap) {
-		super(name);
+		super(name, 0);
 		this.date = date;
 		this.number = roundNumber;
 		this.courseId = courseId;
@@ -61,8 +62,8 @@ public class CompetitionRound extends Entity implements
 	 * @param teeTimeMap
 	 */
 	public CompetitionRound(final String name, int roundNumber,
-			final Date date, int courseId) {
-		super(name);
+			final Date date, String courseId) {
+		super(name, 0);
 		this.date = date;
 		this.number = roundNumber;
 		this.courseId = courseId;
@@ -79,10 +80,9 @@ public class CompetitionRound extends Entity implements
 	 * @param teeTimeMap
 	 */
 	public CompetitionRound(int roundId, final String name, int roundNumber,
-			int courseId, final Date date, final List<IGolfGroup> groupList,
+			String courseId, final Date date, final List<IGolfGroup> groupList,
 			final Map<IGolfGroup, Date> teeTimeMap) {
-		super(name);
-		this.setId(roundId);
+		super(name, roundId);
 		this.date = date;
 		this.number = roundNumber;
 		this.courseId = courseId;
@@ -158,7 +158,7 @@ public class CompetitionRound extends Entity implements
 	 * @see com.gffny.leaderboard.model.ICompetition.ICompetitionRound#getCourseId()
 	 */
 	@Override
-	public int getCourseId() {
+	public String getCourseId() {
 		return courseId;
 	}
 
@@ -299,9 +299,6 @@ public class CompetitionRound extends Entity implements
 		ICompetitionRound clone = new CompetitionRound(this.getRoundId(),
 				this.getRoundName(), this.getRoundNumber(), this.getCourseId(),
 				this.getRoundDate(), this.getGroupList(), this.getTeeTimeMap());
-		// new CompetitionRound(this.getRoundId(),
-		// this.getName(), this.number, this.date, this.courseId,
-		// this.groupList, this.teeTimeMap);
 		return clone;
 	}
 

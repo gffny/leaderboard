@@ -14,22 +14,47 @@ import org.apache.log4j.Logger;
  */
 public class Cache {
 
-	private static Logger logger = Logger.getLogger(Cache.class);
+	/**
+	 * 
+	 */
+	@SuppressWarnings("unused")
+	private static Logger log = Logger.getLogger(Cache.class);
 
+	/**
+	 * 
+	 */
 	protected String name;
 
+	/**
+	 * 
+	 */
 	final private Map<String, Object> cache;
 
+	/**
+	 * 
+	 */
 	final Object NULL_OBJECT = new Object();
 
+	/**
+	 * 
+	 */
 	public Cache() {
 		this(new HashMap<String, Object>());
 	}
 
+	/**
+	 * 
+	 * @param cacheImpl
+	 */
 	protected Cache(Map<String, Object> cacheImpl) {
 		this.cache = cacheImpl;
 	}
 
+	/**
+	 * 
+	 * @param fetcher
+	 * @return
+	 */
 	@SuppressWarnings("unchecked")
 	public <T> T get(CacheFetcher<T> fetcher) {
 		if (!getCache().containsKey(fetcher.getKey())) {
@@ -50,28 +75,53 @@ public class Cache {
 		return (T) value;
 	}
 
+	/**
+	 * 
+	 */
 	public void clear() {
 		cache.clear();
 	}
 
+	/**
+	 * 
+	 * @return
+	 */
 	public int size() {
 		return cache.size();
 	}
 
+	/**
+	 * 
+	 * 
+	 * @return
+	 */
 	protected Map<String, Object> getCache() {
 		return cache;
 	}
 
+	/**
+	 * 
+	 * @param key
+	 * @param o
+	 */
 	public void put(String key, Object o) {
 		if (key != null) {
 			cache.put(key, o);
 		}
 	}
 
+	/**
+	 * 
+	 * @param key
+	 */
 	public void remove(String key) {
 		cache.remove(key);
 	}
 
+	/**
+	 * 
+	 * @return
+	 */
 	public String getName() {
 		return name;
 	}

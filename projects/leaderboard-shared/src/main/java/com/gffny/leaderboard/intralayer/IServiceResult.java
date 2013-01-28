@@ -7,6 +7,9 @@ package com.gffny.leaderboard.intralayer;
  */
 public interface IServiceResult {
 
+	public static int SAVE_COMPETITION_SUCCESS = 1001;
+	public static int SAVE_COMPETITION_FAIL = 1002;
+
 	/**
 	 * 
 	 * @return

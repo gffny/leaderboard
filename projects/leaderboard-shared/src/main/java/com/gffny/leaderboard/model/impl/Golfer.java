@@ -4,12 +4,13 @@
 package com.gffny.leaderboard.model.impl;
 
 import com.gffny.leaderboard.model.IGolfer;
+import com.gffny.leaderboard.model.abst.SQLEntity;
 
 /**
  * @author
  * 
  */
-public class Golfer extends Entity implements IGolfer {
+public class Golfer extends SQLEntity implements IGolfer {
 
 	private int societyId;
 	private String profileHandle;
@@ -45,8 +46,7 @@ public class Golfer extends Entity implements IGolfer {
 	public Golfer(int userId, int societyId, String profileHandle,
 			String emailAddress, String firstName, String lastName,
 			String location, String handicap) {
-		super(profileHandle);
-		this.setId(userId);
+		super(profileHandle, userId);
 		this.societyId = societyId;
 		this.profileHandle = profileHandle;
 		this.emailAddress = emailAddress;
@@ -64,8 +64,7 @@ public class Golfer extends Entity implements IGolfer {
 	 */
 	public Golfer(int userId, String firstName, String lastName,
 			String profileHandle) {
-		super(profileHandle);
-		this.setId(userId);
+		super(profileHandle, userId);
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.profileHandle = profileHandle;

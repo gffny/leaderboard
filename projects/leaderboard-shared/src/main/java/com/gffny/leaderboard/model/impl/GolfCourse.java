@@ -3,17 +3,19 @@
  */
 package com.gffny.leaderboard.model.impl;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
 import com.gffny.leaderboard.model.IGolfCourse;
 import com.gffny.leaderboard.model.IGolfCourseHole;
+import com.gffny.leaderboard.model.abst.NoSQLEntity;
 
 /**
  * @author John Gaffney (john@gffny.com) Jul 31, 2012
  * 
  */
-public class GolfCourse extends Entity implements IGolfCourse {
+public class GolfCourse extends NoSQLEntity implements IGolfCourse {
 
 	private String location;
 	private String teeColour;
@@ -24,60 +26,61 @@ public class GolfCourse extends Entity implements IGolfCourse {
 	private List<IGolfCourseHole> holeList;
 
 	/**
+	 * 
 	 * @param name
 	 * @param par
 	 * @param location
-	 * @param holePar
-	 * @param holeIndex
-	 * @param teeDistance
-	 * @param blueTeeDistance
-	 * @param whiteTeeDistance
-	 * @param greenTeeDistance
-	 * @param redTeeDistance
+	 * @param teeColour
+	 * @param holeParArray
+	 * @param holeIndexArray
+	 * @param teeDistanceArray
 	 */
 	public GolfCourse(String name, int par, String location, String teeColour,
-			int[] holePar, int[] holeIndex, int[] teeDistance) {
+			int[] holeParArray, int[] holeIndexArray, int[] teeDistanceArray) {
 		super(name);
 		this.par = par;
 		this.location = location;
 		this.teeColour = teeColour;
-		this.holePar = holePar;
-		this.holeIndex = holeIndex;
-		this.teeDistance = teeDistance;
-		for (int i = 0; i < holePar.length; i++) {
-			this.holeList
-					.add(new Hole(holePar[i], holeIndex[i], teeDistance[i]));
-		}
+		this.holePar = holeParArray;
+		this.holeIndex = holeIndexArray;
+		this.teeDistance = teeDistanceArray;
+		this.holeList = populateHoleList(holeParArray, holeIndexArray,
+				teeDistanceArray);
 	}
 
 	/**
+	 * 
+	 * @param id
 	 * @param name
 	 * @param par
 	 * @param location
-	 * @param holePar
-	 * @param holeIndex
-	 * @param teeDistance
-	 * @param blueTeeDistance
-	 * @param whiteTeeDistance
-	 * @param greenTeeDistance
-	 * @param redTeeDistance
+	 * @param teeColour
+	 * @param holeParArray
+	 * @param holeIndexArray
+	 * @param teeDistanceArray
 	 */
-	public GolfCourse(int id, String name, int par, String location,
-			String teeColour, int[] holePar, int[] holeIndex, int[] teeDistance) {
+	public GolfCourse(String id, String name, int par, String location,
+			String teeColour, int[] holeParArray, int[] holeIndexArray,
+			int[] teeDistanceArray) {
 		super(name);
 		this.setId(id);
 		this.par = par;
 		this.location = location;
 		this.teeColour = teeColour;
-		this.holePar = holePar;
-		this.holeIndex = holeIndex;
-		this.teeDistance = teeDistance;
+		this.holePar = holeParArray;
+		this.holeIndex = holeIndexArray;
+		this.teeDistance = teeDistanceArray;
+		this.holeList = populateHoleList(holeParArray, holeIndexArray,
+				teeDistanceArray);
 	}
 
-	@Override
-	public int getCourseId() {
+	/**
+	 * 
+	 * @return
+	 */
+	public String getCourseId() {
 		return this.getId();
-	};
+	}
 
 	/**
 	 * 
@@ -147,6 +150,14 @@ public class GolfCourse extends Entity implements IGolfCourse {
 	}
 
 	/**
+	 * 
+	 * @see com.gffny.leaderboard.model.IGolfCourse#getHoleList()
+	 */
+	public List<IGolfCourseHole> getHoleList() {
+		return holeList;
+	}
+
+	/**
 	 * @see java.lang.Object#toString()
 	 */
 	@Override
@@ -160,12 +171,27 @@ public class GolfCourse extends Entity implements IGolfCourse {
 						Math.min(holeIndex.length, maxLen))) : null) + "]";
 	}
 
+	/**
+	 * @param holeParArray
+	 * @param holeIndexArray
+	 * @param teeDistanceArray
+	 */
+	private List<IGolfCourseHole> populateHoleList(int[] holeParArray,
+			int[] holeIndexArray, int[] teeDistanceArray) {
+		List<IGolfCourseHole> holeList = new ArrayList<IGolfCourseHole>();
+		for (int i = 0; i < holeParArray.length; i++) {
+			holeList.add(new Hole("Hole " + (i + 1), holeParArray[i],
+					holeIndexArray[i], teeDistanceArray[i]));
+		}
+		return holeList;
+	}
+
 	// HOLE CLASS
 	/**
 	 * @author John Gaffney (john@gffny.com) Jul 31, 2012
 	 * 
 	 */
-	private class Hole extends Entity implements IGolfCourseHole {
+	private class Hole extends NoSQLEntity implements IGolfCourseHole {
 
 		/**
 		 * @return the par
@@ -181,11 +207,23 @@ public class GolfCourse extends Entity implements IGolfCourse {
 			return index;
 		}
 
+		public String getIndexAsString() {
+			return Integer.toString(getIndex());
+		}
+
 		/**
 		 * @return the goldTeeDistance
 		 */
 		public int getTeeDistance() {
 			return teeDistance;
+		}
+
+		/**
+		 * 
+		 * @see com.gffny.leaderboard.model.IGolfCourseHole#getTeeDistanceAsString()
+		 */
+		public String getTeeDistanceAsString() {
+			return Integer.toString(getTeeDistance());
 		}
 
 		/**
@@ -226,14 +264,5 @@ public class GolfCourse extends Entity implements IGolfCourse {
 		private int par;
 		private int index;
 		private int teeDistance;
-	}
-
-	/**
-	 * @see com.gffny.leaderboard.model.IGolfCourse#getHoleList()
-	 */
-	@Override
-	public List<IGolfCourseHole> getHoleList() {
-		// TODO Auto-generated method stub
-		return null;
 	}
 }

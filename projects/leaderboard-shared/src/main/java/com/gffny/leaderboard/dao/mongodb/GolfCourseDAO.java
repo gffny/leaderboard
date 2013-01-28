@@ -3,68 +3,135 @@
  */
 package com.gffny.leaderboard.dao.mongodb;
 
+import java.util.Arrays;
 import java.util.List;
 
 import org.apache.log4j.Logger;
+import org.bson.types.ObjectId;
 
 import com.gffny.leaderboard.dao.IGolfCourseDAO;
+import com.gffny.leaderboard.dao.mongodb.dbo.ClubDBO;
+import com.gffny.leaderboard.dao.mongodb.dbo.CourseDBO;
 import com.gffny.leaderboard.intralayer.DAOException;
 import com.gffny.leaderboard.model.IGolfCourse;
+import com.mongodb.BasicDBObject;
 import com.mongodb.DBCollection;
-import com.mongodb.DBCursor;
-import com.mongodb.DBObject;
 
 /**
- * @author John Gaffney (john@gffny.com)
- * Aug 14, 2012
- *
+ * @author John Gaffney (john@gffny.com) Aug 14, 2012
+ * 
  */
 public class GolfCourseDAO extends AbstractMongoDAO implements IGolfCourseDAO {
 
+	/**
+	 * 
+	 */
 	private static Logger log = Logger.getLogger(GolfCourseDAO.class);
 
 	/**
-	 * @see com.gffny.leaderboard.dao.IGolfCourseDAO#getCourseById(java.lang.String)
+	 * 
 	 */
-	public List<IGolfCourse> getCourseById(String courseId) throws DAOException {
-		// TODO Auto-generated method stub
-		log.error("courseId: "+courseId);
-		System.out.println("courseId: "+courseId);
-		DBCollection user = getCollection("user");
-		System.out.println(user.count());
-		DBCursor cursor = user.find();
-		while(cursor.hasNext()) {
-			DBObject dbo = cursor.next();
-			System.out.println((String)dbo.get("name"));
+	private DBCollection clubCollection = null;
+
+	/**
+	 * 
+	 */
+	private DBCollection courseCollection = null;
+
+	/**
+	 * 
+	 */
+	private static GolfCourseDAO INSTANCE = null;
+
+	/**
+	 * 
+	 * @return
+	 */
+	public static GolfCourseDAO getInstance() {
+		if (INSTANCE == null) {
+			INSTANCE = new GolfCourseDAO();
 		}
-		return null;
+		return INSTANCE;
 	}
 
 	/**
-	 * @see com.gffny.leaderboard.dao.IGolfCourseDAO#getCourseNameListByClub(java.lang.String)
+	 * 
 	 */
-	public List<String> getCourseNameListByClub(String clubName)
+	private GolfCourseDAO() {
+		super();
+		clubCollection = getCollection(GOLF_CLUB_COLLECTION);
+		courseCollection = getCollection(COURSE_COLLECTION);
+	}
+
+	/**
+	 * @see com.gffny.leaderboard.dao.IGolfCourseDAO#getCourseByIdAndTeeColour(java.lang.String)
+	 * 
+	 * @param courseId
+	 * @param teeColour
+	 * @return
+	 * @throws DAOException
+	 */
+	@Override
+	public List<IGolfCourse> getCourseByIdAndTeeColour(String courseId,
+			String teeColour) throws DAOException {
+		log.debug("courseId: " + courseId + ", teeColour: " + teeColour);
+		return Arrays.asList(getCourseDBO(courseId).getGolfCourse(teeColour));
+	}
+
+	/**
+	 * 
+	 * @param clubName
+	 * @return
+	 */
+	@Override
+	public List<String> getCourseNameListByClubName(String clubName)
 			throws DAOException {
-		// TODO Auto-generated method stub
-		return null;
+		log.debug("club name: " + clubName);
+		return getClubDBO(clubName).getCourseNameList();
 	}
 
 	/**
-	 * @see com.gffny.leaderboard.dao.IGolfCourseDAO#getCourseByClubAndCourseName(java.lang.String, java.lang.String)
+	 * 
+	 * @param clubName
+	 * @param courseName
+	 * @return
+	 * @throws DAOException
 	 */
-	public List<IGolfCourse> getCourseByClubAndCourseName(String clubName,
-			String courseName) throws DAOException {
-		// TODO Auto-generated method stub
-		return null;
+	@Override
+	public List<String> getTeeColourListByClubNameAndCourseName(
+			String clubName, String courseName) throws DAOException {
+		log.debug("club name: " + clubName + ", courseName: " + courseName);
+		return getClubDBO(clubName).getCourse(courseName).getTeeColourList();
 	}
 
 	/**
-	 * @see com.gffny.leaderboard.dao.IGolfCourseDAO#getGolfClubNameListByCountry(java.lang.String, java.lang.String)
+	 * 
+	 * @param courseId
+	 * @return
+	 * @throws DAOException
 	 */
-	public List<String> getGolfClubNameListByCountryAndState(String country, String state)
+	@Override
+	public List<String> getTeeColourListByCourseId(String courseId)
 			throws DAOException {
-		// TODO Auto-generated method stub
-		return null;
+		log.debug("courseId: " + courseId);
+		return getCourseDBO(courseId).getTeeColourList();
 	}
 
+	/**
+	 * @param clubName
+	 * @return
+	 */
+	private ClubDBO getClubDBO(String clubName) {
+		return new ClubDBO(clubCollection.findOne(new BasicDBObject("name",
+				clubName)));
+	}
+
+	/**
+	 * @param courseId
+	 * @return
+	 */
+	private CourseDBO getCourseDBO(String courseId) {
+		return new CourseDBO(courseCollection.findOne(new BasicDBObject("_id",
+				new ObjectId(courseId))));
+	}
 }

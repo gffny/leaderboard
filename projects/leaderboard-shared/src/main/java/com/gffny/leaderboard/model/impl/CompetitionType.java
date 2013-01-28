@@ -4,14 +4,14 @@
 package com.gffny.leaderboard.model.impl;
 
 import com.gffny.leaderboard.model.ICompetitionType;
+import com.gffny.leaderboard.model.abst.SQLEntity;
 
 /**
  * @author John Gaffney (john@gffny.com) Aug 21, 2012
  * 
  */
-public class CompetitionType extends Entity implements ICompetitionType {
+public class CompetitionType extends SQLEntity implements ICompetitionType {
 
-	private String name;
 	private String scheduler;
 	private String scorer;
 	private boolean isTeam;
@@ -28,7 +28,7 @@ public class CompetitionType extends Entity implements ICompetitionType {
 	 */
 	public CompetitionType(String name, String scheduler, String scorer,
 			boolean isTeam, boolean isPair, boolean isIndividual) {
-		super(name);
+		super(name, 0);
 		this.scheduler = scheduler;
 		this.scorer = scorer;
 		this.isTeam = isTeam;
@@ -46,8 +46,7 @@ public class CompetitionType extends Entity implements ICompetitionType {
 	 */
 	public CompetitionType(int id, String name, String scheduler,
 			String scorer, boolean isTeam, boolean isPair, boolean isIndividual) {
-		super(name);
-		this.setId(id);
+		super(name, id);
 		this.scheduler = scheduler;
 		this.scorer = scorer;
 		this.isTeam = isTeam;
@@ -100,9 +99,8 @@ public class CompetitionType extends Entity implements ICompetitionType {
 	 */
 	@Override
 	public String toString() {
-		return "CompetitionType [name=" + name + ", scheduler=" + scheduler
-				+ ", scorer=" + scorer + ", isTeam=" + isTeam + ", isPair="
-				+ isPair + ", isIndividual=" + isIndividual + "]";
+		return "CompetitionType [name=" + getName() + ", scheduler="
+				+ scheduler + ", scorer=" + scorer + ", isTeam=" + isTeam
+				+ ", isPair=" + isPair + ", isIndividual=" + isIndividual + "]";
 	}
-
 }

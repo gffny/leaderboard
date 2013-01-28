@@ -8,12 +8,13 @@ import java.util.List;
 
 import com.gffny.leaderboard.model.ICompetition.IGolfGroup;
 import com.gffny.leaderboard.model.IGolfer;
+import com.gffny.leaderboard.model.abst.SQLEntity;
 
 /**
  * @author John Gaffney (john@gffny.com) Sep 26, 2012
  * 
  */
-public class GolfGroup extends Entity implements IGolfGroup {
+public class GolfGroup extends SQLEntity implements IGolfGroup {
 
 	private int groupSize;
 	private List<IGolfer> groupList;
@@ -24,7 +25,7 @@ public class GolfGroup extends Entity implements IGolfGroup {
 	 * @param groupSize
 	 */
 	public GolfGroup(String groupName, int groupSize) {
-		super(groupName);
+		super(groupName, 0);
 		this.groupList = new ArrayList<IGolfer>(groupSize);
 		this.groupSize = groupSize;
 		switch (groupSize) {
@@ -48,7 +49,7 @@ public class GolfGroup extends Entity implements IGolfGroup {
 	 * @param groupSize
 	 */
 	public GolfGroup(int groupId, String groupName, int groupSize) {
-		super(groupName);
+		super(groupName, 0);
 		this.setId(groupId);
 		this.groupList = new ArrayList<IGolfer>(groupSize);
 		this.groupSize = groupSize;

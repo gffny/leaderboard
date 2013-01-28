@@ -16,6 +16,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
+import com.gffny.leaderboard.intralayer.ServiceException;
 import com.gffny.leaderboard.model.IGolfer;
 import com.gffny.leaderboard.portal.model.ui.RequestContext;
 import com.gffny.leaderboard.portal.model.ui.ServletData;
@@ -35,7 +36,7 @@ public class AuthenticationFilter extends OncePerRequestFilter {
 	private IUserService userService;
 
 	@Autowired
-	private IGolfService golfService;
+	private IGolfService golfCourseService;
 
 	@Autowired
 	private IAuthorisationService authorisationService;
@@ -57,7 +58,13 @@ public class AuthenticationFilter extends OncePerRequestFilter {
 
 		ServletData servletData = RequestContext.get().getServletData();
 
-		IGolfer user = initializeUser(servletData);
+		IGolfer user;
+		try {
+			user = initializeUser(servletData);
+		} catch (ServiceException e) {
+			// TODO Log error of getting user here!
+			user = null;
+		}
 
 		/*
 		 * if (user == null) { // initializeOrganizationByUrl();
@@ -98,7 +105,8 @@ public class AuthenticationFilter extends OncePerRequestFilter {
 		filterChain.doFilter(request, response);
 	}
 
-	protected IGolfer initializeUser(ServletData servletData) {
+	protected IGolfer initializeUser(ServletData servletData)
+			throws ServiceException {
 
 		printDebugInformation(servletData);
 		String username = servletData.getGolferName();
@@ -131,8 +139,8 @@ public class AuthenticationFilter extends OncePerRequestFilter {
 		// Add services to the request context
 		RequestContext.get().setUserService(userService);
 		RequestContext.get().setCompetitionService(competitionService);
-		RequestContext.get().setGolfCourseService(golfService);
-		RequestContext.get().setScorecardService(golfService);
+		RequestContext.get().setGolfCourseService(golfCourseService);
+		RequestContext.get().setScorecardService(golfCourseService);
 		RequestContext.get().setAuthorisationSerivce(authorisationService);
 	}
 

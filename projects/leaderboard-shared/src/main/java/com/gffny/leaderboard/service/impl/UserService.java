@@ -6,9 +6,12 @@ package com.gffny.leaderboard.service.impl;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.gffny.leaderboard.dao.factory.DAOFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+
+import com.gffny.leaderboard.dao.IUserDAO;
 import com.gffny.leaderboard.intralayer.DAOException;
 import com.gffny.leaderboard.intralayer.ServiceException;
+import com.gffny.leaderboard.model.IGolfCourse;
 import com.gffny.leaderboard.model.IGolfer;
 import com.gffny.leaderboard.service.IUserService;
 
@@ -17,6 +20,9 @@ import com.gffny.leaderboard.service.IUserService;
  * 
  */
 public class UserService implements IUserService {
+
+	@Autowired
+	private IUserDAO userDao;
 
 	/**
 	 * 
@@ -49,8 +55,7 @@ public class UserService implements IUserService {
 
 		// handle shtuff here!
 		try {
-			return DAOFactory.getInstance().getUserDAO()
-					.getAllSocietyMembersListBySocietyId(societyId);
+			return userDao.getAllSocietyMembersListBySocietyId(societyId);
 		} catch (DAOException e) {
 			// TODO handle exception
 		}
@@ -65,8 +70,7 @@ public class UserService implements IUserService {
 			throws ServiceException {
 		// handle shtuff here!
 		try {
-			return DAOFactory.getInstance().getUserDAO()
-					.getGolferBySocietyMemberId(societyMemberId);
+			return userDao.getGolferBySocietyMemberId(societyMemberId);
 		} catch (DAOException e) {
 			throw new ServiceException(e.getMessage());
 		}
@@ -98,5 +102,24 @@ public class UserService implements IUserService {
 	public IGolfer getGolferById(String golferId) {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	/**
+	 * @see com.gffny.leaderboard.service.IUserService#getGolferHomeCity(java.lang.String)
+	 */
+	@Override
+	public String getGolferHomeCity(String userId) throws ServiceException {
+		// TODO Auto-generated method stub
+		return "";
+	}
+
+	/**
+	 * @see com.gffny.leaderboard.service.IUserService#getGolferFavouriteClub(java.lang.String)
+	 */
+	@Override
+	public List<IGolfCourse> getGolferFavouriteClub(String userId)
+			throws ServiceException {
+		// TODO Auto-generated method stub
+		return new ArrayList<IGolfCourse>();
 	}
 }

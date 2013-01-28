@@ -38,4 +38,11 @@ public interface IGolfCourseService {
 	 */
 	public List<ICountry> getSupportedCountryList() throws ServiceException;
 
+	/**
+	 * @param city
+	 * @return
+	 */
+	public List<IGolfCourse> getGolfCourseByCity(String city)
+			throws ServiceException;
+
 }

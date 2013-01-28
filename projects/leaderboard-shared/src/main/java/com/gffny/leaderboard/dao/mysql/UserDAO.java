@@ -19,37 +19,34 @@ import com.gffny.leaderboard.model.impl.Golfer;
 import com.mysql.jdbc.exceptions.MySQLIntegrityConstraintViolationException;
 
 /**
- * @author 
- *
+ * @author
+ * 
  */
 public class UserDAO extends AbstractMySQLDAO implements IUserDAO {
-	
-	private static Logger log = Logger.getLogger(UserDAO.class);
 
-	private PreparedStatement stmnt;
+	private static Logger log = Logger.getLogger(UserDAO.class);
 
 	/**
 	 * 
 	 */
 	public List<IGolfer> getAllGolfersList() throws DAOException {
-		List<IGolfer> golferList = new ArrayList<IGolfer>(); 
+		List<IGolfer> golferList = new ArrayList<IGolfer>();
 		try {
-			//create statement to select all the golfer and society information from the database
-			stmnt = getConnection().prepareStatement("SELECT * FROM t_user u INNER JOIN t_society_membership sm ON u.user_id = sm.user_id");
+			// create statement to select all the golfer and society information
+			// from the database
+			PreparedStatement stmnt = getConnection()
+					.prepareStatement(
+							"SELECT * FROM t_user u INNER JOIN t_society_membership sm ON u.user_id = sm.user_id");
 			ResultSet res = stmnt.executeQuery();
-			//traverse the results creating a List of <IGolfer> to return
-			while(res.next()) {
-				golferList.add(
-						new Golfer(res.getInt("USER_ID"), 
-								res.getInt("GOLF_SOCIETY_ID"), 
-								res.getString("PROFILE_HANDLE"), 
-								res.getString("EMAIL_ADDRESS"), 
-								res.getString("FIRST_NAME"), 
-								res.getString("SURNAME"),
-								res.getString("LOCATION"),
-								res.getString("HANDICAP") 
-								));
-					
+			// traverse the results creating a List of <IGolfer> to return
+			while (res.next()) {
+				golferList.add(new Golfer(res.getInt("USER_ID"), res
+						.getInt("GOLF_SOCIETY_ID"), res
+						.getString("PROFILE_HANDLE"), res
+						.getString("EMAIL_ADDRESS"), res
+						.getString("FIRST_NAME"), res.getString("SURNAME"), res
+						.getString("LOCATION"), res.getString("HANDICAP")));
+
 			}
 		} catch (SQLException sqlEx) {
 			log.error(sqlEx.getMessage());
@@ -61,24 +58,25 @@ public class UserDAO extends AbstractMySQLDAO implements IUserDAO {
 	/**
 	 *
 	 */
-	public List<IGolfer> getAllSocietyMembersListBySocietyId(String societyId) throws DAOException {
-		List<IGolfer> golferList = new ArrayList<IGolfer>(); 
+	public List<IGolfer> getAllSocietyMembersListBySocietyId(String societyId)
+			throws DAOException {
+		List<IGolfer> golferList = new ArrayList<IGolfer>();
 		try {
-			//create statement to select golfer and society information from the database for golfers with a society id of societyId 
-			stmnt = getConnection().prepareStatement("SELECT * FROM t_user u INNER JOIN t_society_membership sm ON u.user_id = sm.user_id WHERE sm.golf_society_id = ?");
+			// create statement to select golfer and society information from
+			// the database for golfers with a society id of societyId
+			PreparedStatement stmnt = getConnection()
+					.prepareStatement(
+							"SELECT * FROM t_user u INNER JOIN t_society_membership sm ON u.user_id = sm.user_id WHERE sm.golf_society_id = ?");
 			stmnt.setString(1, societyId);
 			ResultSet res = stmnt.executeQuery();
-			//traverse the results creating a List of <IGolfer> to return
-			while(res.next()) {
-				golferList.add(new Golfer(res.getInt("USER_ID"), 
-						res.getInt("GOLF_SOCIETY_ID"), 
-						res.getString("PROFILE_HANDLE"), 
-						res.getString("EMAIL_ADDRESS"), 
-						res.getString("FIRST_NAME"), 
-						res.getString("SURNAME"),
-						res.getString("LOCATION"),
-						res.getString("HANDICAP") 
-						));
+			// traverse the results creating a List of <IGolfer> to return
+			while (res.next()) {
+				golferList.add(new Golfer(res.getInt("USER_ID"), res
+						.getInt("GOLF_SOCIETY_ID"), res
+						.getString("PROFILE_HANDLE"), res
+						.getString("EMAIL_ADDRESS"), res
+						.getString("FIRST_NAME"), res.getString("SURNAME"), res
+						.getString("LOCATION"), res.getString("HANDICAP")));
 			}
 		} catch (SQLException sqlEx) {
 			throw new DAOException(sqlEx.getMessage());
@@ -89,23 +87,24 @@ public class UserDAO extends AbstractMySQLDAO implements IUserDAO {
 	/**
 	 * 
 	 */
-	public IGolfer getGolferBySocietyMemberId(String societyMemberId) throws DAOException {
+	public IGolfer getGolferBySocietyMemberId(String societyMemberId)
+			throws DAOException {
 		try {
-			//create statement to select golfer and society information from the database for the with a society member id of societyMemberId 
-			stmnt = getConnection().prepareStatement("SELECT * FROM t_user u INNER JOIN t_society_membership sm ON u.user_id = sm.user_id WHERE sm.society_member_id = ?");
+			// create statement to select golfer and society information from
+			// the database for the with a society member id of societyMemberId
+			PreparedStatement stmnt = getConnection()
+					.prepareStatement(
+							"SELECT * FROM t_user u INNER JOIN t_society_membership sm ON u.user_id = sm.user_id WHERE sm.society_member_id = ?");
 			stmnt.setString(1, societyMemberId);
 			ResultSet res = stmnt.executeQuery();
-			//traverse the results creating a List of <IGolfer> to return
-			if(res.next()) {
-				return new Golfer(res.getInt("USER_ID"), 
-						res.getInt("GOLF_SOCIETY_ID"), 
-						res.getString("PROFILE_HANDLE"), 
-						res.getString("EMAIL_ADDRESS"), 
-						res.getString("FIRST_NAME"), 
-						res.getString("SURNAME"),
-						res.getString("LOCATION"),
-						res.getString("HANDICAP") 
-						);
+			// traverse the results creating a List of <IGolfer> to return
+			if (res.next()) {
+				return new Golfer(res.getInt("USER_ID"),
+						res.getInt("GOLF_SOCIETY_ID"),
+						res.getString("PROFILE_HANDLE"),
+						res.getString("EMAIL_ADDRESS"),
+						res.getString("FIRST_NAME"), res.getString("SURNAME"),
+						res.getString("LOCATION"), res.getString("HANDICAP"));
 			}
 		} catch (SQLException sqlEx) {
 			throw new DAOException(sqlEx.getMessage());
@@ -116,21 +115,26 @@ public class UserDAO extends AbstractMySQLDAO implements IUserDAO {
 	/**
 	 * 
 	 */
-	public DAOResult addGolfer(String emailAddress, String profileHandle, String firstName, String lastName) throws DAOException {
-		//TODO validate email address, profile handle, etc
+	public DAOResult addGolfer(String emailAddress, String profileHandle,
+			String firstName, String lastName) throws DAOException {
+		// TODO validate email address, profile handle, etc
 		try {
-			//create statement to insert a new golfer into the database
-			stmnt = getConnection().prepareStatement("INSERT INTO t_user(email_address, profile_handle, first_name, surname) VALUES(?, ?, ?, ?);");
+			// create statement to insert a new golfer into the database
+			PreparedStatement stmnt = getConnection()
+					.prepareStatement(
+							"INSERT INTO t_user(email_address, profile_handle, first_name, surname) VALUES(?, ?, ?, ?);");
 			stmnt.setString(1, emailAddress);
 			stmnt.setString(2, profileHandle);
 			stmnt.setString(3, firstName);
 			stmnt.setString(4, lastName);
-			//return if the insert is successful or not (an exception should be thrown if it's not)
-			//TODO think what should be passed back here!
+			// return if the insert is successful or not (an exception should be
+			// thrown if it's not)
+			// TODO think what should be passed back here!
 			return new DAOResult(stmnt.execute());
 		} catch (MySQLIntegrityConstraintViolationException constraintEx) {
-			//TODO Handle the error appropriately
-			log.error("a constraint has been violated "+constraintEx.getMessage());
+			// TODO Handle the error appropriately
+			log.error("a constraint has been violated "
+					+ constraintEx.getMessage());
 			throw new DAOException(constraintEx.getMessage());
 		} catch (SQLException sqlEx) {
 			log.error(sqlEx.getMessage());
@@ -141,14 +145,18 @@ public class UserDAO extends AbstractMySQLDAO implements IUserDAO {
 	/**
 	 * 
 	 */
-	public boolean isRegisteredEmailAddress(String emailAddress) throws DAOException {
+	public boolean isRegisteredEmailAddress(String emailAddress)
+			throws DAOException {
 		try {
-			//create statement to select the golfer with a an email address corresponding to emailAddress
-			stmnt = getConnection().prepareStatement("SELECT * FROM t_user u WHERE email_address = ?");
+			// create statement to select the golfer with a an email address
+			// corresponding to emailAddress
+			PreparedStatement stmnt = getConnection().prepareStatement(
+					"SELECT * FROM t_user u WHERE email_address = ?");
 			stmnt.setString(1, emailAddress);
 			ResultSet res = stmnt.executeQuery();
-			//return true if there is a result (i.e. a golfer with a corresponding email)
-			if(res.next()) {
+			// return true if there is a result (i.e. a golfer with a
+			// corresponding email)
+			if (res.next()) {
 				return true;
 			}
 		} catch (SQLException sqlEx) {
@@ -160,14 +168,18 @@ public class UserDAO extends AbstractMySQLDAO implements IUserDAO {
 	/**
 	 * 
 	 */
-	public boolean isRegisteredProfileHandle(String profileHandle) throws DAOException {
+	public boolean isRegisteredProfileHandle(String profileHandle)
+			throws DAOException {
 		try {
-			//create statement to select the golfer with a an profile handle corresponding to profileHandle
-			stmnt = getConnection().prepareStatement("SELECT * FROM t_user u WHERE profile_handle = ?");
+			// create statement to select the golfer with a an profile handle
+			// corresponding to profileHandle
+			PreparedStatement stmnt = getConnection().prepareStatement(
+					"SELECT * FROM t_user u WHERE profile_handle = ?");
 			stmnt.setString(1, profileHandle);
 			ResultSet res = stmnt.executeQuery();
-			//return true if there is a result (i.e. a golfer with a corresponding email)
-			if(res.next()) {
+			// return true if there is a result (i.e. a golfer with a
+			// corresponding email)
+			if (res.next()) {
 				return true;
 			}
 		} catch (SQLException sqlEx) {

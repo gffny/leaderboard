@@ -3,6 +3,7 @@ package com.gffny.leaderboard.service;
 import java.util.List;
 
 import com.gffny.leaderboard.intralayer.ServiceException;
+import com.gffny.leaderboard.model.IGolfCourse;
 import com.gffny.leaderboard.model.IGolfer;
 
 public interface IUserService {
@@ -32,11 +33,22 @@ public interface IUserService {
 	public List<IGolfer> getSocietyMemberListAssociatedWithUser(
 			String societyMemberId) throws ServiceException;
 
-	public boolean isGolferActive(int userId);
+	public boolean isGolferActive(int userId) throws ServiceException;
 
 	/**
 	 * @param golferId
 	 * @return
 	 */
-	public IGolfer getGolferById(String golferId);
+	public IGolfer getGolferById(String golferId) throws ServiceException;
+
+	/**
+	 * @param userId
+	 */
+	public String getGolferHomeCity(String userId) throws ServiceException;
+
+	/**
+	 * @param userId
+	 */
+	public List<IGolfCourse> getGolferFavouriteClub(String userId)
+			throws ServiceException;
 }

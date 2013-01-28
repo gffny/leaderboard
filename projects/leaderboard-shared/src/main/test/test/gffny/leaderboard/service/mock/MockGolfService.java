@@ -20,27 +20,8 @@ import com.gffny.leaderboard.service.IGolfCourseService;
 import com.gffny.leaderboard.service.IScorecardService;
 
 public class MockGolfService implements IGolfCourseService, IScorecardService {
-	//
-	private static MockGolfService INSTANCE = null;
 
 	private static Logger log = Logger.getLogger(MockGolfService.class);
-
-	/**
-	 * 
-	 */
-	private MockGolfService() {
-	}
-
-	/**
-	 * 
-	 * @return
-	 */
-	public static MockGolfService getInstance() {
-		if (INSTANCE == null) {
-			INSTANCE = new MockGolfService();
-		}
-		return INSTANCE;
-	}
 
 	/**
 	 * 
@@ -120,5 +101,14 @@ public class MockGolfService implements IGolfCourseService, IScorecardService {
 						pair.getKey(), pair.getValue());
 			}
 		}
+	}
+
+	/**
+	 * @see com.gffny.leaderboard.service.IGolfCourseService#getGolfCourseByCity(java.lang.String)
+	 */
+	@Override
+	public List<IGolfCourse> getGolfCourseByCity(String city)
+			throws ServiceException {
+		return Arrays.asList(TestUtilities.getTestGolfCourse(18, 72));
 	}
 }

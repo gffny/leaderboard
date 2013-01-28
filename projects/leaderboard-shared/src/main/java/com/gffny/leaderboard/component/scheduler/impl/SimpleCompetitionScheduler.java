@@ -141,7 +141,7 @@ public class SimpleCompetitionScheduler implements ICompetitionScheduler,
 			}
 		}
 		ICompetitionRound competitionRound = new CompetitionRound(roundName,
-				roundNumber, roundDate, roundCourse.getCourseId(), groupList,
+				roundNumber, roundDate, roundCourse.getId(), groupList,
 				teeTimeMap);
 		competitionRound.setHoleListLength(18);
 		log.debug("Competition Round: " + competitionRound.toString());

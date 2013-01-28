@@ -7,43 +7,46 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
+
 import com.gffny.leaderboard.component.scheduler.ICompetitionScheduler;
+import com.gffny.leaderboard.dao.ICompetitionDAO;
+import com.gffny.leaderboard.intralayer.DAOException;
+import com.gffny.leaderboard.intralayer.DAOResult;
 import com.gffny.leaderboard.intralayer.IServiceResult;
 import com.gffny.leaderboard.intralayer.ServiceException;
+import com.gffny.leaderboard.intralayer.ServiceResult;
 import com.gffny.leaderboard.model.ICompetition;
 import com.gffny.leaderboard.model.ICompetition.ICompetitionRound;
 import com.gffny.leaderboard.model.ICompetitionType;
 import com.gffny.leaderboard.model.IGolfer;
+import com.gffny.leaderboard.model.impl.Competition;
+import com.gffny.leaderboard.service.AbstractService;
 import com.gffny.leaderboard.service.ICompetitionService;
 
 /**
  * @author John Gaffney (john@gffny.com) Dec 26, 2012
  * 
  */
-public class CompetitionService implements ICompetitionService {
+public class CompetitionService extends AbstractService implements
+		ICompetitionService {
 
 	/**
 	 * 
 	 */
-	private static CompetitionService INSTANCE = null;
+	public static Logger log = Logger.getLogger(CompetitionService.class);
 
-	/**
-	 * 
-	 */
-	private CompetitionService() {
+	@Autowired
+	private ICompetitionDAO competitionDao;
 
-	}
-
-	/**
-	 * 
-	 * @return
-	 */
-	public static CompetitionService getInstance() {
-		if (INSTANCE == null) {
-			INSTANCE = new CompetitionService();
-		}
-		return INSTANCE;
-	}
+	// WORK LIST
+	// TODO IMPLEMENT FOR create competition feature
+	// competitionService.getCompetitionScoringSystemList()
+	// competitionService.createCompetition(...)
+	// competitionService.getCompetition(...)
+	// competitionService.createCompetitionRound(...)
+	// competitionService.saveCompetition(...)
 
 	/**
 	 * @see com.gffny.leaderboard.service.ICompetitionService#getCompetitionScheduler(int)
@@ -61,8 +64,12 @@ public class CompetitionService implements ICompetitionService {
 	@Override
 	public ICompetition getCompetition(String competitionId)
 			throws ServiceException {
-		// TODO Auto-generated method stub
-		return null;
+		try {
+			return competitionDao.getCompetitionById(Integer
+					.parseInt(competitionId));
+		} catch (NumberFormatException nfe) {
+			return logErrorReturnEmptyClass(nfe, log, Competition.class);
+		}
 	}
 
 	/**
@@ -111,10 +118,7 @@ public class CompetitionService implements ICompetitionService {
 	@Override
 	public Map<String, String[]> scoreCompetition(String competitionId)
 			throws ServiceException {
-		ICompetition competition = getCompetition(competitionId);
-		for (ICompetitionRound competitionRound : competition
-				.getCompetitionRoundList()) {
-		}
+
 		return null;
 	}
 
@@ -126,8 +130,14 @@ public class CompetitionService implements ICompetitionService {
 	public ICompetition createCompetition(String competitionName,
 			String competitionScoringSystem, String competitionVisibility,
 			int numberOfRounds) throws ServiceException {
-		// TODO Auto-generated method stub
-		return null;
+		// get the competitionType based on the competitionTypeName
+		ICompetitionType competitionType = competitionDao
+				.getCompetitionTypeByName(competitionScoringSystem);
+		// create an unsaved instance of the competition to be passed to the dao
+		Competition newCompetition = new Competition(competitionName,
+				competitionType, competitionVisibility, numberOfRounds);
+		saveCompetition(newCompetition);
+		return newCompetition;
 	}
 
 	/**
@@ -136,8 +146,18 @@ public class CompetitionService implements ICompetitionService {
 	@Override
 	public IServiceResult saveCompetition(ICompetition competitionToSave)
 			throws ServiceException {
-		// TODO Auto-generated method stub
-		return null;
+		try {
+			// save the competition instance
+			DAOResult daoResult = competitionDao
+					.saveCompetition(competitionToSave);
+			competitionToSave.setId(daoResult.getIdAsInt());
+			// TODO Go through each of the round list and save the rounds
+			return new ServiceResult("",
+					IServiceResult.SAVE_COMPETITION_SUCCESS);
+		} catch (DAOException e) {
+			log.error(e.getMessage());
+			throw new ServiceException(e.getMessage());
+		}
 	}
 
 	/**
@@ -146,8 +166,11 @@ public class CompetitionService implements ICompetitionService {
 	@Override
 	public List<ICompetitionType> getCompetitionScoringSystemList()
 			throws ServiceException {
-		// TODO Auto-generated method stub
-		return null;
+		try {
+			return competitionDao.getCompetitionTypeList();
+		} catch (DAOException daoEx) {
+			return logErrorReturnEmptyList(daoEx, log, ICompetitionType.class);
+		}
 	}
 
 	/**
@@ -156,8 +179,7 @@ public class CompetitionService implements ICompetitionService {
 	 */
 	@Override
 	public ICompetitionRound createCompetitionRound(int roundNumber,
-			String roundName, Date roundDate, int groupSize, int courseId) {
-		// TODO Auto-generated method stub
+			String roundName, Date roundDate, int groupSize, String courseId) {
 		return null;
 	}
 }

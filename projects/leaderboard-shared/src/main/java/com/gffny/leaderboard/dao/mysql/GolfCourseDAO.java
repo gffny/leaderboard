@@ -9,7 +9,6 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.gffny.leaderboard.dao.IGolfCourseDAO;
 import com.gffny.leaderboard.intralayer.DAOException;
 import com.gffny.leaderboard.model.IGolfCourse;
 
@@ -17,7 +16,7 @@ import com.gffny.leaderboard.model.IGolfCourse;
  * @author John Gaffney (john@gffny.com) Jul 31, 2012
  * 
  */
-public class GolfCourseDAO extends AbstractMySQLDAO implements IGolfCourseDAO {
+public class GolfCourseDAO extends AbstractMySQLDAO {
 
 	private PreparedStatement stmnt = null;
 
@@ -94,21 +93,18 @@ public class GolfCourseDAO extends AbstractMySQLDAO implements IGolfCourseDAO {
 		return returnList;
 	}
 
-	@Override
 	public List<String> getCourseNameListByClub(String clubName)
 			throws DAOException {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
-	@Override
 	public List<IGolfCourse> getCourseByClubAndCourseName(String clubName,
 			String courseName) throws DAOException {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
-	@Override
 	public List<String> getGolfClubNameListByCountryAndState(String country,
 			String state) throws DAOException {
 		// TODO Auto-generated method stub

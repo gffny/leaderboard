@@ -18,9 +18,15 @@ import com.gffny.leaderboard.util.ApplicationConfiguration;
 @Component("unauthenticationFilter")
 public class UnauthenticationFilter extends AuthenticationFilter {
 
+	/**
+	 * 
+	 */
 	@Autowired
 	private UserService userService;
 
+	/**
+	 * 
+	 */
 	@Override
 	protected void doFilterInternal(HttpServletRequest request,
 			HttpServletResponse response, FilterChain filterChain)
@@ -32,6 +38,11 @@ public class UnauthenticationFilter extends AuthenticationFilter {
 		filterChain.doFilter(request, response);
 	}
 
+	/**
+	 * 
+	 * @return
+	 */
+	@SuppressWarnings("unused")
 	private boolean skipFilter() {
 		if (!ApplicationConfiguration.useMockEnvironment()) {
 			return false;

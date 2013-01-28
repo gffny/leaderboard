@@ -22,15 +22,25 @@ import com.gffny.leaderboard.util.PerfLogger.LogType;
 @Component("initializationFilter")
 public class InitializationFilter extends OncePerRequestFilter {
 
+	/**
+	 * 
+	 */
 	public static final long serialVersionUID = -1L;
 
+	/**
+	 * 
+	 */
 	private static Logger log = Logger.getLogger(InitializationFilter.class);
 
+	/**
+	 * 
+	 */
 	@Override
 	protected void doFilterInternal(HttpServletRequest request,
 			HttpServletResponse response, FilterChain filterChain)
 			throws ServletException, IOException {
 
+		log.debug("doFilter");
 		StopWatch monitor = new StopWatch();
 		monitor.start();
 
@@ -46,5 +56,4 @@ public class InitializationFilter extends OncePerRequestFilter {
 					monitor.getTotalTimeMillis());
 		}
 	}
-
 }

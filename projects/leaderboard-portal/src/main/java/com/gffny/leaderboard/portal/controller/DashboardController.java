@@ -12,13 +12,12 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
-
-import test.gffny.leaderboard.service.mock.MockServiceFactory;
 
 import com.gffny.leaderboard.component.scheduler.ICompetitionScheduler;
 import com.gffny.leaderboard.intralayer.ServiceException;
@@ -27,7 +26,6 @@ import com.gffny.leaderboard.model.IGolfer;
 import com.gffny.leaderboard.service.ICompetitionService;
 import com.gffny.leaderboard.service.IGolfCourseService;
 import com.gffny.leaderboard.service.IUserService;
-import com.gffny.leaderboard.service.impl.ServiceFactory;
 
 /**
  * @author John Gaffney (john@gffny.com) Aug 6, 2012
@@ -38,14 +36,14 @@ import com.gffny.leaderboard.service.impl.ServiceFactory;
 public class DashboardController extends AbstractController {
 
 	// Service Declaration
-	private IUserService mockUserService = MockServiceFactory.getInstance()
-			.getUserService();
-	private IGolfCourseService mockGolfService = MockServiceFactory
-			.getInstance().getGolfCourseService();
-	private ICompetitionService mockCompetitionService = MockServiceFactory
-			.getInstance().getCompetitionService();
-	private IUserService userService = ServiceFactory.getInstance()
-			.getUserService();
+	@Autowired
+	private IUserService userService;
+
+	@Autowired
+	private IGolfCourseService golfCourseService;
+
+	@Autowired
+	private ICompetitionService competitionService;
 
 	private static Logger log = Logger.getLogger(DashboardController.class);
 
@@ -112,7 +110,7 @@ public class DashboardController extends AbstractController {
 		ModelAndView model = new ModelAndView("dashboard/competition/detail");
 		try {
 			model.addObject("competition",
-					mockCompetitionService.getCompetition(String.valueOf(id)));
+					competitionService.getCompetition(String.valueOf(id)));
 		} catch (ServiceException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -134,9 +132,9 @@ public class DashboardController extends AbstractController {
 		try {
 			model = new ModelAndView("dashboard/competition/create");
 			model.addObject("golferList",
-					mockUserService.getAllSocietyMembers("MOCK"));
+					userService.getAllSocietyMembers("MOCK"));
 			model.addObject("countryList",
-					mockGolfService.getSupportedCountryList());
+					golfCourseService.getSupportedCountryList());
 			log.error("adding golfer list to the response");
 			System.out.println("adding golfer to the response");
 			return model;
@@ -154,9 +152,8 @@ public class DashboardController extends AbstractController {
 		log.info("getting list of potential competitors for ");
 		// get the users id
 		try {
-			return mockUserService
-					.getSocietyMemberListAssociatedWithUser(request
-							.getParameter("userId"));
+			return userService.getSocietyMemberListAssociatedWithUser(request
+					.getParameter("userId"));
 		} catch (ServiceException ex) {
 			log.error("service error in MobileScorecardController getCompetitionListForUser");
 		}
@@ -177,13 +174,13 @@ public class DashboardController extends AbstractController {
 		List<String> golferIdList = Arrays.asList(request
 				.getParameterValues("golferList"));
 		try {
-			IGolfCourse golfCourse = mockGolfService.getGolfCourseById(
+			IGolfCourse golfCourse = golfCourseService.getGolfCourseById(
 					request.getParameter("golfCourse")).get(0);
 			for (int i = 0; i < golferIdList.size(); i++) {
-				competitorList.add(mockUserService
+				competitorList.add(userService
 						.getGolferBySocietyMemberId(golferIdList.get(i)));
 			}
-			ICompetitionScheduler competitionScheduler = mockCompetitionService
+			ICompetitionScheduler competitionScheduler = competitionService
 					.getCompetitionScheduler(ICompetitionService.STROKEPLAY);
 
 			model = new ModelAndView("dashboard/competition/show");

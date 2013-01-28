@@ -15,16 +15,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
-import test.gffny.leaderboard.service.mock.MockServiceFactory;
-
 import com.gffny.leaderboard.intralayer.ServiceException;
 import com.gffny.leaderboard.model.ICompetition;
 import com.gffny.leaderboard.model.IGolfCourse;
 import com.gffny.leaderboard.service.ICompetitionService;
 import com.gffny.leaderboard.service.IGolfCourseService;
 import com.gffny.leaderboard.service.IScorecardService;
-import com.gffny.leaderboard.service.IUserService;
-import com.gffny.leaderboard.service.impl.ServiceFactory;
 import com.gffny.leaderboard.util.CompetitionFunction;
 
 /**
@@ -36,19 +32,9 @@ import com.gffny.leaderboard.util.CompetitionFunction;
 public class MobileScorecardController extends AbstractController {
 
 	// Service Declaration
-	// ***** MOCK SERVICES *****
-	private IUserService mockUserService = MockServiceFactory.getInstance()
-			.getUserService();
-	private IGolfCourseService mockGolfService = MockServiceFactory
-			.getInstance().getGolfCourseService();
-	private ICompetitionService mockCompetitionService = MockServiceFactory
-			.getInstance().getCompetitionService();
-	private IScorecardService mockScorecardService = MockServiceFactory
-			.getInstance().getScorecardService();
-
-	// ***** GENUINE SERVICE *****
-	private IScorecardService scorecardService = ServiceFactory.getInstance()
-			.getScorecardService();
+	private IGolfCourseService golfCourseService;
+	private ICompetitionService competitionService;
+	private IScorecardService scorecardService;
 
 	private static Logger log = Logger
 			.getLogger(MobileScorecardController.class);
@@ -70,11 +56,11 @@ public class MobileScorecardController extends AbstractController {
 		ModelAndView model = new ModelAndView("mobilescorecard/practice");
 		try {
 			model.addObject("courseList",
-					mockGolfService.getGolfCourseShortListByUserId("userId"));
+					golfCourseService.getGolfCourseShortListByUserId("userId"));
 			// TODO add meaningful userId
 			model.addObject("countryList",
-					mockGolfService.getSupportedCountryList());
-			model.addObject("course", mockGolfService.getGolfCourseById(""));
+					golfCourseService.getSupportedCountryList());
+			model.addObject("course", golfCourseService.getGolfCourseById(""));
 			return model;
 		} catch (ServiceException se) {
 			return new ModelAndView("exception/serviceError");
@@ -88,7 +74,7 @@ public class MobileScorecardController extends AbstractController {
 			HttpServletResponse response) throws ServiceException {
 		// get the users id
 		try {
-			return mockCompetitionService.getCompetitionListForUserId(request
+			return competitionService.getCompetitionListForUserId(request
 					.getParameter("userId"));
 		} catch (ServiceException ex) {
 			log.error("service error in MobileScorecardController getCompetitionListForUser");
@@ -102,7 +88,7 @@ public class MobileScorecardController extends AbstractController {
 			HttpServletResponse response) throws ServiceException {
 		// get the users id
 		try {
-			return mockGolfService.getGolfCourseById(request
+			return golfCourseService.getGolfCourseById(request
 					.getParameter("courseId"));
 		} catch (ServiceException ex) {
 			log.error("service error in MobileScorecardController getCompetitionListForUser");

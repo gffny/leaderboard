@@ -14,9 +14,10 @@ public interface IGolfCourse extends IEntity {
 
 	/**
 	 * 
-	 * @return
+	 * @see com.gffny.leaderboard.model.IEntity#getId()
 	 */
-	public int getCourseId();
+	@Override
+	public String getId();
 
 	/**
 	 * 

@@ -7,12 +7,14 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
+import com.gffny.leaderboard.model.ICompetition.IGolfGroup;
+
 /**
  * 
  * @author John Gaffney (john@gffny.com) Sep 26, 2012
  * 
  */
-public interface ICompetition extends IEntity {
+public interface ICompetition extends ISQLEntity {
 
 	/**
 	 * 
@@ -51,7 +53,7 @@ public interface ICompetition extends IEntity {
 	 * 
 	 * @return
 	 */
-	public String getCompetitionScoringSystem();
+	public ICompetitionType getCompetitionScoringSystem();
 
 	/**
 	 * 
@@ -141,7 +143,7 @@ public interface ICompetition extends IEntity {
 		 * 
 		 * @return
 		 */
-		public int getCourseId();
+		public String getCourseId();
 
 		/**
 		 * 
@@ -226,9 +228,17 @@ public interface ICompetition extends IEntity {
 		 */
 		public ICompetitionType getCompetitionType();
 
-		public abstract void addGroup(IGolfGroup group, Date dateTime);
+		/**
+		 * 
+		 * @param group
+		 * @param dateTime
+		 */
+		public void addGroup(IGolfGroup group, Date dateTime);
 
-		public abstract void clearGroups();
+		/**
+		 * 
+		 */
+		public void clearGroups();
 	}
 
 	/**

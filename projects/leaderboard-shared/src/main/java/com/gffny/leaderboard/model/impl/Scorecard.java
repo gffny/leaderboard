@@ -8,13 +8,14 @@ import java.util.Arrays;
 import java.util.Date;
 
 import com.gffny.leaderboard.model.IScorecard;
+import com.gffny.leaderboard.model.abst.SQLEntity;
 import com.gffny.leaderboard.util.TimeFunction;
 
 /**
  * @author John Gaffney (john@gffny.com) Jul 30, 2012
  * 
  */
-public class Scorecard extends Entity implements IScorecard {
+public class Scorecard extends SQLEntity implements IScorecard {
 
 	private String teesPlayedOff = new String();
 	private int[] scoreArray = null;
@@ -31,7 +32,7 @@ public class Scorecard extends Entity implements IScorecard {
 	 */
 	public Scorecard(String teesPlayedOff, int handicap, int[] grossScoreArray,
 			String scorecardNotes, String scorecardDate) {
-		super("");
+		super("", 0);
 		this.teesPlayedOff = teesPlayedOff;
 		this.handicap = handicap;
 		this.scoreArray = grossScoreArray;
@@ -48,7 +49,7 @@ public class Scorecard extends Entity implements IScorecard {
 	 */
 	public Scorecard(int scorecardId, String teesPlayedOff, int handicap,
 			int[] grossScoreArray, String scorecardNotes, String scorecardDate) {
-		super("");
+		super("", scorecardId);
 		this.setId(scorecardId);
 		this.teesPlayedOff = teesPlayedOff;
 		this.handicap = handicap;
