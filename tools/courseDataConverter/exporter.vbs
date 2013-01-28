@@ -36,7 +36,7 @@ Next
 
 
 JSON = "{ 'name' : '" & courseName & "', 'description' : '" & clubName & "', 'slope' : '" & slopeIndex & "', '" & teeColour & "' : { "
-For count = 10 to 17
+For count = 0 to 17
 	JSON = JSON & "'" & count+1 & "' : { 'distance' : '" & yrdsArray(count) & "', 'par' : '" & parArray(count) & "', 'index' : '" & indexArray(count) & "' }"
 	If count = 17 Then
 		JSON = JSON & " }"
