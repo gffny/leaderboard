@@ -1,0 +1,46 @@
+Collection: Course
+Structure:
+{
+	"_id" : "....", 
+	'name' : 'Old Course', 
+	'description' : 'St. Andrew's', 
+	'slope' : '155', 
+	'teeColourList' : {
+	'white' : { 
+		'11' : { 
+			'distance' : '172', 
+			'par' : '3', 
+			'index' : '17' }, 
+		'12' : { 
+			'distance' : '316', 
+			'par' : '4', 
+			'index' : '6' }, 
+		} 
+	}
+}
+	
+types of queries:
+course_id.slope
+course_id.teeColour
+
+course_id.white.holeList
+db.courseList.find( 
+	{ 
+		name: "Old Course" 
+	}, 
+	{ 
+		"teeColourList.white": "1" 
+	} 
+)
+
+ db.courseList.find( 
+	{
+		"name" : "Old Course" 
+	}, 
+	{
+		"teeColourList" : "1" 
+	}, 
+	{ 
+		"teeColour" : "red" 
+	} 
+).pretty()

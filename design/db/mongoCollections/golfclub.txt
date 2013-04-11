@@ -1,0 +1,32 @@
+Collection: GolfClub
+Structure:
+{
+	"_id" : "....",
+	"name" : "St. Andrew's Links",
+	"location" : {
+		"gps" : {
+			"lat" : "56.336719",
+			"long" : "-2.826008" },
+		"street one" : "Pilmour House",
+		"street two" : "St. Andrew's",
+		"city"	: "Fife",
+		"state" : "Scotland",
+		"country" : "UK",
+		"zip" : "KY16 9SF" },
+	"courseList" : {
+		"white" : "[course._id]",
+		"red" : "[course._id]",
+		"blue" : "[course._id]",
+		"black" : "[course._id]",
+		"green" : "[course._id]",
+		"gold" : "[course._id]",
+		"a.n.other" : "[course._id]",
+	},
+	"website" : "www.standrews.org.uk",
+	"phone" : "+44 1234 5678 9",
+	"description" : "St Andrews Links is the most renowned golfing landscape in the world. It is the Home of Golf, the place where the game began and has been developed and nurtured over six centuries." }
+
+types of queries:
+golfClub_id.name
+golfClub_id.location.gps
+golfClub_id.courseList.white
