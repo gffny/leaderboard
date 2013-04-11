@@ -139,7 +139,49 @@ public class GolferMap extends HashMap<String, Object> implements IGolfer {
 		return getUserId();
 	}
 
+	/**
+	 * 
+	 */
 	@Deprecated
 	public void setName(String name) {
+	}
+
+	/**
+	 * 
+	 */
+	@Deprecated
+	public void setNew(boolean value) {
+	}
+
+	/**
+	 * 
+	 */
+	@Deprecated
+	public boolean isNew() {
+		return false;
+	}
+
+	@Override
+	public String getPassword() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void setPassword(String object) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public String getLastLogin() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void setLastLogin(String lastLogin) {
+		// TODO Auto-generated method stub
+
 	};
 }

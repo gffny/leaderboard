@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.gffny.leaderboard.dao.IGolfCourseDAO;
@@ -16,9 +17,16 @@ import com.gffny.leaderboard.intralayer.ServiceException;
 import com.gffny.leaderboard.model.ICountry;
 import com.gffny.leaderboard.model.IGolfCourse;
 import com.gffny.leaderboard.model.IScorecard;
+import com.gffny.leaderboard.service.AbstractService;
 import com.gffny.leaderboard.service.IGolfService;
+import com.gffny.leaderboard.service.IUserService;
 
-public class GolfService implements IGolfService {
+public class GolfService extends AbstractService implements IGolfService {
+
+	/**
+	 * 
+	 */
+	public static Logger log = Logger.getLogger(GolfService.class);
 
 	/**
 	 * 
@@ -35,34 +43,8 @@ public class GolfService implements IGolfService {
 	/**
 	 * 
 	 */
-	public List<IGolfCourse> getAllGolfCoursesList() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	/**
-	 * 
-	 * @param courseId
-	 */
-	public List<IGolfCourse> getGolfCourseByIdAndTeeColour(String courseId,
-			String teeColour) {
-		try {
-			return courseDao.getCourseByIdAndTeeColour(courseId, teeColour);
-		} catch (DAOException e) {
-			// TODO
-		}
-		return null;
-	}
-
-	/**
-	 * 
-	 * @see com.gffny.leaderboard.service.IGolfCourseService#getGolfCourseShortListByUserId(java.lang.String)
-	 */
-	@Override
-	public java.util.List<IGolfCourse> getGolfCourseShortListByUserId(
-			String userId) {
-		return null; // TODO implement meaningfully
-	};
+	@Autowired
+	private IUserService userService;
 
 	/**
 	 * 
@@ -159,6 +141,7 @@ public class GolfService implements IGolfService {
 		}
 	}
 
+	// ################### GOLF COURSE SERVICES #############################
 	/**
 	 * @see com.gffny.leaderboard.service.IGolfCourseService#getGolfCourseById(java.lang.String)
 	 */
@@ -178,4 +161,41 @@ public class GolfService implements IGolfService {
 		// TODO Auto-generated method stub
 		return new ArrayList<IGolfCourse>();
 	}
+
+	/**
+	 * 
+	 */
+	public List<IGolfCourse> getAllGolfCoursesList() {
+		try {
+			return courseDao.getAllGolfCourseList();
+		} catch (DAOException daoEx) {
+			return logErrorReturnEmptyList(daoEx, log, IGolfCourse.class);
+		}
+	}
+
+	/**
+	 * 
+	 * @param courseId
+	 */
+	public List<IGolfCourse> getGolfCourseByIdAndTeeColour(String courseId,
+			String teeColour) {
+		try {
+			return courseDao.getCourseByIdAndTeeColour(courseId, teeColour);
+		} catch (DAOException daoEx) {
+			return logErrorReturnEmptyList(daoEx, log, IGolfCourse.class);
+		}
+	}
+
+	/**
+	 * 
+	 * @see com.gffny.leaderboard.service.IGolfCourseService#getGolfCourseShortListByUserId(java.lang.String)
+	 */
+	@Override
+	public List<IGolfCourse> getGolfCourseShortListByUserId(String userId) {
+		try {
+			return userService.getGolferFavouriteClub(userId);
+		} catch (ServiceException serEx) {
+			return logErrorReturnEmptyList(serEx, log, IGolfCourse.class);
+		}
+	};
 }

@@ -28,4 +28,7 @@
 	<bean id="freemarkerConfig" class="org.springframework.web.servlet.view.freemarker.FreeMarkerConfigurer">
 		<property name="templateLoaderPath" value="/WEB-INF/freemarker/"/>
 	</bean>
+	
+	<!-- freemarker utility classes -->
+	<bean id="StaticAsset" class="com.gffny.leaderboard.portal.utils.StaticAssetTool" />
 </beans>

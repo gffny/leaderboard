@@ -187,4 +187,12 @@ public class UserDAO extends AbstractMySQLDAO implements IUserDAO {
 		}
 		return false;
 	}
+
+	/**
+	 * @see com.gffny.leaderboard.dao.IUserDAO#getGolferByHandle(java.lang.String)
+	 */
+	@Override
+	public IGolfer getGolferByHandle(String userName) throws DAOException {
+		return new Golfer(1, "John", "Gaffney", "gffny", "passphrase");
+	}
 }

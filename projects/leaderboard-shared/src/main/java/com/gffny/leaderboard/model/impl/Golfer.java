@@ -19,6 +19,8 @@ public class Golfer extends SQLEntity implements IGolfer {
 	private String lastName;
 	private String location;
 	private String handicap;
+	private String lastLogin;
+	private String password;
 
 	/**
 	 * 
@@ -68,6 +70,22 @@ public class Golfer extends SQLEntity implements IGolfer {
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.profileHandle = profileHandle;
+	}
+
+	/**
+	 * 
+	 * @param firstName
+	 * @param lastName
+	 * @param profileHandle
+	 * @param password
+	 */
+	public Golfer(int userId, String firstName, String lastName,
+			String profileHandle, String password) {
+		super(profileHandle, userId);
+		this.firstName = firstName;
+		this.lastName = lastName;
+		this.profileHandle = profileHandle;
+		this.password = password;
 	}
 
 	/**
@@ -196,5 +214,37 @@ public class Golfer extends SQLEntity implements IGolfer {
 	 */
 	public void setHandicap(String handicap) {
 		this.handicap = handicap;
+	}
+
+	/**
+	 * @see com.gffny.leaderboard.model.IGolfer#getPassword()
+	 */
+	@Override
+	public String getPassword() {
+		return this.password;
+	}
+
+	/**
+	 * @see com.gffny.leaderboard.model.IGolfer#setPassword(java.lang.String)
+	 */
+	@Override
+	public void setPassword(String password) {
+		this.password = password;
+	}
+
+	/**
+	 * @see com.gffny.leaderboard.model.IGolfer#getLastLogin()
+	 */
+	@Override
+	public String getLastLogin() {
+		return this.lastLogin;
+	}
+
+	/**
+	 * @see com.gffny.leaderboard.model.IGolfer#setLastLogin(java.lang.String)
+	 */
+	@Override
+	public void setLastLogin(String lastLogin) {
+		this.lastLogin = lastLogin;
 	}
 }

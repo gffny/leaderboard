@@ -47,6 +47,9 @@ public class DateUtils extends org.apache.commons.lang.time.DateUtils {
 	public static final FastDateFormat CHART_DATE_FORMAT = FastDateFormat
 			.getInstance("MM/dd/yyyy");
 
+	public static final FastDateFormat MYSQL_DATE_FORMAT = FastDateFormat
+			.getInstance("yyyy-MM-dd");
+
 	public static final int DAYS_PER_WEEK = 7;
 
 	private static String WEEK = "week";

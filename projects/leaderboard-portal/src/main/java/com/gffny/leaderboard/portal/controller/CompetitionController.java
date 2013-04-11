@@ -10,9 +10,13 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
@@ -23,6 +27,7 @@ import com.gffny.leaderboard.model.ICompetition;
 import com.gffny.leaderboard.model.ICompetition.ICompetitionRound;
 import com.gffny.leaderboard.model.IGolfCourse;
 import com.gffny.leaderboard.model.IGolfer;
+import com.gffny.leaderboard.portal.utils.StaticAssetTool;
 import com.gffny.leaderboard.service.IAuthorisationService;
 import com.gffny.leaderboard.service.ICompetitionService;
 import com.gffny.leaderboard.service.IGolfCourseService;
@@ -85,7 +90,8 @@ public class CompetitionController extends AbstractController {
 	 * @return
 	 */
 	@RequestMapping("/create/initial")
-	public ModelAndView competitionInitial() {
+	public ModelAndView competitionInitial(@RequestBody String body,
+			HttpSession session, HttpServletRequest request) {
 
 		String userId = getServletData().getGolferId();
 
@@ -103,8 +109,8 @@ public class CompetitionController extends AbstractController {
 					model.addObject("competitionScoringSystemList",
 							competitionService
 									.getCompetitionScoringSystemList());
+					model.addObject("staticAsset", new StaticAssetTool());
 				} catch (ServiceException e) {
-					// TODO Auto-generated catch block
 					return getErrorModel(e);
 				}
 			} else { // handle non authorised user requests
@@ -146,9 +152,8 @@ public class CompetitionController extends AbstractController {
 					ActionType.CREATE_COMPETITION)) {
 				try {
 					// get courses related to the user's default location
-					String city = userService.getGolferHomeCity(userId);
 					List<IGolfCourse> userCourseList = golfCourseService
-							.getGolfCourseByCity(city);
+							.getAllGolfCoursesList();
 					// get the user's favourite course
 					List<IGolfCourse> favouriteList = userService
 							.getGolferFavouriteClub(userId);
@@ -160,11 +165,12 @@ public class CompetitionController extends AbstractController {
 					}
 					model = new ModelAndView("competition/competitionrounds");
 					int numberOfRounds = Integer.parseInt(competitionRounds);
-					ICompetition newCompetition = competitionService
+					ICompetition competition = competitionService
 							.createCompetition(competitionName,
 									competitionScoringSystem,
 									competitionVisibility, numberOfRounds);
-					model.addObject("competition", newCompetition);
+					competitionService.saveCompetition(competition);
+					model.addObject("competition", competition);
 					model.addObject("numberOfRounds", numberOfRounds);
 					model.addObject("golferList", userService
 							.getSocietyMemberListAssociatedWithUser(userId));
@@ -183,6 +189,11 @@ public class CompetitionController extends AbstractController {
 		return model;
 	}
 
+	/**
+	 * 
+	 * @param competitionId
+	 * @return
+	 */
 	@RequestMapping("/create/persist")
 	public ModelAndView competitionPesist(
 			@RequestParam("competitionId") String competitionId) {
@@ -208,29 +219,41 @@ public class CompetitionController extends AbstractController {
 					Iterator<String> roundItr = roundMap.keySet().iterator();
 					ICompetition competition = competitionService
 							.getCompetition(competitionId);
-					while (roundItr.hasNext()) {
-						String roundNumber = roundItr.next();
-						String[] roundDetails = roundMap.get(roundNumber);
-						if (roundDetails != null) {
-							Date roundDate = DateUtils.parseDateOrNull(
-									roundDetails[ROUND_DATE_POSTITION],
-									DateUtils.CHART_DATE_FORMAT.getPattern());
-							ICompetitionRound competitionRound = competitionService
-									.createCompetitionRound(
-											Integer.parseInt(roundNumber),
-											roundDetails[ROUND_NAME_POSTITION],
-											roundDate,
-											Integer.parseInt(roundDetails[GROUP_SIZE_POSTITION]),
-											roundDetails[COURSE_ID_POSTITION]);
-							competition.addCompetitionRound(competitionRound);
+					if (competition != null) {
+						while (roundItr.hasNext()) {
+							String roundNumber = roundItr.next();
+							String[] roundDetails = roundMap.get(roundNumber);
+							if (roundDetails != null) {
+								// get the round date
+								Date roundDate = DateUtils.parseDateOrNull(
+										roundDetails[ROUND_DATE_POSTITION],
+										DateUtils.CHART_DATE_FORMAT
+												.getPattern());
+								// create the round
+								ICompetitionRound competitionRound = competitionService
+										.createCompetitionRound(
+												Integer.parseInt(roundNumber),
+												roundDetails[ROUND_NAME_POSTITION],
+												roundDate,
+												Integer.parseInt(roundDetails[GROUP_SIZE_POSTITION]),
+												roundDetails[COURSE_ID_POSTITION]);
+								// add the round to the competition
+								competition
+										.addCompetitionRound(competitionRound);
+							}
 						}
-					}
-					competitionService.saveCompetition(competition);
-					model.addObject("competition", competition);
-					if (competition.getCompetitionVisibility()
-							.equalsIgnoreCase(ICompetition.PUBLIC_VISIBILITY)) {
-						model.addObject("competitionUrl",
-								createCompetitionUrl(competition));
+						// save the round
+						competitionService.saveCompetition(competition);
+						model.addObject("competition", competition);
+						if (competition.getCompetitionVisibility()
+								.equalsIgnoreCase(
+										ICompetition.PUBLIC_VISIBILITY)) {
+							model.addObject("competitionUrl",
+									createCompetitionUrl(competition));
+						}
+					} else {
+						return getErrorModel("no competition being returned for id: "
+								+ competitionId);
 					}
 				} catch (ServiceException e) {
 					return getErrorModel(e);

@@ -12,7 +12,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.util.StopWatch;
 import org.springframework.web.filter.OncePerRequestFilter;
 
-import test.utilities.TestUtilities;
+import test.gffny.leaderboard.utilities.TestUtilities;
 
 import com.gffny.leaderboard.portal.model.ui.RequestContext;
 import com.gffny.leaderboard.portal.model.ui.ServletData;

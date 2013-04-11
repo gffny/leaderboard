@@ -12,7 +12,7 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import test.utilities.TestUtilities;
+import test.gffny.leaderboard.utilities.TestUtilities;
 
 import com.gffny.leaderboard.component.scorer.ICompetitionRoundScorer;
 import com.gffny.leaderboard.component.scorer.impl.SimpleCompetitionScorer;

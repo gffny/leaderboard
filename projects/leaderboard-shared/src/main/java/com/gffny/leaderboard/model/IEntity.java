@@ -26,4 +26,16 @@ public interface IEntity {
 	 * @return
 	 */
 	public Object getId();
+
+	/**
+	 * 
+	 * @param value
+	 */
+	public void setNew(boolean value);
+
+	/**
+	 * 
+	 * @return
+	 */
+	public boolean isNew();
 }

@@ -129,18 +129,30 @@ public class Competition extends SQLEntity implements ICompetition {
 	 * 
 	 * @author John Gaffney (john@gffny.com) Aug 21, 2012
 	 */
-	public void addCompetitionRound(ICompetitionRound newRound) {
-		if (newRound != null && roundNumberMap != null && roundDateMap != null) {
-			if (CompetitionFunction.checkCompetitionRoundType(this, newRound)) {
+	public void addCompetitionRound(ICompetitionRound round) {
+		if (round != null && getRoundNumberMap() != null
+				&& getRoundDateMap() != null) {
+			if (CompetitionFunction.checkCompetitionRoundType(this, round)) {
+				round.setCompetitionId(getCompetitionId());
 				this.roundNumberMap.put(
-						getRoundIndexFromNumber(newRound.getRoundNumber()),
-						newRound);
-				this.roundDateMap.put(newRound.getRoundDate(), newRound);
+						getRoundIndexFromNumber(round.getRoundNumber()), round);
+				this.roundDateMap.put(round.getRoundDate(), round);
 			}
 			// TODO handle if rounds are not compatible
 		}
 		// TODO handle newRound being null
 		// TODO handle roundNumberMap or roundDateMap null
+	}
+
+	/**
+	 * 
+	 * @see com.gffny.leaderboard.model.ICompetition#addCompetitionRoundList(java.util.List)
+	 */
+	public void addCompetitionRoundList(
+			List<ICompetitionRound> competitionRoundList) {
+		for (ICompetitionRound round : competitionRoundList) {
+			addCompetitionRound(round);
+		}
 	}
 
 	/**
@@ -195,5 +207,31 @@ public class Competition extends SQLEntity implements ICompetition {
 				+ (roundNumberMap != null ? getCompetitionRoundList().subList(
 						0, Math.min(roundNumberMap.size(), maxLen)) : null)
 				+ "]";
+	}
+
+	/**
+	 * @return the roundNumberMap
+	 */
+	private Map<Integer, ICompetition.ICompetitionRound> getRoundNumberMap() {
+		// check if the map is null and handle appropriately
+		if (roundNumberMap != null) {
+			return roundNumberMap;
+		} else {
+			roundNumberMap = new HashMap<Integer, ICompetition.ICompetitionRound>();
+			return roundNumberMap;
+		}
+	}
+
+	/**
+	 * @return the roundDateMap
+	 */
+	private Map<Date, ICompetition.ICompetitionRound> getRoundDateMap() {
+		// check if the map is null and handle appropriately
+		if (roundDateMap != null) {
+			return roundDateMap;
+		} else {
+			roundDateMap = new HashMap<Date, ICompetition.ICompetitionRound>();
+			return roundDateMap;
+		}
 	}
 }

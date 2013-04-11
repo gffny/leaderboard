@@ -9,7 +9,7 @@ import java.util.Map.Entry;
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.log4j.Logger;
 
-import test.utilities.TestUtilities;
+import test.gffny.leaderboard.utilities.TestUtilities;
 
 import com.gffny.leaderboard.intralayer.IServiceResult;
 import com.gffny.leaderboard.intralayer.ServiceException;

@@ -45,7 +45,7 @@ public class CompetitionRound extends SQLEntity implements
 	public CompetitionRound(final String name, int roundNumber,
 			final Date date, String courseId, final List<IGolfGroup> groupList,
 			final Map<IGolfGroup, Date> teeTimeMap) {
-		super(name, 0);
+		super(name, UNSAVED_ROUND_ID);
 		this.date = date;
 		this.number = roundNumber;
 		this.courseId = courseId;
@@ -63,7 +63,7 @@ public class CompetitionRound extends SQLEntity implements
 	 */
 	public CompetitionRound(final String name, int roundNumber,
 			final Date date, String courseId) {
-		super(name, 0);
+		super(name, UNSAVED_ROUND_ID);
 		this.date = date;
 		this.number = roundNumber;
 		this.courseId = courseId;

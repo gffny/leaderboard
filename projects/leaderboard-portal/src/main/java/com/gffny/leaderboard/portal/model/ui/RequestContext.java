@@ -10,6 +10,7 @@ import com.gffny.leaderboard.service.ICompetitionService;
 import com.gffny.leaderboard.service.IGolfCourseService;
 import com.gffny.leaderboard.service.IScorecardService;
 import com.gffny.leaderboard.service.IUserService;
+import com.gffny.leaderboard.util.Locale;
 
 /**
  * @author John Gaffney (john@gffny.com) Dec 24, 2012
@@ -223,5 +224,10 @@ public class RequestContext {
 		servletData = null;
 		userService = null;
 		cache = null;
+	}
+
+	public Locale userLocaleFromDb() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }

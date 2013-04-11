@@ -6,7 +6,7 @@ package test.gffny.leaderboard.service.mock;
 import java.util.Arrays;
 import java.util.List;
 
-import test.utilities.TestUtilities;
+import test.gffny.leaderboard.utilities.TestUtilities;
 
 import com.gffny.leaderboard.intralayer.ServiceException;
 import com.gffny.leaderboard.model.IGolfCourse;

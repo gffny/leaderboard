@@ -81,28 +81,33 @@ public class CourseDBO {
 	public IGolfCourse getGolfCourse(String teeColour) {
 
 		Map<String, Map<String, String>> holeMap = getHoleMap(teeColour);
-		int[] teeDistanceArray = new int[holeMap.size()];
-		int[] holeIndexArray = new int[holeMap.size()];
-		int[] holeParArray = new int[holeMap.size()];
-		int coursePar = 0;
-		for (int i = 0; i < holeMap.size(); i++) {
-			Map<String, String> hole = holeMap.get("h" + (i + 1));
-			if (hole == null) {
-				// TODO handle this more appropriately
-				return null;
+		if (holeMap != null) {
+			int[] teeDistanceArray = new int[holeMap.size()];
+			int[] holeIndexArray = new int[holeMap.size()];
+			int[] holeParArray = new int[holeMap.size()];
+			int coursePar = 0;
+			for (int i = 0; i < holeMap.size(); i++) {
+				Map<String, String> hole = holeMap.get("h" + (i + 1));
+				if (hole == null) {
+					// TODO handle this more appropriately
+					return null;
+				}
+				try {
+					teeDistanceArray[i] = Integer
+							.parseInt(hole.get("distance"));
+					holeIndexArray[i] = Integer.parseInt(hole.get("index"));
+					holeParArray[i] = Integer.parseInt(hole.get("par"));
+					coursePar += holeParArray[i];
+				} catch (NumberFormatException e) {
+					// TODO handle this more appropriately
+					return null;
+				}
 			}
-			try {
-				teeDistanceArray[i] = Integer.parseInt(hole.get("distance"));
-				holeIndexArray[i] = Integer.parseInt(hole.get("index"));
-				holeParArray[i] = Integer.parseInt(hole.get("par"));
-				coursePar += holeParArray[i];
-			} catch (NumberFormatException e) {
-				// TODO handle this more appropriately
-				return null;
-			}
+			return new GolfCourse(getId(), getCourseName(), coursePar, "blah",
+					teeColour, holeParArray, holeIndexArray, teeDistanceArray);
+		} else {
+			return null;
 		}
-		return new GolfCourse(getId(), getCourseName(), coursePar, "blah",
-				teeColour, holeParArray, holeIndexArray, teeDistanceArray);
 	}
 
 	/**

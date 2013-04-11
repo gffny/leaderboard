@@ -59,4 +59,12 @@ public interface IGolfCourseDAO {
 	 */
 	public abstract List<IGolfCourse> getCourseByIdAndTeeColour(
 			String courseId, String teeColour) throws DAOException;
+
+	/**
+	 * 
+	 * @return
+	 * @throws DAOException
+	 */
+	public abstract List<IGolfCourse> getAllGolfCourseList()
+			throws DAOException;
 }

@@ -7,8 +7,6 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
-import com.gffny.leaderboard.model.ICompetition.IGolfGroup;
-
 /**
  * 
  * @author John Gaffney (john@gffny.com) Sep 26, 2012
@@ -101,7 +99,9 @@ public interface ICompetition extends ISQLEntity {
 	 * @author John Gaffney (john@gffny.com) Sep 26, 2012
 	 * 
 	 */
-	public interface ICompetitionRound {
+	public interface ICompetitionRound extends IEntity {
+
+		public static int UNSAVED_ROUND_ID = 0;
 
 		/**
 		 * 
@@ -300,4 +300,10 @@ public interface ICompetition extends ISQLEntity {
 		 */
 		public void addGolfer(IGolfer golfer);
 	}
+
+	/**
+	 * @param competitionRoundList
+	 */
+	public void addCompetitionRoundList(
+			List<ICompetitionRound> competitionRoundList);
 }

@@ -12,6 +12,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.gffny.leaderboard.intralayer.ServiceException;
 import com.gffny.leaderboard.service.ICompetitionService;
 
 /**
@@ -144,9 +145,11 @@ public class CompetitionServiceTest extends TestCase {
 	 * Test method for
 	 * {@link com.gffny.leaderboard.service.impl.CompetitionService#createCompetitionRound(int, java.lang.String, java.util.Date, int, java.lang.String)}
 	 * .
+	 * 
+	 * @throws ServiceException
 	 */
 	@Test
-	public final void testCreateCompetitionRound() {
+	public final void testCreateCompetitionRound() throws ServiceException {
 		competitionService.createCompetitionRound(0, "", new Date(), 0, "");
 	}
 

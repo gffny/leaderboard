@@ -51,4 +51,11 @@ public interface IUserService {
 	 */
 	public List<IGolfCourse> getGolferFavouriteClub(String userId)
 			throws ServiceException;
+
+	/**
+	 * 
+	 * @param username
+	 * @return
+	 */
+	public IGolfer getGolferByHandle(String username) throws ServiceException;
 }

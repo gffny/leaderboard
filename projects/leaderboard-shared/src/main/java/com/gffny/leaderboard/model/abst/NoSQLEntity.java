@@ -11,7 +11,19 @@ import com.gffny.leaderboard.model.INoSQLEntity;
  */
 public abstract class NoSQLEntity implements INoSQLEntity {
 
+	/**
+	 * 
+	 */
+	private boolean isNew = false;
+
+	/**
+	 * 
+	 */
 	private String id;
+
+	/**
+	 * 
+	 */
 	private String name;
 
 	/**
@@ -54,4 +66,20 @@ public abstract class NoSQLEntity implements INoSQLEntity {
 	public void setName(String name) {
 		this.name = name;
 	}
+
+	/**
+	 * @return the isNew
+	 */
+	public boolean isNew() {
+		return isNew;
+	}
+
+	/**
+	 * @param isNew
+	 *            the isNew to set
+	 */
+	public void setNew(boolean isNew) {
+		this.isNew = isNew;
+	}
+
 }

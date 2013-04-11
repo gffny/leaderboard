@@ -8,6 +8,7 @@ import java.util.List;
 import com.gffny.leaderboard.intralayer.DAOException;
 import com.gffny.leaderboard.intralayer.DAOResult;
 import com.gffny.leaderboard.model.ICompetition;
+import com.gffny.leaderboard.model.ICompetition.ICompetitionRound;
 import com.gffny.leaderboard.model.ICompetitionType;
 
 /**
@@ -30,6 +31,14 @@ public interface ICompetitionDAO {
 	 */
 	public DAOResult saveCompetition(ICompetition competition)
 			throws DAOException;
+
+	/**
+	 * @param competitionRoundToSave
+	 * @return
+	 * @throws DAOException
+	 */
+	public DAOResult saveCompetitionRound(
+			ICompetitionRound competitionRoundToSave) throws DAOException;
 
 	/**
 	 * 

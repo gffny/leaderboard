@@ -9,7 +9,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import test.utilities.TestUtilities;
+import test.gffny.leaderboard.utilities.TestUtilities;
 
 import com.gffny.leaderboard.component.scheduler.ICompetitionScheduler;
 import com.gffny.leaderboard.component.scheduler.impl.SimpleCompetitionScheduler;

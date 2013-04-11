@@ -1,49 +1,73 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<beans:beans xmlns="http://www.springframework.org/schema/security"
+<beans:beans
 	xmlns:beans="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:security="http://www.springframework.org/schema/security"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans 
 		http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
 		http://www.springframework.org/schema/security 
 		http://www.springframework.org/schema/security/spring-security-3.1.xsd">
 
-	<http auto-config="true" use-expressions="true" access-denied-page="/auth/denied" >
-		<!-- NO RESTRICITIONS -->
-		<intercept-url pattern="/auth*" access="IS_AUTHENTICATED_ANONYMOUSLY" />
-		<intercept-url pattern="/help" access="IS_AUTHENTICATED_ANONYMOUSLY" />
-		<intercept-url pattern="/publish*" access="IS_AUTHENTICATED_ANONYMOUSLY" />
-		<!-- FIX THIS! 
-		<intercept-url pattern="/js/*.js" access="IS_AUTHENTICATED_ANONYMOUSLY" />
-		<intercept-url pattern="/css/*.css" access="IS_AUTHENTICATED_ANONYMOUSLY" />
-		<intercept-url pattern="/dashboard*" access="IS_AUTHENTICATED_ANONYMOUSLY" />
-		-->
+    <!-- 
+	<security:debug/>
+	 -->
+	 
+ 	<beans:bean id="passwordEncoder" 
+ 							  class="org.springframework.security.crypto.password.StandardPasswordEncoder" />
+ 
+	<beans:bean id="saltPasswordEncoder" 
+ 							  class="org.springframework.security.authentication.encoding.ShaPasswordEncoder">
+ 		<beans:constructor-arg value="256"/>
+ 	</beans:bean>
+ 	
+   	<!--  URL Mappings  for protecting URLs -->
+	<security:http pattern="/authentication*" security="none"/>
+	
+	
+	<security:http auto-config="true" create-session="always" use-expressions="true" entry-point-ref="authenticationProcessingFilterEntryPoint">
+	    		<!-- NO RESTRICITIONS -->
+	    <security:intercept-url pattern="/authentication*" access="permitAll" />
+	    <security:intercept-url pattern="/**" access="hasAnyRole('GOLFER','ADMIN', 'ETC')" />
 
-		<!-- RESTRICTIONS! --> 
-
-		<!-- login -->
-		<form-login
-		    login-page="/authentication/login"
-			login-processing-url="/authentication/process"
-			authentication-failure-url="/authentication/login?login_error=1"
-			default-target-url="/dashboard/profile" />
-
-		<!-- logout -->
-		<logout
-		    invalidate-session="true"
-		    logout-success-url="/authentication/logout"
-		    delete-cookies="JSESSIONID" />
+		<security:logout logout-url="/logout"/>
 		
-		<session-management
-		    invalid-session-url="/authentication/logout?session=invalid" />
-	</http>
+		<!-- form login -->
+     	<security:form-login login-page="/authentication/login" login-processing-url="/process"
+                 always-use-default-target="true" default-target-url="/"/>
+		
+		<!-- FIX THIS! 
+		<security:intercept-url pattern="/js/*.js" access="IS_AUTHENTICATED_ANONYMOUSLY" />
+		<security:intercept-url pattern="/css/*.css" access="IS_AUTHENTICATED_ANONYMOUSLY" />
+		<security:intercept-url pattern="/dashboard*" access="IS_AUTHENTICATED_ANONYMOUSLY" />
+		-->
+	</security:http>
 
-	<authentication-manager>
-		<authentication-provider user-service-ref="customAuthenticationProvider">
-			<password-encoder ref="passwordEncoder"/>
-		</authentication-provider>
-	</authentication-manager>
-
-	<beans:bean id="customAuthenticationProvider" class="com.gffny.leaderboard.portal.authentication.LeaderboardUserDetailService" />
-	<beans:bean id="passwordEncoder" class="org.springframework.security.authentication.encoding.Md5PasswordEncoder" />
-
+	<!-- Custom entry point filter to send proper response when the user is not logged in -->
+	<beans:bean id="authenticationProcessingFilterEntryPoint"
+	    class="com.gffny.leaderboard.portal.authentication.LeaderboardAuthenticationEntryPoint">
+	</beans:bean>
+	
+	<!-- method level security config -->
+	<security:global-method-security pre-post-annotations="enabled">
+        <security:expression-handler ref="expressionHandler" />
+    </security:global-method-security>
+     
+ 	<beans:bean id="expressionHandler"
+		  class="org.springframework.security.access.expression.method.DefaultMethodSecurityExpressionHandler">
+		<beans:property name="permissionEvaluator" ref="leaderboardPermissionEvaluator"/>
+	</beans:bean>		
+ 	
+ 	<beans:bean id="leaderboardPermissionEvaluator" class="com.gffny.leaderboard.portal.authentication.LeaderboardPermissionEvaluator">
+<!--
+  		<beans:property name="userCampaignGroupRepository" ref="userCampaignGroupRepository"/>
+ 		<beans:property name="userRepository" ref="userRepository"/>
+-->
+ 	</beans:bean>
+ 
+	<!-- Customer security provider  -->
+	<security:authentication-manager alias="authenticationManager">
+		<security:authentication-provider user-service-ref="leaderboardUserDetailsService">
+			<!-- <password-encoder ref="passwordEncoder"/> -->
+		</security:authentication-provider>
+	</security:authentication-manager>
 </beans:beans>

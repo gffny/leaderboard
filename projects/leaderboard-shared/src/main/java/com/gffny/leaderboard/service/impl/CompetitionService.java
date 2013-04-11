@@ -22,6 +22,7 @@ import com.gffny.leaderboard.model.ICompetition.ICompetitionRound;
 import com.gffny.leaderboard.model.ICompetitionType;
 import com.gffny.leaderboard.model.IGolfer;
 import com.gffny.leaderboard.model.impl.Competition;
+import com.gffny.leaderboard.model.impl.CompetitionRound;
 import com.gffny.leaderboard.service.AbstractService;
 import com.gffny.leaderboard.service.ICompetitionService;
 
@@ -103,6 +104,19 @@ public class CompetitionService extends AbstractService implements
 	}
 
 	/**
+	 * @see com.gffny.leaderboard.service.ICompetitionService#getCompetitionScoringSystemList()
+	 */
+	@Override
+	public List<ICompetitionType> getCompetitionScoringSystemList()
+			throws ServiceException {
+		try {
+			return competitionDao.getCompetitionTypeList();
+		} catch (DAOException daoEx) {
+			return logErrorReturnEmptyList(daoEx, log, ICompetitionType.class);
+		}
+	}
+
+	/**
 	 * @see com.gffny.leaderboard.service.ICompetitionService#scoreRound(java.lang.String)
 	 */
 	@Override
@@ -134,24 +148,47 @@ public class CompetitionService extends AbstractService implements
 		ICompetitionType competitionType = competitionDao
 				.getCompetitionTypeByName(competitionScoringSystem);
 		// create an unsaved instance of the competition to be passed to the dao
-		Competition newCompetition = new Competition(competitionName,
+		Competition competition = new Competition(competitionName,
 				competitionType, competitionVisibility, numberOfRounds);
-		saveCompetition(newCompetition);
-		return newCompetition;
+		competition.setNew(true);
+		// TODO Do we want to save the competition here?
+		// saveCompetition(newCompetition);
+		return competition;
+	}
+
+	/**
+	 * @see com.gffny.leaderboard.service.ICompetitionService#createCompetitionRound(java.lang.String,
+	 *      java.lang.String, java.util.Date, int, int)
+	 */
+	@Override
+	public ICompetitionRound createCompetitionRound(int roundNumber,
+			String roundName, Date roundDate, int groupSize, String courseId)
+			throws ServiceException {
+		// create an unsaved instance of the competition to be passed to the dao
+		CompetitionRound competitionRound = new CompetitionRound(roundName,
+				roundNumber, roundDate, courseId);
+		competitionRound.setNew(true);
+		// TODO Do we want to save the competition round here?
+		// try {
+		// saveCompetitionRound(newCompetition);
+		// } catch (ServiceException serEx) {
+		// logErrorReturnEmptyClass(serEx, log, CompetitionRound.class);
+		// }
+		return competitionRound;
 	}
 
 	/**
 	 * @see com.gffny.leaderboard.service.ICompetitionService#saveCompetition(com.gffny.leaderboard.model.ICompetition)
 	 */
 	@Override
-	public IServiceResult saveCompetition(ICompetition competitionToSave)
+	public IServiceResult saveCompetition(ICompetition competition)
 			throws ServiceException {
 		try {
 			// save the competition instance
-			DAOResult daoResult = competitionDao
-					.saveCompetition(competitionToSave);
-			competitionToSave.setId(daoResult.getIdAsInt());
-			// TODO Go through each of the round list and save the rounds
+			DAOResult daoResult = competitionDao.saveCompetition(competition);
+			if (competition.isNew()) {
+				competition.setId(daoResult.getIdAsInt());
+			}
 			return new ServiceResult("",
 					IServiceResult.SAVE_COMPETITION_SUCCESS);
 		} catch (DAOException e) {
@@ -161,25 +198,31 @@ public class CompetitionService extends AbstractService implements
 	}
 
 	/**
-	 * @see com.gffny.leaderboard.service.ICompetitionService#getCompetitionScoringSystemList()
+	 * 
+	 * @see com.gffny.leaderboard.service.ICompetitionService#saveCompetitionRound(com.gffny.leaderboard.model.ICompetition.ICompetitionRound)
 	 */
 	@Override
-	public List<ICompetitionType> getCompetitionScoringSystemList()
-			throws ServiceException {
-		try {
-			return competitionDao.getCompetitionTypeList();
-		} catch (DAOException daoEx) {
-			return logErrorReturnEmptyList(daoEx, log, ICompetitionType.class);
+	public IServiceResult updateCompetitionRound(
+			ICompetitionRound competitionRoundToSave) throws ServiceException {
+		// if a competition round does not have a competition id, then it cannot
+		// be saved
+		if (competitionRoundToSave.getCompetitionId() != 0) {
+			try {
+				// save the competition round instance
+				DAOResult daoResult = competitionDao
+						.saveCompetitionRound(competitionRoundToSave);
+				competitionRoundToSave.setRoundId(daoResult.getIdAsInt());
+				return new ServiceResult(
+						"competition round update was a success",
+						IServiceResult.SAVE_COMPETITION_SUCCESS);
+			} catch (DAOException e) {
+				log.error(e.getMessage());
+				throw new ServiceException(e.getMessage());
+			}
+		} else {
+			throw new ServiceException(
+					"competition round does not have a competition id");
 		}
-	}
+	};
 
-	/**
-	 * @see com.gffny.leaderboard.service.ICompetitionService#createCompetitionRound(java.lang.String,
-	 *      java.lang.String, java.util.Date, int, int)
-	 */
-	@Override
-	public ICompetitionRound createCompetitionRound(int roundNumber,
-			String roundName, Date roundDate, int groupSize, String courseId) {
-		return null;
-	}
 }

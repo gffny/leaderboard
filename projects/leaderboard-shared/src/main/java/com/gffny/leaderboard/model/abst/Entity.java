@@ -11,4 +11,24 @@ import com.gffny.leaderboard.model.IEntity;
  */
 public abstract class Entity implements IEntity {
 
+	/**
+	 * 
+	 */
+	private boolean isNew = false;
+
+	/**
+	 * 
+	 * @return
+	 */
+	public boolean isNew() {
+		return isNew;
+	}
+
+	/**
+	 * 
+	 * @param value
+	 */
+	public void setNew(boolean value) {
+		this.isNew = value;
+	}
 }

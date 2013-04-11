@@ -38,6 +38,19 @@ public interface ICompetitionService {
 			int numberOfRounds) throws ServiceException;
 
 	/**
+	 * @param roundNumber
+	 * @param string
+	 * @param string2
+	 * @param string3
+	 * @param string4
+	 * @return
+	 * @throws ServiceException
+	 */
+	public ICompetitionRound createCompetitionRound(int roundNumber,
+			String roundName, Date roundDate, int groupSize, String courseId)
+			throws ServiceException;
+
+	/**
 	 * 
 	 * @param competitionToSave
 	 * @return
@@ -45,6 +58,15 @@ public interface ICompetitionService {
 	 */
 	public IServiceResult saveCompetition(ICompetition competitionToSave)
 			throws ServiceException;
+
+	/**
+	 * 
+	 * @param competitionRoundToSave
+	 * @return
+	 * @throws ServiceException
+	 */
+	public IServiceResult updateCompetitionRound(
+			ICompetitionRound competitionRoundToSave) throws ServiceException;
 
 	/**
 	 * 
@@ -94,15 +116,4 @@ public interface ICompetitionService {
 	 */
 	public List<ICompetitionType> getCompetitionScoringSystemList()
 			throws ServiceException;
-
-	/**
-	 * @param roundNumber
-	 * @param string
-	 * @param string2
-	 * @param string3
-	 * @param string4
-	 * @return
-	 */
-	public ICompetitionRound createCompetitionRound(int roundNumber,
-			String roundName, Date roundDate, int groupSize, String courseId);
 }

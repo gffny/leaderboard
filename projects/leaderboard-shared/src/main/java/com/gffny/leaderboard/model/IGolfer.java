@@ -87,4 +87,27 @@ public interface IGolfer extends IEntity {
 	 * @return
 	 */
 	public int getUserId();
+
+	/**
+	 * 
+	 * @return
+	 */
+	public String getPassword();
+
+	/**
+	 * @param object
+	 */
+	public void setPassword(String object);
+
+	/**
+	 * 
+	 * @return
+	 */
+	public String getLastLogin();
+
+	/**
+	 * 
+	 * @param lastLogin
+	 */
+	public void setLastLogin(String lastLogin);
 }

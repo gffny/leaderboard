@@ -4,6 +4,7 @@
 package test.gffny.leaderboard.dao;
 
 import java.sql.SQLException;
+import java.util.Date;
 import java.util.List;
 
 import junit.framework.TestCase;
@@ -11,13 +12,16 @@ import junit.framework.TestCase;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import com.gffny.leaderboard.dao.ICompetitionDAO;
+import com.gffny.leaderboard.dao.mysql.CompetitionDAO;
 import com.gffny.leaderboard.intralayer.DAOException;
+import com.gffny.leaderboard.intralayer.DAOResult;
 import com.gffny.leaderboard.model.ICompetition;
+import com.gffny.leaderboard.model.ICompetition.ICompetitionRound;
 import com.gffny.leaderboard.model.ICompetitionType;
 import com.gffny.leaderboard.model.impl.Competition;
+import com.gffny.leaderboard.model.impl.CompetitionRound;
 
 /**
  * @author John Gaffney (john@gffny.com) Jan 26, 2013
@@ -25,8 +29,9 @@ import com.gffny.leaderboard.model.impl.Competition;
  */
 public class CompetitionDAOTest extends TestCase {
 
-	@Autowired
-	private ICompetitionDAO competitionDao;
+	private ICompetitionDAO competitionDao = CompetitionDAO.getInstance();
+
+	private int competitionId;
 
 	/**
 	 * @throws java.lang.Exception
@@ -68,11 +73,22 @@ public class CompetitionDAOTest extends TestCase {
 				competitionDao.getCompetitionTypeByName("stableford"),
 				ICompetition.PRIVATE_VISIBILITY, 1);
 		try {
-			competitionDao.saveCompetition(competitionToSave);
+			DAOResult result = competitionDao
+					.saveCompetition(competitionToSave);
+			competitionId = result.getIdAsInt();
+
 		} catch (DAOException e) {
 			// TODO Auto-generated catch block
 			fail();
 		}
+	}
+
+	@Test
+	public final void testSaveCompetitionRound() throws DAOException {
+		ICompetitionRound competitionRound = new CompetitionRound("test round",
+				2, new Date(), "asdfa");
+		competitionRound.setCompetitionId(competitionId);
+		competitionDao.saveCompetitionRound(competitionRound);
 	}
 
 	public final void testIsExistingCompetition() {

@@ -27,8 +27,9 @@
 				<input name=${competition.competitionId}.${roundNumber?string.computer}.rndDt type=date />
 				<br />
 				<select name=${competition.competitionId}.${roundNumber?string.computer}.rndCrs>
+				<label for=${competition.competitionId}.${roundNumber?string.computer}.rndCrs>Course</label>
 				<#list courseList as course>
-					<option name=${competition.competitionId}.${roundNumber?string.computer}.rndCrs value=${course.courseId}>${course.name}</option>
+					<option name=${competition.competitionId}.${roundNumber?string.computer}.rndCrs value=${course.courseId}>${course.name} - ${course.teeColour?capitalize}</option>
 				</#list>
 				</select>
 			</#list>

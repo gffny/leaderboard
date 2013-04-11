@@ -122,4 +122,18 @@ public class UserService implements IUserService {
 		// TODO Auto-generated method stub
 		return new ArrayList<IGolfCourse>();
 	}
+
+	/**
+	 * @throws ServiceException
+	 * @see com.gffny.leaderboard.service.IUserService#getGolferByHandle(java.lang.String)
+	 */
+	@Override
+	public IGolfer getGolferByHandle(String username) throws ServiceException {
+		// TODO Auto-generated method stub
+		try {
+			return userDao.getGolferByHandle(username);
+		} catch (DAOException e) {
+			throw new ServiceException(e.getMessage());
+		}
+	}
 }

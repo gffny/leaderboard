@@ -3,7 +3,9 @@
  */
 package com.gffny.leaderboard.dao.mongodb;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Iterator;
 import java.util.List;
 
 import org.apache.log4j.Logger;
@@ -16,6 +18,7 @@ import com.gffny.leaderboard.intralayer.DAOException;
 import com.gffny.leaderboard.model.IGolfCourse;
 import com.mongodb.BasicDBObject;
 import com.mongodb.DBCollection;
+import com.mongodb.DBCursor;
 
 /**
  * @author John Gaffney (john@gffny.com) Aug 14, 2012
@@ -115,6 +118,29 @@ public class GolfCourseDAO extends AbstractMongoDAO implements IGolfCourseDAO {
 			throws DAOException {
 		log.debug("courseId: " + courseId);
 		return getCourseDBO(courseId).getTeeColourList();
+	}
+
+	/**
+	 * @see com.gffny.leaderboard.dao.IGolfCourseDAO#getAllGolfCourseList()
+	 */
+	@Override
+	public List<IGolfCourse> getAllGolfCourseList() throws DAOException {
+		log.debug("all courses");
+		DBCursor courseListCursor = courseCollection.find();
+		List<IGolfCourse> golfCourseList = new ArrayList<IGolfCourse>();
+		while (courseListCursor.hasNext()) {
+			CourseDBO courseDbo = new CourseDBO(courseListCursor.next());
+			Iterator<String> courseTeeColourItr = courseDbo.getTeeColourList()
+					.iterator();
+			while (courseTeeColourItr.hasNext()) {
+				IGolfCourse course = courseDbo.getGolfCourse(courseTeeColourItr
+						.next());
+				if (course != null) {
+					golfCourseList.add(course);
+				}
+			}
+		}
+		return golfCourseList;
 	}
 
 	/**

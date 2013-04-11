@@ -1,5 +1,5 @@
 <h1>Leaderboard Login</h1>
-<form action="process" method="GET">
+<form action="process" method="POST">
 	<label for="username">User Name:</label>
 	<input id="username" name="username" type="text"/>
 	<label for="password">Password:</label>
