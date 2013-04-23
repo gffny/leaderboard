@@ -164,4 +164,14 @@ public class MockCompetitionService implements ICompetitionService {
 			String roundName, Date roundDate, int groupSize, String courseId) {
 		return new CompetitionRound(roundName, roundNumber, roundDate, courseId);
 	}
+
+	/**
+	 * @see com.gffny.leaderboard.service.ICompetitionService#updateCompetitionRound(com.gffny.leaderboard.model.ICompetition.ICompetitionRound)
+	 */
+	@Override
+	public IServiceResult updateCompetitionRound(
+			ICompetitionRound competitionRoundToSave) throws ServiceException {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }

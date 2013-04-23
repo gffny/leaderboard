@@ -3,101 +3,25 @@
  */
 package com.gffny.leaderboard.model;
 
+import java.util.Date;
+
 /**
  * 
  * @author John Gaffney (john@gffny.com) Jan 14, 2013
  * 
  */
-public interface IGolfer extends IEntity {
+public interface IGolfer extends IBasicGolfer {
 
 	/**
 	 * 
 	 * @return
 	 */
-	public String getProfileHandle();
-
-	/**
-	 * 
-	 * @param profileHandle
-	 */
-	public void setProfileHandle(String profileHandle);
-
-	/**
-	 * 
-	 * @return
-	 */
-	public String getEmailAddress();
-
-	/**
-	 * 
-	 * @param emailAddress
-	 */
-	public void setEmailAddress(String emailAddress);
-
-	/**
-	 * 
-	 * @return
-	 */
-	public String getFirstName();
-
-	/**
-	 * 
-	 * @param firstName
-	 */
-	public void setFirstName(String firstName);
-
-	/**
-	 * 
-	 * @return
-	 */
-	public String getLastName();
-
-	/**
-	 * 
-	 * @param lastName
-	 */
-	public void setLastName(String lastName);
-
-	/**
-	 * 
-	 * @return
-	 */
-	public String getHandicap();
-
-	/**
-	 * 
-	 * @param handicap
-	 */
-	public void setHandicap(String handicap);
-
-	/**
-	 * 
-	 * @return
-	 */
-	public String getLocation();
-
-	/**
-	 * 
-	 * @param location
-	 */
-	public void setLocation(String location);
-
-	/**
-	 * 
-	 * @return
-	 */
-	public int getUserId();
-
-	/**
-	 * 
-	 * @return
-	 */
-	public String getPassword();
+	public abstract String getPassword();
 
 	/**
 	 * @param object
 	 */
-	public void setPassword(String object);
+	public abstract void setPassword(String object);
 
 	/**
 	 * 
@@ -109,5 +33,38 @@ public interface IGolfer extends IEntity {
 	 * 
 	 * @param lastLogin
 	 */
+	public void setLastLogin(Date lastLogin);
+
+	/**
+	 * 
+	 * @param lastLogin
+	 */
 	public void setLastLogin(String lastLogin);
+
+	/**
+	 * 
+	 * @return
+	 */
+	public int getFailedLoginAttemptsCount();
+
+	/**
+	 * 
+	 */
+	public void incrementFailedLoginAttemptsCount();
+
+	/**
+	 * 
+	 */
+	public void resetFailedLoginAttemptsCount();
+
+	/**
+	 * 
+	 * @return
+	 */
+	public IGolfBag getGolfBag();
+
+	/**
+	 * @param golfBagByUserId
+	 */
+	public void setGolfBag(IGolfBag golfBag);
 }

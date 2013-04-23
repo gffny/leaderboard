@@ -147,7 +147,7 @@ public class GolfCourseDAO extends AbstractMongoDAO implements IGolfCourseDAO {
 	 * @param clubName
 	 * @return
 	 */
-	private ClubDBO getClubDBO(String clubName) {
+	private ClubDBO getClubDBO(String clubName) throws DAOException {
 		return new ClubDBO(clubCollection.findOne(new BasicDBObject("name",
 				clubName)));
 	}

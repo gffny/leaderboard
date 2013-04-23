@@ -27,13 +27,17 @@
 	<security:http auto-config="true" create-session="always" use-expressions="true" entry-point-ref="authenticationProcessingFilterEntryPoint">
 	    		<!-- NO RESTRICITIONS -->
 	    <security:intercept-url pattern="/authentication*" access="permitAll" />
-	    <security:intercept-url pattern="/**" access="hasAnyRole('GOLFER','ADMIN', 'ETC')" />
+		<security:intercept-url pattern="/**" access="hasAnyRole('GOLFER','ADMIN', 'ETC')" />	    
+		<security:intercept-url pattern="/competition/*" access="GOLFER" />
 
 		<security:logout logout-url="/logout"/>
 		
 		<!-- form login -->
-     	<security:form-login login-page="/authentication/login" login-processing-url="/process"
-                 always-use-default-target="true" default-target-url="/"/>
+     	<security:form-login 
+     	    login-page="/authentication/login" 
+     	    login-processing-url="/process"
+			always-use-default-target="true"
+			default-target-url="/competition/create/initial"/>
 		
 		<!-- FIX THIS! 
 		<security:intercept-url pattern="/js/*.js" access="IS_AUTHENTICATED_ANONYMOUSLY" />

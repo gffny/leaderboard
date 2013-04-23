@@ -34,13 +34,12 @@
         <level value="info"/>
     </logger>
 -->
- 
+<!-- 
     <root>
-        <!-- 
             all log messages of level "debug" or higher will be logged, unless defined otherwise 
             all log messages will be logged to the appender "stdout", unless defined otherwise 
-        -->
         <level value="INFO" />
         <appender-ref ref="stdout" />
     </root>
+-->
 </log4j:configuration>

@@ -3,8 +3,12 @@
  */
 package com.gffny.leaderboard.model.impl;
 
+import java.util.Date;
+
+import com.gffny.leaderboard.model.IGolfBag;
 import com.gffny.leaderboard.model.IGolfer;
 import com.gffny.leaderboard.model.abst.SQLEntity;
+import com.gffny.leaderboard.util.DateUtils;
 
 /**
  * @author
@@ -13,14 +17,52 @@ import com.gffny.leaderboard.model.abst.SQLEntity;
 public class Golfer extends SQLEntity implements IGolfer {
 
 	private int societyId;
-	private String profileHandle;
 	private String emailAddress;
 	private String firstName;
 	private String lastName;
 	private String location;
-	private String handicap;
-	private String lastLogin;
+	private String handedness;
+	private int handicap;
+	private Date lastLogin;
 	private String password;
+	private int failedLoginAttemptsCount = 0;
+	private IGolfBag golfBag;
+
+	/**
+	 * 
+	 * @param id
+	 * @param firstName
+	 * @param lastName
+	 * @param profileHandle
+	 */
+	public Golfer(int id, String firstName, String lastName,
+			String profileHandle) {
+		super(profileHandle, id);
+		this.firstName = firstName;
+		this.lastName = lastName;
+		this.lastLogin = new Date(); // TODO handle lastLoginDate
+	}
+
+	/**
+	 * 
+	 * @param id
+	 * @param firstName
+	 * @param lastName
+	 * @param profileHandle
+	 * @param emailAddress
+	 * @param location
+	 * @param handedness
+	 * @param handicap
+	 */
+	public Golfer(int id, String firstName, String lastName,
+			String profileHandle, String emailAddress, String location,
+			String handedness, int handicap) {
+		this(id, firstName, lastName, profileHandle);
+		this.emailAddress = emailAddress;
+		this.location = location;
+		this.handedness = handedness;
+		this.handicap = handicap;
+	}
 
 	/**
 	 * 
@@ -28,64 +70,10 @@ public class Golfer extends SQLEntity implements IGolfer {
 	 */
 	public String toString() {
 		return "Golfer [userId=" + this.getUserId() + ", societyId="
-				+ societyId + ", profileHandle=" + profileHandle
+				+ societyId + ", profileHandle=" + this.getName()
 				+ ", emailAddress=" + emailAddress + ", firstName=" + firstName
 				+ ", lastName=" + lastName + ", handicap=" + handicap
 				+ ", location=" + location + "]";
-	}
-
-	/**
-	 * 
-	 * @param userId
-	 * @param societyId
-	 * @param profileHandle
-	 * @param emailAddress
-	 * @param firstName
-	 * @param lastName
-	 * @param location
-	 * @param handicap
-	 */
-	public Golfer(int userId, int societyId, String profileHandle,
-			String emailAddress, String firstName, String lastName,
-			String location, String handicap) {
-		super(profileHandle, userId);
-		this.societyId = societyId;
-		this.profileHandle = profileHandle;
-		this.emailAddress = emailAddress;
-		this.firstName = firstName;
-		this.lastName = lastName;
-		this.location = location;
-		this.handicap = handicap;
-	}
-
-	/**
-	 * 
-	 * @param firstName
-	 * @param lastName
-	 * @param profileHandle
-	 */
-	public Golfer(int userId, String firstName, String lastName,
-			String profileHandle) {
-		super(profileHandle, userId);
-		this.firstName = firstName;
-		this.lastName = lastName;
-		this.profileHandle = profileHandle;
-	}
-
-	/**
-	 * 
-	 * @param firstName
-	 * @param lastName
-	 * @param profileHandle
-	 * @param password
-	 */
-	public Golfer(int userId, String firstName, String lastName,
-			String profileHandle, String password) {
-		super(profileHandle, userId);
-		this.firstName = firstName;
-		this.lastName = lastName;
-		this.profileHandle = profileHandle;
-		this.password = password;
 	}
 
 	/**
@@ -108,7 +96,7 @@ public class Golfer extends SQLEntity implements IGolfer {
 	 * 
 	 * @return
 	 */
-	public int getSocietyId() {
+	public Integer getSocietyId() {
 		return societyId;
 	}
 
@@ -204,7 +192,7 @@ public class Golfer extends SQLEntity implements IGolfer {
 	 * 
 	 * @see com.gffny.leaderboard.model.IGolfer#getHandicap()
 	 */
-	public String getHandicap() {
+	public Integer getHandicap() {
 		return handicap;
 	}
 
@@ -212,8 +200,42 @@ public class Golfer extends SQLEntity implements IGolfer {
 	 * 
 	 * @see com.gffny.leaderboard.model.IGolfer#setHandicap(java.lang.String)
 	 */
-	public void setHandicap(String handicap) {
+	public void setHandicap(int handicap) {
 		this.handicap = handicap;
+	}
+
+	/**
+	 * 
+	 * @see com.gffny.leaderboard.model.IGolfer#getLocation()
+	 */
+	public String getHandedness() {
+		return handedness;
+	}
+
+	/**
+	 * 
+	 * @see com.gffny.leaderboard.model.IGolfer#setLocation(java.lang.String)
+	 */
+	public void setHandedness(String handedness) {
+		this.handedness = handedness;
+	}
+
+	/**
+	 * 
+	 * @return
+	 */
+	@Override
+	public IGolfBag getGolfBag() {
+		return golfBag;
+	}
+
+	/**
+	 * 
+	 * @see com.gffny.leaderboard.model.IGolfer#setGolfBag(com.gffny.leaderboard.model.IGolfBag)
+	 */
+	@Override
+	public void setGolfBag(IGolfBag golfBag) {
+		this.golfBag = golfBag;
 	}
 
 	/**
@@ -237,7 +259,7 @@ public class Golfer extends SQLEntity implements IGolfer {
 	 */
 	@Override
 	public String getLastLogin() {
-		return this.lastLogin;
+		return this.lastLogin.toString();
 	}
 
 	/**
@@ -245,6 +267,39 @@ public class Golfer extends SQLEntity implements IGolfer {
 	 */
 	@Override
 	public void setLastLogin(String lastLogin) {
+		this.lastLogin = DateUtils.parseDateOrNull(lastLogin,
+				DateUtils.MYSQL_DATE_FORMAT.getPattern());
+	}
+
+	/**
+	 * @see com.gffny.leaderboard.model.IGolfer#setLastLogin(java.lang.String)
+	 */
+	@Override
+	public void setLastLogin(Date lastLogin) {
 		this.lastLogin = lastLogin;
+	}
+
+	/**
+	 * @see com.gffny.leaderboard.model.IGolfer#getFailedLoginAttemptsCount()
+	 */
+	@Override
+	public int getFailedLoginAttemptsCount() {
+		return this.failedLoginAttemptsCount;
+	}
+
+	/**
+	 * @see com.gffny.leaderboard.model.IGolfer#incrementFailedLoginAttemptsCount()
+	 */
+	@Override
+	public void incrementFailedLoginAttemptsCount() {
+		this.failedLoginAttemptsCount++;
+	}
+
+	/**
+	 * @see com.gffny.leaderboard.model.IGolfer#resetFailedLoginAttemptsCount()
+	 */
+	@Override
+	public void resetFailedLoginAttemptsCount() {
+		this.failedLoginAttemptsCount = 0;
 	}
 }

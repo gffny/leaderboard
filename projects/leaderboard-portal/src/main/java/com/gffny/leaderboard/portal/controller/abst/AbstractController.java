@@ -1,4 +1,4 @@
-package com.gffny.leaderboard.portal.controller;
+package com.gffny.leaderboard.portal.controller.abst;
 
 import javax.servlet.http.HttpSession;
 
@@ -18,7 +18,7 @@ import org.springframework.web.servlet.support.WebContentGenerator;
 import com.gffny.leaderboard.intralayer.ServiceException;
 import com.gffny.leaderboard.model.IGolfer;
 import com.gffny.leaderboard.model.JSONable;
-import com.gffny.leaderboard.portal.model.ui.InitResponseDto;
+import com.gffny.leaderboard.portal.model.dto.InitResponseDto;
 import com.gffny.leaderboard.portal.model.ui.JsonResponse;
 import com.gffny.leaderboard.portal.model.ui.JsonResponse.JsonFailResponse;
 import com.gffny.leaderboard.portal.model.ui.JsonResponse.JsonSuccessResponse;
@@ -38,6 +38,16 @@ public abstract class AbstractController extends WebContentGenerator {
 
 	public ServletData getServletData() {
 		return RequestContext.get().getServletData();
+	}
+
+	protected ModelAndView getDefaultView() {
+		// TODO Make this configurable
+		return new ModelAndView("redirect:/competition/create/initial");
+	}
+
+	protected ModelAndView getLoginView() {
+		// TODO Make this configurable
+		return new ModelAndView("redirect:/authentication/login");
 	}
 
 	protected ModelAndView getErrorModel(ServiceException serEx) {

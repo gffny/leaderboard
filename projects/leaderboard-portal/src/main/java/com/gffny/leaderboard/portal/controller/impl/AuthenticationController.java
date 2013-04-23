@@ -1,7 +1,7 @@
 /**
  * 
  */
-package com.gffny.leaderboard.portal.controller;
+package com.gffny.leaderboard.portal.controller.impl;
 
 import java.io.IOException;
 import java.util.Date;
@@ -27,8 +27,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.gffny.leaderboard.model.JSONable;
+import com.gffny.leaderboard.portal.controller.abst.AbstractController;
 import com.gffny.leaderboard.portal.manager.impl.UserManager;
-import com.gffny.leaderboard.portal.model.ui.InitResponseDto;
+import com.gffny.leaderboard.portal.model.dto.InitResponseDto;
 import com.gffny.leaderboard.portal.model.ui.JsonResponse;
 
 /**
@@ -56,13 +57,25 @@ public class AuthenticationController extends AbstractController {
 		return model;
 	}
 
-	@RequestMapping(value = "/process", method = RequestMethod.POST, headers = "Accept=application/json")
-	public ResponseEntity<JsonResponse<JSONable>> process(
+	@RequestMapping(value = "/asychprocess", method = RequestMethod.POST, headers = "Accept=application/json")
+	public ResponseEntity<JsonResponse<JSONable>> asynchprocess(
 			@RequestBody String body, HttpSession session,
 			HttpServletRequest request) throws JsonParseException,
 			JsonMappingException, IOException {
 
 		return loginInternal("gffny", "passphrase", session, request);
+	}
+
+	@RequestMapping(value = "/process", method = RequestMethod.POST, headers = "Accept=application/json")
+	public ModelAndView process(@RequestBody String body, HttpSession session,
+			HttpServletRequest request) throws JsonParseException,
+			JsonMappingException, IOException {
+		if (loginInternal("gffny", "passphrase", session, request)
+				.getStatusCode().equals(HttpStatus.OK)) {
+			return getDefaultView();
+		} else {
+			return getLoginView();
+		}
 	}
 
 	@RequestMapping("/logout")

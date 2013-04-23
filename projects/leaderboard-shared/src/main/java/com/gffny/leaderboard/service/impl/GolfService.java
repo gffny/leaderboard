@@ -52,7 +52,7 @@ public class GolfService extends AbstractService implements IGolfService {
 	public List<IScorecard> getLatestScorecardByUserId(String userId) {
 		try {
 			return scorecardDao.getLatestScorecardForUser(userId);
-		} catch (ServiceException e) {
+		} catch (DAOException e) {
 			// TODO
 			e.printStackTrace();
 		}
@@ -67,7 +67,7 @@ public class GolfService extends AbstractService implements IGolfService {
 	public List<IScorecard> getAllScorecardByUserId(String userId) {
 		try {
 			return scorecardDao.getScorecardListForUser(userId);
-		} catch (ServiceException e) {
+		} catch (DAOException e) {
 			e.printStackTrace();
 		}
 		return null;
@@ -84,7 +84,7 @@ public class GolfService extends AbstractService implements IGolfService {
 		try {
 			return scorecardDao.getLastXScorecardListForUser(userId,
 					xNumberOfScorecards);
-		} catch (ServiceException e) {
+		} catch (DAOException e) {
 
 			e.printStackTrace();
 		}
@@ -111,8 +111,14 @@ public class GolfService extends AbstractService implements IGolfService {
 		// Check if the parameters are not null
 		if (competitionRoundId != null && userId != null && scoreArray != null
 				&& (scoreArray.length > 0 && scoreArray.length < 18)) {
-			scorecardDao.submitScorecardForCompetitionRound(competitionRoundId,
-					userId, scoreArray);
+			try {
+				scorecardDao.submitScorecardForCompetitionRound(
+						competitionRoundId, userId, scoreArray);
+			} catch (DAOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+				throw new ServiceException(e.getMessage());
+			}
 		}
 		System.out.println(competitionRoundId + " " + userId + " "
 				+ scoreArray.toString());

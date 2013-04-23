@@ -1,7 +1,7 @@
 /**
  * 
  */
-package com.gffny.leaderboard.portal.controller;
+package com.gffny.leaderboard.portal.controller.impl;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,6 +18,7 @@ import org.springframework.web.servlet.ModelAndView;
 import com.gffny.leaderboard.intralayer.ServiceException;
 import com.gffny.leaderboard.model.ICompetition;
 import com.gffny.leaderboard.model.IGolfCourse;
+import com.gffny.leaderboard.portal.controller.abst.AbstractController;
 import com.gffny.leaderboard.service.ICompetitionService;
 import com.gffny.leaderboard.service.IGolfCourseService;
 import com.gffny.leaderboard.service.IScorecardService;

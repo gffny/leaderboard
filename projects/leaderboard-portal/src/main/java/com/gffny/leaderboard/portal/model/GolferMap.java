@@ -5,13 +5,13 @@ package com.gffny.leaderboard.portal.model;
 
 import java.util.HashMap;
 
-import com.gffny.leaderboard.model.IGolfer;
+import com.gffny.leaderboard.model.IBasicGolfer;
 
 /**
  * @author John Gaffney (john@gffny.com) Jul 26, 2012
  * 
  */
-public class GolferMap extends HashMap<String, Object> implements IGolfer {
+public class GolferMap extends HashMap<String, Object> implements IBasicGolfer {
 
 	private static final String HANDICAP = "handicap";
 	private static final String LOCATION = "location";
@@ -20,6 +20,7 @@ public class GolferMap extends HashMap<String, Object> implements IGolfer {
 	private static final String FIRST_NAME = "firstName";
 	private static final String EMAIL_ADDRESS = "emailAddress";
 	private static final String PROFILE_HANDLE = "profileHandle";
+	private static final String SOCIETY_ID = "societyId";
 
 	/**
 	 * 
@@ -107,8 +108,22 @@ public class GolferMap extends HashMap<String, Object> implements IGolfer {
 	/**
 	 * 
 	 */
-	public void setHandicap(String handicap) {
-		this.put(HANDICAP, handicap);
+	public void setHandicap(int handicap) {
+		this.put(HANDICAP, String.valueOf(handicap));
+	}
+
+	/**
+	 * 
+	 */
+	public String getSocietyId() {
+		return (String) this.get(SOCIETY_ID);
+	}
+
+	/**
+	 * 
+	 */
+	public void setSocietyId(int societyId) {
+		this.put(SOCIETY_ID, String.valueOf(societyId));
 	}
 
 	/**
@@ -160,28 +175,4 @@ public class GolferMap extends HashMap<String, Object> implements IGolfer {
 	public boolean isNew() {
 		return false;
 	}
-
-	@Override
-	public String getPassword() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public void setPassword(String object) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public String getLastLogin() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public void setLastLogin(String lastLogin) {
-		// TODO Auto-generated method stub
-
-	};
 }

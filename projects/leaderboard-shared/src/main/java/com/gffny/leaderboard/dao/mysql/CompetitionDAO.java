@@ -18,11 +18,11 @@ import org.springframework.stereotype.Component;
 import com.gffny.leaderboard.dao.ICompetitionDAO;
 import com.gffny.leaderboard.intralayer.DAOException;
 import com.gffny.leaderboard.intralayer.DAOResult;
+import com.gffny.leaderboard.intralayer.IDAOResult;
 import com.gffny.leaderboard.model.ICompetition;
 import com.gffny.leaderboard.model.ICompetition.ICompetitionRound;
 import com.gffny.leaderboard.model.ICompetitionType;
 import com.gffny.leaderboard.model.impl.Competition;
-import com.gffny.leaderboard.model.impl.CompetitionRound;
 import com.gffny.leaderboard.model.impl.CompetitionType;
 import com.gffny.leaderboard.util.DateUtils;
 
@@ -31,7 +31,8 @@ import com.gffny.leaderboard.util.DateUtils;
  * 
  */
 @Component
-public class CompetitionDAO extends AbstractMySQLDAO implements ICompetitionDAO {
+public class CompetitionDAO extends AbstractMySQLDAO implements
+		ICompetitionDAO, IDatabaseNames {
 
 	private static Logger log = Logger.getLogger(CompetitionDAO.class);
 
@@ -41,66 +42,95 @@ public class CompetitionDAO extends AbstractMySQLDAO implements ICompetitionDAO 
 
 	private List<ICompetitionType> competitionTypeList;
 
-	private static ICompetitionDAO INSTANCE = null;
-
-	/**
-	 * 
-	 * @return
-	 */
-	public static ICompetitionDAO getInstance() {
-		if (INSTANCE == null) {
-			INSTANCE = new CompetitionDAO();
-		}
-		return INSTANCE;
-	}
-
 	/**
 	 * 
 	 */
-	private CompetitionDAO() {
+	public CompetitionDAO() {
 		competitionTypeMap = new HashMap<String, ICompetitionType>();
 		competitionTypeIdMap = new HashMap<Integer, ICompetitionType>();
 		competitionTypeList = new ArrayList<ICompetitionType>();
 	}
 
+	/* COMPETITION */
 	/**
+	 * 
 	 * @throws SQLException
-	 * @see com.gffny.leaderboard.dao.ICompetitionDAO#getCompetitionTypeList()
+	 * @see com.gffny.leaderboard.dao.ICompetitionDAO#getCompetitionById(int)
 	 */
 	@Override
-	public List<ICompetitionType> getCompetitionTypeList() {
+	public ICompetition getCompetitionById(int competitionId) {
+		ResultSet rs = null;
+		PreparedStatement stmnt = null;
+		try {
+			stmnt = getConnection().prepareStatement(
+					"SELECT * FROM " + COMPETITION_TABLE + " WHERE "
+							+ COMPETITION_ID_COL + " = ?;");
+			stmnt.setInt(1, competitionId);
+			rs = stmnt.executeQuery();
 
-		// check if the competitionTypeList is empty
-		if (competitionTypeList == null || competitionTypeList.isEmpty()) {
-			populateCompetitionTypeCollections();
+			// traverse the results populating the competitionType collections
+			if (rs.next()) {
+				log.debug("Processing Row: " + rs.getRow());
+				ICompetition competition = mapCompetition(rs);
+				// service layer will populate the round list from the database
+				return competition;
+			}
+		} catch (DAOException daoEx) {
+			try {
+				rs.close();
+				stmnt.close();
+			} catch (SQLException sqlEx) {
+			}
+			return logErrorReturnEmptyClass(daoEx, log, Competition.class);
+		} catch (SQLException e) {
+			return logErrorReturnEmptyClass(e, log, Competition.class);
 		}
-		return competitionTypeList;
+		return null;
 	}
 
 	/**
-	 * 
-	 * @param competitionTypeName
-	 * @return
+	 * @see com.gffny.leaderboard.dao.ICompetitionDAO#saveCompetition()
 	 */
 	@Override
-	public ICompetitionType getCompetitionTypeByName(String competitionTypeName) {
-		if (competitionTypeMap == null || competitionTypeList.isEmpty()) {
-			populateCompetitionTypeCollections();
+	public IDAOResult saveCompetition(ICompetition competition)
+			throws DAOException {
+		PreparedStatement stmnt = null;
+		ResultSet rs = null;
+		if (competition != null && competition.isNew()) {
+			try {
+				stmnt = getConnection().prepareStatement(
+						"INSERT INTO " + COMPETITION_TABLE + " ("
+								+ COMPETITION_NM_COL + ", "
+								+ COMPETITION_TY_ID_COL + ", "
+								+ COMPETITION_VISIBILITY_COL
+								+ ") VALUES (?, ?, ?)",
+						Statement.RETURN_GENERATED_KEYS);
+				stmnt.setString(1, competition.getName());
+				stmnt.setInt(2, ((Integer) competition
+						.getCompetitionScoringSystem().getId()).intValue());
+				stmnt.setString(3, competition.getCompetitionVisibility());
+				stmnt.execute();
+				rs = stmnt.getGeneratedKeys();
+				rs.next();
+				saveCompetitionRoundList(competition.getCompetitionId(),
+						competition.getCompetitionRoundList());
+				return new DAOResult(true, rs.getString(1));
+			} catch (SQLException e) {
+				log.error(e.getMessage());
+				try {
+					stmnt.close();
+					rs.close();
+				} catch (SQLException sqlEx) {
+					log.error("cannot close statement or result set");
+				}
+				return new DAOResult(false);
+			}
+		} else if (competition != null && !competition.isNew()) {
+			return updateCompetition(competition);
+		} else {
+			log.error("competition was null or competition name already existed in the table");
+			return new DAOResult(false);
 		}
-		return competitionTypeMap.get(competitionTypeName.toLowerCase());
-	}
-
-	/**
-	 * 
-	 * @param competitionTypeName
-	 * @return
-	 */
-	@Override
-	public ICompetitionType getCompetitionTypeById(int competitionTypeId) {
-		if (competitionTypeMap == null || competitionTypeList.isEmpty()) {
-			populateCompetitionTypeCollections();
-		}
-		return competitionTypeIdMap.get(competitionTypeId);
 	}
 
 	/**
@@ -112,9 +142,9 @@ public class CompetitionDAO extends AbstractMySQLDAO implements ICompetitionDAO 
 		ResultSet rs = null;
 		boolean result = true;
 		try {
-			stmnt = getConnection()
-					.prepareStatement(
-							"SELECT EXISTS(SELECT * FROM t_cmpttn WHERE cmpttn_nm = ?)");
+			stmnt = getConnection().prepareStatement(
+					"SELECT EXISTS(SELECT * FROM " + COMPETITION_TABLE
+							+ " WHERE " + COMPETITION_NM_COL + " = ?)");
 			stmnt.setString(1, competitionName);
 			rs = stmnt.executeQuery();
 			rs.next();
@@ -142,150 +172,134 @@ public class CompetitionDAO extends AbstractMySQLDAO implements ICompetitionDAO 
 	}
 
 	/**
-	 * 
-	 * @throws SQLException
-	 * @see com.gffny.leaderboard.dao.ICompetitionDAO#getCompetitionById(int)
+	 * @see com.gffny.leaderboard.dao.ICompetitionDAO#getCompetitionListForUserId(java.lang.String)
 	 */
 	@Override
-	public ICompetition getCompetitionById(int competitionId) {
-		ResultSet rs = null;
-		PreparedStatement stmnt = null;
-		try {
-			stmnt = getConnection().prepareStatement(
-					"SELECT * FROM t_cmpttn WHERE cmpttn_id = ?;");
-			stmnt.setInt(1, competitionId);
-			rs = stmnt.executeQuery();
+	public List<ICompetition> getCompetitionListForUserId(String userId) {
 
-			// traverse the results populating the competitionType collections
-			if (rs.next()) {
-				log.debug("Processing Row: " + rs.getRow());
-				ICompetition competition = new Competition(
-						rs.getInt("cmpttn_id"),// id,
-						rs.getString("cmpttn_nm"),// name,
-						getCompetitionTypeById(rs.getInt("cmpttn_ty_id")),// competitionScoringSystem,
-						rs.getString("cmpttn_vsblty"),// rs.getString("cmpttn_"),//competitionVisibility,
-						0// numberOfRounds
-				);
-				// TODO get the round list from the database!
-				List<ICompetitionRound> competitionRoundList = getCompetitionRoundListByCompetitionId(competitionId);
-				competition.addCompetitionRoundList(competitionRoundList);
-				return competition;
+		/*
+		 * Get all the competitions which the user created (competition.usrId =
+		 * userId) Get all the competitions to which the user has been invited
+		 * or entered (competitionEntry.golferId = userId)
+		 */
+		PreparedStatement stmnt = null;
+		ResultSet rs = null;
+		try {
+			List<ICompetition> competitionList = new ArrayList<ICompetition>();
+			stmnt = getConnection().prepareStatement(
+					"SELECT c.* FROM " + COMPETITION_ENTRY_TABLE + " e, "
+							+ COMPETITION_TABLE + " c WHERE c."
+							+ COMPETITION_ID_COL + " = e." + COMPETITION_ID_COL
+							+ " AND e." + GOLFER_ID_COL + " = ?;");
+			stmnt.setString(1, userId);
+			rs = stmnt.executeQuery();
+			while (rs.next()) {
+				competitionList.add(mapCompetition(rs));
 			}
-		} catch (DAOException daoEx) {
+			return competitionList;
+		} catch (DAOException e) {
+			log.error(e.getMessage());
 			try {
 				rs.close();
 				stmnt.close();
 			} catch (SQLException sqlEx) {
 			}
-			return logErrorReturnEmptyClass(daoEx, log, Competition.class);
 		} catch (SQLException e) {
-			return logErrorReturnEmptyClass(e, log, Competition.class);
+			log.error(e.getMessage());
+			try {
+				rs.close();
+				stmnt.close();
+			} catch (SQLException sqlEx) {
+			}
 		}
+		return new ArrayList<ICompetition>();
+	}
+
+	/**
+	 * 
+	 * @see com.gffny.leaderboard.dao.ICompetitionDAO#getEnteredCompetitionListForUser(java.lang.String)
+	 */
+	public List<ICompetition> getEnteredCompetitionListForUser(String userId)
+			throws DAOException {
 		return null;
 	}
 
+	/* COMPETITION TYPE */
 	/**
-	 * @param competitionId
+	 * 
+	 * @param competitionTypeId
 	 * @return
 	 */
-	public List<ICompetitionRound> getCompetitionRoundListByCompetitionId(
-			int competitionId) {
-		ResultSet rs = null;
-		PreparedStatement stmnt = null;
-		try {
-			stmnt = getConnection().prepareStatement(
-					"SELECT * FROM t_cmpttn_rnd WHERE cmpttn_id = ?;");
-			stmnt.setInt(1, competitionId);
-			rs = stmnt.executeQuery();
-			List<ICompetitionRound> competitionRoundList = new ArrayList<ICompetitionRound>();
-
-			// traverse the results populating the competitionType collections
-			if (rs.next()) {
-				log.debug("Processing Row: " + rs.getRow());
-
-				ICompetitionRound competitionRound = new CompetitionRound(
-						rs.getInt("cmpttn_rnd_id"),// id,
-						rs.getString("rnd_nm"),// name,
-						rs.getInt("rnd_nmbr"), // round number
-						rs.getString("crs_id"), // course
-						rs.getDate("rnd_d"), // round date
-						null, // list
-						null // map
-				);
-				competitionRoundList.add(competitionRound);
-			}
-			return competitionRoundList;
-		} catch (DAOException daoEx) {
-			try {
-				rs.close();
-				stmnt.close();
-			} catch (SQLException sqlEx) {
-			}
-			return logErrorReturnEmptyList(daoEx, log, ICompetitionRound.class);
-		} catch (SQLException e) {
-			return logErrorReturnEmptyList(e, log, ICompetitionRound.class);
+	@Override
+	public ICompetitionType getCompetitionTypeById(int competitionTypeId) {
+		if (competitionTypeMap == null || competitionTypeList.isEmpty()) {
+			populateCompetitionTypeCollections();
 		}
+		return competitionTypeIdMap.get(competitionTypeId);
 	}
 
 	/**
-	 * @see com.gffny.leaderboard.dao.ICompetitionDAO#saveCompetition()
+	 * 
+	 * @param competitionTypeName
+	 * @return
 	 */
 	@Override
-	public DAOResult saveCompetition(ICompetition competition)
-			throws DAOException {
-		PreparedStatement stmnt = null;
-		ResultSet rs = null;
-		if (competition != null && competition.isNew()) {
-			try {
-				stmnt = getConnection()
-						.prepareStatement(
-								"INSERT INTO t_cmpttn (cmpttn_nm, cmpttn_ty_id, cmpttn_vsblty) VALUES (?, ?, ?)",
-								Statement.RETURN_GENERATED_KEYS);
-				stmnt.setString(1, competition.getName());
-				stmnt.setInt(2, ((Integer) competition
-						.getCompetitionScoringSystem().getId()).intValue());
-				stmnt.setString(3, competition.getCompetitionVisibility());
-				boolean result = stmnt.execute();
-				rs = stmnt.getGeneratedKeys();
-				rs.next();
-				List<ICompetitionRound> roundList = competition
-						.getCompetitionRoundList();
-				for (int i = 0; i < roundList.size(); i++) {
-					ICompetitionRound round = roundList.get(i);
-					round.setCompetitionId(competition.getCompetitionId());
-					saveCompetitionRound(round);
-				}
-				return new DAOResult(result, rs.getString(1));
-			} catch (SQLException e) {
-				log.error(e.getMessage());
-				try {
-					stmnt.close();
-					rs.close();
-				} catch (SQLException sqlEx) {
-					log.error("cannot close statement or result set");
-				}
-				return new DAOResult(false);
-			}
-		} else if (competition != null && !competition.isNew()) {
-			return updateCompetition(competition);
-		} else {
-			log.error("competition was null or competition name already existed in the table");
-			return new DAOResult(false);
+	public ICompetitionType getCompetitionTypeByName(String competitionTypeName) {
+		if (competitionTypeMap == null || competitionTypeList.isEmpty()) {
+			populateCompetitionTypeCollections();
 		}
+		return competitionTypeMap.get(competitionTypeName.toLowerCase());
+	}
+
+	/**
+	 * 
+	 * @see com.gffny.leaderboard.dao.ICompetitionDAO#getCompetitionTypeList()
+	 */
+	@Override
+	public List<ICompetitionType> getCompetitionTypeList() {
+
+		// check if the competitionTypeList is empty
+		if (competitionTypeList == null || competitionTypeList.isEmpty()) {
+			populateCompetitionTypeCollections();
+		}
+		return competitionTypeList;
+	}
+
+	// select e.*, u.prfl_nm, c.cmpttn_nm from t_cmpttn_entry e, t_usr u,
+	// t_cmpttn c WHERE u.usr_id = e.glfr_id AND e.is_entry = 'Y';
+
+	/* HELPER METHODS */
+	/**
+	 * 
+	 * @param competitionId
+	 * @param competitionRoundList
+	 */
+	private List<IDAOResult> saveCompetitionRoundList(int competitionId,
+			List<ICompetitionRound> competitionRoundList) {
+		ArrayList<IDAOResult> roundDAOResultList = new ArrayList<IDAOResult>();
+		if (competitionId > 0 && !competitionRoundList.isEmpty()) {
+			for (ICompetitionRound competitionRound : competitionRoundList) {
+				roundDAOResultList.add(saveCompetitionRound(competitionRound));
+			}
+		}
+		return roundDAOResultList;
 	}
 
 	/**
 	 * @param competitionToSave
 	 * @return
 	 */
-	private DAOResult updateCompetition(ICompetition competitionToSave)
+	private IDAOResult updateCompetition(ICompetition competitionToSave)
 			throws DAOException {
 		PreparedStatement stmnt = null;
 		ResultSet rs = null;
+		List<IDAOResult> subResultList = new ArrayList<IDAOResult>();
 		try {
 			stmnt = getConnection().prepareStatement(
-					"UPDATE t_cmpttn SET cmpttn_nm = ?, cmpttn_ty_id = ?"
-							+ " WHERE cmpttn_id = ?",
+					"UPDATE " + COMPETITION_TABLE + " SET "
+							+ COMPETITION_NM_COL + " = ?, "
+							+ COMPETITION_TY_ID_COL + " = ?" + " WHERE "
+							+ COMPETITION_ID_COL + " = ?",
 					Statement.RETURN_GENERATED_KEYS);
 			stmnt.setString(1, competitionToSave.getName());
 			stmnt.setInt(2, ((Integer) competitionToSave
@@ -297,7 +311,7 @@ public class CompetitionDAO extends AbstractMySQLDAO implements ICompetitionDAO 
 			List<ICompetitionRound> roundList = competitionToSave
 					.getCompetitionRoundList();
 			for (int i = 0; i < roundList.size(); i++) {
-				saveCompetitionRound(roundList.get(i));
+				subResultList.add(saveCompetitionRound(roundList.get(i)));
 			}
 			return new DAOResult(result, rs.getString(1));
 		} catch (SQLException e) {
@@ -315,79 +329,83 @@ public class CompetitionDAO extends AbstractMySQLDAO implements ICompetitionDAO 
 	/**
 	 * @param competitionRoundToSave
 	 */
-	public DAOResult saveCompetitionRound(
-			ICompetitionRound competitionRoundToSave) throws DAOException {
+	private DAOResult saveCompetitionRound(
+			ICompetitionRound competitionRoundToSave) {
 		PreparedStatement stmnt = null;
 		ResultSet rs = null;
-		if (competitionRoundToSave != null && competitionRoundToSave.isNew()) {
-			try {
-				/*
-				 * the CompetitionRound data and types *************************
-				 * int competitionId, String courseId,int number, **************
-				 * int holeListLength, Date date, ******************************
-				 * List<IGolfGroup> groupList, Map<IGolfGroup, Date> teeTimeMap,
-				 * ICompetitionType competitionType
-				 */
-				stmnt = getConnection()
-						.prepareStatement(
-								// SET cmpttn_rnd_nm=?, cmpttn_id=?, rnd_d=?,
-								// crs_id, rnd_nmbr, hl_qntty, cmpttn_ty_id"
-								"INSERT INTO t_cmpttn_rnd (rnd_nm, cmpttn_id, rnd_d, crs_id, rnd_nmbr, hl_qntty, cmpttn_ty_id) VALUES (?, ?, ?)",
-								Statement.RETURN_GENERATED_KEYS);
-				stmnt.setString(1, competitionRoundToSave.getName());
-				stmnt.setString(2, String.valueOf(competitionRoundToSave
-						.getCompetitionId()));
-				stmnt.setString(3, DateUtils.format(
-						competitionRoundToSave.getRoundDate(),
-						DateUtils.MYSQL_DATE_FORMAT.getPattern()));
-				boolean result = stmnt.execute();
-				rs = stmnt.getGeneratedKeys();
-				rs.next();
-				return new DAOResult(result, rs.getString(1));
-			} catch (SQLException e) {
-				log.error(e.getMessage());
+		if (competitionRoundToSave != null) {
+			if (competitionRoundToSave.isNew()) {
+				// Save Competition Round
 				try {
-					stmnt.close();
-					if (rs != null) {
-						rs.close();
-					}
-				} catch (SQLException sqlEx) {
-					log.error("cannot close statement or result set");
-				} catch (NullPointerException npEx) {
+					stmnt = getConnection().prepareStatement(
+							"INSERT INTO " + COMPETITION_ROUND_TABLE + " ("
+									+ ROUND_NM_COL + ", " + COMPETITION_ID_COL
+									+ ", " + ROUND_D_COL + ", " + COURSE_ID_COL
+									+ ", " + ROUND_NMBR_COL + ", "
+									+ HOLE_QUANTITY_COL + ", "
+									+ COMPETITION_TY_ID_COL
+									+ ") VALUES (?, ?, ?)",
+							Statement.RETURN_GENERATED_KEYS);
+					stmnt.setString(1, competitionRoundToSave.getName());
+					stmnt.setString(2, String.valueOf(competitionRoundToSave
+							.getCompetitionId()));
+					stmnt.setString(3, DateUtils.format(
+							competitionRoundToSave.getRoundDate(),
+							DateUtils.MYSQL_DATE_FORMAT.getPattern()));
+					boolean result = stmnt.execute();
+					rs = stmnt.getGeneratedKeys();
+					rs.next();
+					return new DAOResult(result, rs.getString(1));
+				} catch (SQLException e) {
+					log.error(e.getMessage());
+					try {
+						stmnt.close();
+						if (rs != null) {
+							rs.close();
+						}
+					} catch (SQLException sqlEx) {
+						log.error("cannot close statement or result set");
+					} catch (NullPointerException npEx) {
 
+					}
 				}
-				return new DAOResult(false);
+			} else {
+				// Update Competition Round
+				return updateCompetitionRound(competitionRoundToSave);
 			}
-		} else if (competitionRoundToSave != null
-				&& !competitionRoundToSave.isNew()) {
-			return updateCompetitionRound(competitionRoundToSave);
-		} else {
-			log.error("competition was null or competition name already existed in the table");
-			return new DAOResult(false);
 		}
+		return new DAOResult(false);
 	}
 
 	/**
 	 * @param iCompetitionRound
 	 */
 	private DAOResult updateCompetitionRound(
-			ICompetitionRound competitionRoundToSave) {
+			ICompetitionRound competitionRoundToUpdate) {
 		PreparedStatement stmnt = null;
 		ResultSet rs = null;
-		if (competitionRoundToSave != null && competitionRoundToSave.isNew()) {
+		// make sure the competitionRoundToUpdate is valid
+		if (competitionRoundToUpdate != null
+				&& !competitionRoundToUpdate.isNew()
+				&& competitionRoundToUpdate.getRoundId() > 0) {
 			try {
-				stmnt = getConnection()
-						.prepareStatement(
-								"UPDATE t_cmpttn_rnd "
-										+ "SET rnd_nm=?, cmpttn_id=?, rnd_d=?, crs_id, rnd_nmbr, hl_qntty, cmpttn_ty_id"
-										+ "WHERE cmpttn_rnd_id=?",
-								Statement.RETURN_GENERATED_KEYS);
-				stmnt.setString(1, competitionRoundToSave.getName());
-				stmnt.setString(2, String.valueOf(competitionRoundToSave
+				stmnt = getConnection().prepareStatement(
+						"UPDATE " + COMPETITION_ROUND_TABLE + " SET "
+								+ ROUND_NM_COL + "=?, " + COMPETITION_ID_COL
+								+ "=?, " + ROUND_D_COL + "=?, " + COURSE_ID_COL
+								+ "=?, " + ROUND_NMBR_COL + "=?, "
+								+ HOLE_QUANTITY_COL + "=?, "
+								+ COMPETITION_TY_ID_COL + "=?" + "WHERE "
+								+ COMPETITION_ROUND_ID_COL + "=?",
+						Statement.RETURN_GENERATED_KEYS);
+				stmnt.setString(1, competitionRoundToUpdate.getName());
+				stmnt.setString(2, String.valueOf(competitionRoundToUpdate
 						.getCompetitionId()));
 				stmnt.setString(3, DateUtils.format(
-						competitionRoundToSave.getRoundDate(), "YYYY-MM-DD"));
-				stmnt.setString(4, competitionRoundToSave.getRoundIdAsString());
+						competitionRoundToUpdate.getRoundDate(),
+						DateUtils.MYSQL_DATE_FORMAT.getPattern()));
+				stmnt.setString(4,
+						competitionRoundToUpdate.getRoundIdAsString());
 				boolean result = stmnt.execute();
 				rs = stmnt.getGeneratedKeys();
 				rs.next();
@@ -403,7 +421,7 @@ public class CompetitionDAO extends AbstractMySQLDAO implements ICompetitionDAO 
 				return new DAOResult(false);
 			}
 		} else {
-			return null;
+			return new DAOResult(false);
 		}
 	}
 
@@ -424,20 +442,20 @@ public class CompetitionDAO extends AbstractMySQLDAO implements ICompetitionDAO 
 		}
 		try {
 			PreparedStatement stmnt = getConnection().prepareStatement(
-					"SELECT * FROM t_cmpttn_ty;");
+					"SELECT * FROM " + COMPETITION_TY_TABLE + ";");
 			ResultSet res = stmnt.executeQuery();
 
 			// traverse the results populating the competitionType collections
 			while (res.next()) {
 				log.debug("Processing Row: " + res.getRow());
-				addCompetitionTypeToCollections(new CompetitionType(
-						res.getInt("ty_id"), // id
-						res.getString("ty_nm"), // name
-						res.getString("ty_schdlr"), // scheduler
-						res.getString("ty_scrr"), // scorer
-						res.getBoolean("ty_tm"), // isTeam
-						res.getBoolean("ty_pr"), // isPair
-						res.getBoolean("ty_indvdl") // isIndividual
+				addCompetitionTypeToCollections(new CompetitionType(getInt(res,
+						TYPE_ID_COL), // id
+						getString(res, TYPE_NM_COL), // name
+						getString(res, TYPE_SCHEDULER_COL), // scheduler
+						getString(res, TYPE_SCORER_COL), // scorer
+						getBoolean(res, TYPE_TEAM_COL), // isTeam
+						getBoolean(res, TYPE_PAIR_COL), // isPair
+						getBoolean(res, TYPE_INDIVIDUAL_COL) // isIndividual
 				));
 			}
 		} catch (DAOException e) {
@@ -461,5 +479,18 @@ public class CompetitionDAO extends AbstractMySQLDAO implements ICompetitionDAO 
 					competitionType);
 			competitionTypeIdMap.put(competitionType.getId(), competitionType);
 		}
+	}
+
+	/**
+	 * @param resultSet
+	 * @return
+	 */
+	private Competition mapCompetition(ResultSet resultSet) {
+		return new Competition(
+				getInt(resultSet, COMPETITION_ID_COL),// id,
+				getString(resultSet, COMPETITION_NM_COL),// name,
+				getCompetitionTypeById(getInt(resultSet, COMPETITION_TY_ID_COL)),// competitionScoringSystem,
+				getString(resultSet, COMPETITION_VISIBILITY_COL)// rs.getString("cmpttn_"),//competitionVisibility,
+		);
 	}
 }

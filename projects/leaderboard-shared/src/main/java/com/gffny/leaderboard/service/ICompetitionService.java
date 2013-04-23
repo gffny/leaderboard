@@ -61,15 +61,6 @@ public interface ICompetitionService {
 
 	/**
 	 * 
-	 * @param competitionRoundToSave
-	 * @return
-	 * @throws ServiceException
-	 */
-	public IServiceResult updateCompetitionRound(
-			ICompetitionRound competitionRoundToSave) throws ServiceException;
-
-	/**
-	 * 
 	 * @param competitionId
 	 * @return
 	 * @throws ServiceException

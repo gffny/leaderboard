@@ -3,7 +3,10 @@
  */
 package test.gffny.leaderboard.dao;
 
+import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
+
+import java.util.List;
 
 import org.junit.After;
 import org.junit.Before;
@@ -11,7 +14,10 @@ import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.gffny.leaderboard.dao.IScorecardDAO;
-import com.gffny.leaderboard.intralayer.ServiceException;
+import com.gffny.leaderboard.dao.mysql.ScorecardDAO;
+import com.gffny.leaderboard.intralayer.DAOException;
+import com.gffny.leaderboard.model.IScorecard;
+import com.gffny.leaderboard.util.CollectionUtils;
 
 /**
  * @author John Gaffney (john@gffny.com) Jul 30, 2012
@@ -20,7 +26,7 @@ import com.gffny.leaderboard.intralayer.ServiceException;
 public class ScorecardDAOTest {
 
 	@Autowired
-	private IScorecardDAO scorecardDao;
+	private IScorecardDAO scorecardDao = new ScorecardDAO();
 
 	/**
 	 * @throws java.lang.Exception
@@ -45,7 +51,7 @@ public class ScorecardDAOTest {
 	public final void testGetScorecardListForUser() {
 		try {
 			scorecardDao.getScorecardListForUser("1");
-		} catch (ServiceException e) {
+		} catch (DAOException e) {
 			e.printStackTrace();
 			fail();
 		}
@@ -61,7 +67,7 @@ public class ScorecardDAOTest {
 		try {
 			System.out.println(scorecardDao.getScorecardListForUser("1")
 					.toString());
-		} catch (ServiceException e) {
+		} catch (DAOException e) {
 			e.printStackTrace();
 			fail();
 		}
@@ -77,10 +83,25 @@ public class ScorecardDAOTest {
 		try {
 			System.out.println(scorecardDao.getScorecardListForUser("1")
 					.toString());
-		} catch (ServiceException e) {
+		} catch (DAOException e) {
 			e.printStackTrace();
 			fail();
 		}
 	}
 
+	/**
+	 * {@link com.gffny.leaderboard.dao.mysql.ScorecardDAO#getScorecardListForCompetitionByUserId(java.lang.String, java.lang.String)}
+	 */
+	@Test
+	public final void testGetScorecardListForCompetitionByUserId() {
+		try {
+			List<IScorecard> scorecardList = scorecardDao
+					.getScorecardListForCompetitionByUserId("1", "1");
+			assertTrue("List is not empty",
+					CollectionUtils.isNotEmpty(scorecardList));
+		} catch (DAOException e) {
+			e.printStackTrace();
+			fail();
+		}
+	}
 }

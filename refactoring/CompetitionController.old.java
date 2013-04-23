@@ -1,7 +1,7 @@
 /**
  * 
  */
-package com.gffny.leaderboard.portal.controller;
+package com.gffny.leaderboard.portal.controller.impl;
 
 import java.util.Date;
 import java.util.Enumeration;
@@ -27,6 +27,9 @@ import com.gffny.leaderboard.model.ICompetition;
 import com.gffny.leaderboard.model.ICompetition.ICompetitionRound;
 import com.gffny.leaderboard.model.IGolfCourse;
 import com.gffny.leaderboard.model.IGolfer;
+import com.gffny.leaderboard.portal.controller.ICompetitionCompetitiorController;
+import com.gffny.leaderboard.portal.controller.ICompetitionManagementController;
+import com.gffny.leaderboard.portal.controller.abst.AbstractController;
 import com.gffny.leaderboard.portal.utils.StaticAssetTool;
 import com.gffny.leaderboard.service.IAuthorisationService;
 import com.gffny.leaderboard.service.ICompetitionService;
@@ -43,7 +46,8 @@ import com.gffny.leaderboard.util.StringUtils;
  */
 @Controller
 @RequestMapping("/competition")
-public class CompetitionController extends AbstractController {
+public class CompetitionController extends AbstractController implements
+		ICompetitionManagementController, ICompetitionCompetitiorController {
 
 	private static Logger log = Logger.getLogger(CompetitionController.class);
 
@@ -82,6 +86,26 @@ public class CompetitionController extends AbstractController {
 	 * round data. Any confirmation screen should be handled outside of a
 	 * controller call.
 	 */
+
+	/**
+	 * 
+	 * @return
+	 */
+	@RequestMapping("/")
+	public ModelAndView competitionDefault() {
+		return competitionDashboard();
+	}
+
+	/**
+	 * 
+	 * @return
+	 */
+	@RequestMapping("/dashboard")
+	public ModelAndView competitionDashboard() {
+		ModelAndView mav = null;
+
+		return mav;
+	}
 
 	/**
 	 * return the initial screen to create a company. the screen shall request

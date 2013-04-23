@@ -6,9 +6,8 @@ package com.gffny.leaderboard.dao;
 import java.util.List;
 
 import com.gffny.leaderboard.intralayer.DAOException;
-import com.gffny.leaderboard.intralayer.DAOResult;
+import com.gffny.leaderboard.intralayer.IDAOResult;
 import com.gffny.leaderboard.model.ICompetition;
-import com.gffny.leaderboard.model.ICompetition.ICompetitionRound;
 import com.gffny.leaderboard.model.ICompetitionType;
 
 /**
@@ -18,10 +17,12 @@ import com.gffny.leaderboard.model.ICompetitionType;
  */
 public interface ICompetitionDAO {
 
+	/* COMPETITION */
 	/**
 	 * @param competitionId
 	 */
-	public ICompetition getCompetitionById(int competitionId);
+	public ICompetition getCompetitionById(int competitionId)
+			throws DAOException;
 
 	/**
 	 * 
@@ -29,16 +30,47 @@ public interface ICompetitionDAO {
 	 * @return
 	 * @throws DAOException
 	 */
-	public DAOResult saveCompetition(ICompetition competition)
+	public IDAOResult saveCompetition(ICompetition competition)
 			throws DAOException;
 
 	/**
-	 * @param competitionRoundToSave
+	 * 
+	 * @param competitionName
 	 * @return
-	 * @throws DAOException
 	 */
-	public DAOResult saveCompetitionRound(
-			ICompetitionRound competitionRoundToSave) throws DAOException;
+	public boolean isExistingCompetitionName(String competitionName)
+			throws DAOException;
+
+	/**
+	 * @param userId
+	 * @return
+	 */
+	public List<ICompetition> getCompetitionListForUserId(String userId)
+			throws DAOException;
+
+	/**
+	 * 
+	 * @param userId
+	 * @return
+	 */
+	public List<ICompetition> getEnteredCompetitionListForUser(String userId)
+			throws DAOException;
+
+	/* COMPETITION TYPE */
+	/**
+	 * @param competitionTypeId
+	 * @return
+	 */
+	public ICompetitionType getCompetitionTypeById(int competitionTypeId)
+			throws DAOException;
+
+	/**
+	 * 
+	 * @param competitionTypeName
+	 * @return
+	 */
+	public ICompetitionType getCompetitionTypeByName(String competitionTypeName)
+			throws DAOException;
 
 	/**
 	 * 
@@ -46,25 +78,4 @@ public interface ICompetitionDAO {
 	 * @throws DAOException
 	 */
 	public List<ICompetitionType> getCompetitionTypeList() throws DAOException;
-
-	/**
-	 * @param competitionTypeId
-	 * @return
-	 */
-	public ICompetitionType getCompetitionTypeById(int competitionTypeId);
-
-	/**
-	 * 
-	 * @param competitionTypeName
-	 * @return
-	 */
-	public ICompetitionType getCompetitionTypeByName(String competitionTypeName);
-
-	/**
-	 * 
-	 * @param competitionName
-	 * @return
-	 */
-	public boolean isExistingCompetitionName(String competitionName);
-
 }

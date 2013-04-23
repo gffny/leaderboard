@@ -13,7 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import com.gffny.leaderboard.component.scheduler.ICompetitionScheduler;
 import com.gffny.leaderboard.dao.ICompetitionDAO;
 import com.gffny.leaderboard.intralayer.DAOException;
-import com.gffny.leaderboard.intralayer.DAOResult;
+import com.gffny.leaderboard.intralayer.IDAOResult;
 import com.gffny.leaderboard.intralayer.IServiceResult;
 import com.gffny.leaderboard.intralayer.ServiceException;
 import com.gffny.leaderboard.intralayer.ServiceResult;
@@ -25,6 +25,7 @@ import com.gffny.leaderboard.model.impl.Competition;
 import com.gffny.leaderboard.model.impl.CompetitionRound;
 import com.gffny.leaderboard.service.AbstractService;
 import com.gffny.leaderboard.service.ICompetitionService;
+import com.gffny.leaderboard.util.DateUtils;
 
 /**
  * @author John Gaffney (john@gffny.com) Dec 26, 2012
@@ -70,6 +71,8 @@ public class CompetitionService extends AbstractService implements
 					.parseInt(competitionId));
 		} catch (NumberFormatException nfe) {
 			return logErrorReturnEmptyClass(nfe, log, Competition.class);
+		} catch (DAOException daoEx) {
+			return logErrorReturnEmptyClass(daoEx, log, Competition.class);
 		}
 	}
 
@@ -79,7 +82,14 @@ public class CompetitionService extends AbstractService implements
 	@Override
 	public List<ICompetition> getCompetitionListForUserId(String userId)
 			throws ServiceException {
-		// TODO Auto-generated method stub
+		if (userId != null) {
+			// Do we need to check if the user is allowed
+			try {
+				return competitionDao.getCompetitionListForUserId(userId);
+			} catch (DAOException daoEx) {
+				return logErrorReturnEmptyList(daoEx, log, ICompetition.class);
+			}
+		}
 		return null;
 	}
 
@@ -144,16 +154,21 @@ public class CompetitionService extends AbstractService implements
 	public ICompetition createCompetition(String competitionName,
 			String competitionScoringSystem, String competitionVisibility,
 			int numberOfRounds) throws ServiceException {
-		// get the competitionType based on the competitionTypeName
-		ICompetitionType competitionType = competitionDao
-				.getCompetitionTypeByName(competitionScoringSystem);
-		// create an unsaved instance of the competition to be passed to the dao
-		Competition competition = new Competition(competitionName,
-				competitionType, competitionVisibility, numberOfRounds);
-		competition.setNew(true);
-		// TODO Do we want to save the competition here?
-		// saveCompetition(newCompetition);
-		return competition;
+		try {
+			// get the competitionType based on the competitionTypeName
+			ICompetitionType competitionType = competitionDao
+					.getCompetitionTypeByName(competitionScoringSystem);
+			// create an unsaved instance of the competition to be passed to the
+			// dao
+			Competition competition = new Competition(competitionName,
+					competitionType, competitionVisibility);
+			competition.setNew(true);
+			// TODO Do we want to save the competition here?
+			// saveCompetition(newCompetition);
+			return competition;
+		} catch (DAOException daoEx) {
+			return logErrorReturnEmptyClass(daoEx, log, Competition.class);
+		}
 	}
 
 	/**
@@ -165,15 +180,10 @@ public class CompetitionService extends AbstractService implements
 			String roundName, Date roundDate, int groupSize, String courseId)
 			throws ServiceException {
 		// create an unsaved instance of the competition to be passed to the dao
-		CompetitionRound competitionRound = new CompetitionRound(roundName,
-				roundNumber, roundDate, courseId);
-		competitionRound.setNew(true);
-		// TODO Do we want to save the competition round here?
-		// try {
-		// saveCompetitionRound(newCompetition);
-		// } catch (ServiceException serEx) {
-		// logErrorReturnEmptyClass(serEx, log, CompetitionRound.class);
-		// }
+		ICompetitionRound competitionRound = new CompetitionRound(roundName,
+				roundNumber, DateUtils.format(roundDate,
+						DateUtils.MYSQL_DATE_FORMAT.getPattern()), courseId);
+		// Competition Rounds can only be saved through the competition save
 		return competitionRound;
 	}
 
@@ -185,7 +195,7 @@ public class CompetitionService extends AbstractService implements
 			throws ServiceException {
 		try {
 			// save the competition instance
-			DAOResult daoResult = competitionDao.saveCompetition(competition);
+			IDAOResult daoResult = competitionDao.saveCompetition(competition);
 			if (competition.isNew()) {
 				competition.setId(daoResult.getIdAsInt());
 			}
@@ -196,33 +206,4 @@ public class CompetitionService extends AbstractService implements
 			throw new ServiceException(e.getMessage());
 		}
 	}
-
-	/**
-	 * 
-	 * @see com.gffny.leaderboard.service.ICompetitionService#saveCompetitionRound(com.gffny.leaderboard.model.ICompetition.ICompetitionRound)
-	 */
-	@Override
-	public IServiceResult updateCompetitionRound(
-			ICompetitionRound competitionRoundToSave) throws ServiceException {
-		// if a competition round does not have a competition id, then it cannot
-		// be saved
-		if (competitionRoundToSave.getCompetitionId() != 0) {
-			try {
-				// save the competition round instance
-				DAOResult daoResult = competitionDao
-						.saveCompetitionRound(competitionRoundToSave);
-				competitionRoundToSave.setRoundId(daoResult.getIdAsInt());
-				return new ServiceResult(
-						"competition round update was a success",
-						IServiceResult.SAVE_COMPETITION_SUCCESS);
-			} catch (DAOException e) {
-				log.error(e.getMessage());
-				throw new ServiceException(e.getMessage());
-			}
-		} else {
-			throw new ServiceException(
-					"competition round does not have a competition id");
-		}
-	};
-
 }

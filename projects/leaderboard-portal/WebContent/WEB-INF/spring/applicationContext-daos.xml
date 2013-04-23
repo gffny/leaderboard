@@ -16,5 +16,5 @@
 	<bean id="userDao" class="com.gffny.leaderboard.dao.mysql.UserDAO" />
 	<bean id="scorecardDao" class="com.gffny.leaderboard.dao.mysql.ScorecardDAO" />
 	<bean id="golfCourseDao" class="com.gffny.leaderboard.dao.mongodb.GolfCourseDAO" />
-	<bean id="competitionDao" class="com.gffny.leaderboard.dao.mysql.CompetitionDAO" factory-method="getInstance" />
+	<bean id="competitionDao" class="com.gffny.leaderboard.dao.mysql.CompetitionDAO" />
 </beans>

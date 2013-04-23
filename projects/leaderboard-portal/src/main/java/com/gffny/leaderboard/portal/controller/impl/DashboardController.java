@@ -1,7 +1,7 @@
 /**
  * 
  */
-package com.gffny.leaderboard.portal.controller;
+package com.gffny.leaderboard.portal.controller.impl;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -23,6 +23,7 @@ import com.gffny.leaderboard.component.scheduler.ICompetitionScheduler;
 import com.gffny.leaderboard.intralayer.ServiceException;
 import com.gffny.leaderboard.model.IGolfCourse;
 import com.gffny.leaderboard.model.IGolfer;
+import com.gffny.leaderboard.portal.controller.abst.AbstractController;
 import com.gffny.leaderboard.service.ICompetitionService;
 import com.gffny.leaderboard.service.IGolfCourseService;
 import com.gffny.leaderboard.service.IUserService;

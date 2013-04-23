@@ -7,6 +7,8 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
+import com.gffny.leaderboard.model.ICompetition.IGolfGroup;
+
 /**
  * 
  * @author John Gaffney (john@gffny.com) Sep 26, 2012
@@ -137,7 +139,7 @@ public interface ICompetition extends ISQLEntity {
 		 * 
 		 * @return
 		 */
-		public String getDateAsString();
+		public String getRoundDateAsString();
 
 		/**
 		 * 
@@ -239,6 +241,8 @@ public interface ICompetition extends ISQLEntity {
 		 * 
 		 */
 		public void clearGroups();
+
+		public abstract void setDate(String date);
 	}
 
 	/**

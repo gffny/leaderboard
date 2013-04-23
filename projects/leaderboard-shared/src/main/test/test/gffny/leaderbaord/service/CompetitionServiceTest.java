@@ -4,6 +4,7 @@
 package test.gffny.leaderbaord.service;
 
 import java.util.Date;
+import java.util.List;
 
 import junit.framework.TestCase;
 
@@ -13,7 +14,9 @@ import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.gffny.leaderboard.intralayer.ServiceException;
+import com.gffny.leaderboard.model.ICompetition;
 import com.gffny.leaderboard.service.ICompetitionService;
+import com.gffny.leaderboard.service.impl.CompetitionService;
 
 /**
  * @author John Gaffney (john@gffny.com) Jan 26, 2013
@@ -25,7 +28,7 @@ public class CompetitionServiceTest extends TestCase {
 	 * 
 	 */
 	@Autowired
-	private ICompetitionService competitionService;
+	private ICompetitionService competitionService = new CompetitionService();
 
 	/**
 	 * @throws java.lang.Exception
@@ -65,10 +68,14 @@ public class CompetitionServiceTest extends TestCase {
 	 * Test method for
 	 * {@link com.gffny.leaderboard.service.impl.CompetitionService#getCompetitionListForUserId(java.lang.String)}
 	 * .
+	 * 
+	 * @throws ServiceException
 	 */
 	@Test
-	public final void testGetCompetitionListForUserId() {
-		fail("Not yet implemented"); // TODO
+	public final void testGetCompetitionListForUserId() throws ServiceException {
+		List<ICompetition> competitionList = competitionService
+				.getCompetitionListForUserId("");
+
 	}
 
 	/**

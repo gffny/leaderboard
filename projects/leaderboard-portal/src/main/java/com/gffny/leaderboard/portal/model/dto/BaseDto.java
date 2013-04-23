@@ -1,4 +1,4 @@
-package com.gffny.leaderboard.portal.model.ui;
+package com.gffny.leaderboard.portal.model.dto;
 
 import java.io.IOException;
 

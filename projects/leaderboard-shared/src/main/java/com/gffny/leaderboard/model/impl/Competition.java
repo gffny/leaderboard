@@ -24,6 +24,7 @@ public class Competition extends SQLEntity implements ICompetition {
 	private String competitionVisibility;
 	private Map<Integer, ICompetition.ICompetitionRound> roundNumberMap;
 	private Map<Date, ICompetition.ICompetitionRound> roundDateMap;
+	private static final int DEFAULT_ROUND_NUMBER = 4;
 
 	/**
 	 * @param name
@@ -34,14 +35,14 @@ public class Competition extends SQLEntity implements ICompetition {
 	 */
 	public Competition(int competitionId, String name,
 			ICompetitionType competitionScoringSystem,
-			String competitionVisibility, int numberOfRounds) {
+			String competitionVisibility) {
 		super(name, competitionId);
 		this.competitionScoringSystem = competitionScoringSystem;
 		this.competitionVisibility = competitionVisibility;
 		this.roundNumberMap = new HashMap<Integer, ICompetition.ICompetitionRound>(
-				numberOfRounds);
+				DEFAULT_ROUND_NUMBER);
 		this.roundDateMap = new HashMap<Date, ICompetition.ICompetitionRound>(
-				numberOfRounds);
+				DEFAULT_ROUND_NUMBER);
 	}
 
 	/**
@@ -52,14 +53,14 @@ public class Competition extends SQLEntity implements ICompetition {
 	 * @param roundNumberMap
 	 */
 	public Competition(String name, ICompetitionType competitionScoringSystem,
-			String competitionVisibility, int numberOfRounds) {
+			String competitionVisibility) {
 		super(name, 0);
 		this.competitionScoringSystem = competitionScoringSystem;
 		this.competitionVisibility = competitionVisibility;
 		this.roundNumberMap = new HashMap<Integer, ICompetition.ICompetitionRound>(
-				numberOfRounds);
+				DEFAULT_ROUND_NUMBER);
 		this.roundDateMap = new HashMap<Date, ICompetition.ICompetitionRound>(
-				numberOfRounds);
+				DEFAULT_ROUND_NUMBER);
 	}
 
 	/**
@@ -119,7 +120,7 @@ public class Competition extends SQLEntity implements ICompetition {
 	 * @see com.gffny.leaderboard.model.ICompetition#getCompetitionRoundList()
 	 */
 	public List<ICompetitionRound> getCompetitionRoundList() {
-		ICompetitionRound[] competitionRoundArray = new CompetitionRound[roundNumberMap
+		ICompetitionRound[] competitionRoundArray = new ICompetitionRound[roundNumberMap
 				.size()];
 		return CollectionUtils.asList(roundNumberMap.values().toArray(
 				competitionRoundArray));

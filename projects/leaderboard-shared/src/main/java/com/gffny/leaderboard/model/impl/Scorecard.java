@@ -3,13 +3,11 @@
  */
 package com.gffny.leaderboard.model.impl;
 
-import java.text.ParseException;
 import java.util.Arrays;
 import java.util.Date;
 
 import com.gffny.leaderboard.model.IScorecard;
 import com.gffny.leaderboard.model.abst.SQLEntity;
-import com.gffny.leaderboard.util.TimeFunction;
 
 /**
  * @author John Gaffney (john@gffny.com) Jul 30, 2012
@@ -47,7 +45,8 @@ public class Scorecard extends SQLEntity implements IScorecard {
 	 * @param scorecardNotes
 	 * @param scorecardDate
 	 */
-	public Scorecard(int scorecardId, String teesPlayedOff, int handicap,
+	public Scorecard(int scorecardId, int competitionRoundId, int golferId,
+			int markerId, String teesPlayedOff, int handicap,
 			int[] grossScoreArray, String scorecardNotes, String scorecardDate) {
 		super("", scorecardId);
 		this.setId(scorecardId);
@@ -111,23 +110,8 @@ public class Scorecard extends SQLEntity implements IScorecard {
 	 * 
 	 */
 	@Override
-	public int getTeesPlayedOffCode() {
-		if (this.teesPlayedOff.equals(IScorecard.GOLDS_COLOUR)) {
-			return IScorecard.GOLDS_CODE;
-		}
-		if (this.teesPlayedOff.equals(IScorecard.BLUES_COLOUR)) {
-			return IScorecard.BLUES_CODE;
-		}
-		if (this.teesPlayedOff.equals(IScorecard.WHITES_COLOUR)) {
-			return IScorecard.WHITES_CODE;
-		}
-		if (this.teesPlayedOff.equals(IScorecard.REDS_COLOUR)) {
-			return IScorecard.REDS_CODE;
-		}
-		if (this.teesPlayedOff.equals(IScorecard.GREENS_COLOUR)) {
-			return IScorecard.GREENS_CODE;
-		}
-		return 0;
+	public String getTeesPlayedOffCode() {
+		return teesPlayedOff;
 	}
 
 	/**
@@ -153,18 +137,5 @@ public class Scorecard extends SQLEntity implements IScorecard {
 	@Override
 	public Date getScorecardDate() {
 		return this.scorecardDate;
-	}
-
-	/**
-	 * @param scorecardDate
-	 */
-	private Date formatDate(String scorecardDate) {
-		try {
-			return TimeFunction.parseString(scorecardDate);
-		} catch (ParseException e) {
-			// TODO handle parse error from time function in scorecard()
-			e.printStackTrace();
-			return null;
-		}
 	}
 }

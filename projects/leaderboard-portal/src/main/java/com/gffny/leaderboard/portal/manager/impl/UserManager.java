@@ -6,7 +6,7 @@ import org.springframework.stereotype.Component;
 import com.gffny.leaderboard.intralayer.ServiceException;
 import com.gffny.leaderboard.model.IGolfer;
 import com.gffny.leaderboard.portal.manager.IUserManager;
-import com.gffny.leaderboard.portal.model.ui.InitResponseDto;
+import com.gffny.leaderboard.portal.model.dto.InitResponseDto;
 import com.gffny.leaderboard.service.IUserService;
 
 @Component
@@ -40,5 +40,11 @@ public class UserManager implements IUserManager {
 	public IGolfer findUserByHandle(String username) throws ServiceException {
 		return userService.getGolferByHandle(username);
 
+	}
+
+	@Override
+	public void save(IGolfer user) throws ServiceException {
+		// TODO IMPLEMENT METHOD
+		throw new ServiceException("Implement Method");
 	}
 }

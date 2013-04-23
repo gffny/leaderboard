@@ -6,8 +6,10 @@ package com.gffny.leaderboard.service.impl;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.gffny.leaderboard.dao.IEquipmentDAO;
 import com.gffny.leaderboard.dao.IUserDAO;
 import com.gffny.leaderboard.intralayer.DAOException;
 import com.gffny.leaderboard.intralayer.ServiceException;
@@ -21,8 +23,13 @@ import com.gffny.leaderboard.service.IUserService;
  */
 public class UserService implements IUserService {
 
+	private Logger log = Logger.getLogger(UserService.class);
+
 	@Autowired
 	private IUserDAO userDao;
+
+	@Autowired
+	private IEquipmentDAO equipmentDAO;
 
 	/**
 	 * 
@@ -70,7 +77,11 @@ public class UserService implements IUserService {
 			throws ServiceException {
 		// handle shtuff here!
 		try {
-			return userDao.getGolferBySocietyMemberId(societyMemberId);
+			IGolfer golfer = userDao
+					.getGolferBySocietyMemberId(societyMemberId);
+			golfer.setGolfBag(equipmentDAO.getGolfBagByUserId(golfer
+					.getUserId()));
+			return golfer;
 		} catch (DAOException e) {
 			throw new ServiceException(e.getMessage());
 		}
@@ -79,7 +90,6 @@ public class UserService implements IUserService {
 	/**
 	 * @see com.gffny.leaderboard.service.IUserService#getSocietyMemberListAssociatedWithUser(java.lang.String)
 	 */
-	@Override
 	public List<IGolfer> getSocietyMemberListAssociatedWithUser(
 			String societyMemberId) throws ServiceException {
 		// TODO Auto-generated method stub
@@ -89,7 +99,6 @@ public class UserService implements IUserService {
 	/**
 	 * @see com.gffny.leaderboard.service.IUserService#isGolferActive(int)
 	 */
-	@Override
 	public boolean isGolferActive(int userId) {
 		// TODO Auto-generated method stub
 		return false;
@@ -98,16 +107,26 @@ public class UserService implements IUserService {
 	/**
 	 * @see com.gffny.leaderboard.service.IUserService#getGolferById(java.lang.String)
 	 */
-	@Override
 	public IGolfer getGolferById(String golferId) {
-		// TODO Auto-generated method stub
+		if (golferId != null) {
+			try {
+				IGolfer golfer = userDao.getGolferById(Integer
+						.parseInt(golferId));
+				golfer.setGolfBag(equipmentDAO.getGolfBagByUserId(golfer
+						.getUserId()));
+				return golfer;
+			} catch (DAOException daoEx) {
+				log.error(daoEx.getMessage());
+			} catch (NumberFormatException numFormEx) {
+				log.error(numFormEx.getMessage());
+			}
+		}
 		return null;
 	}
 
 	/**
 	 * @see com.gffny.leaderboard.service.IUserService#getGolferHomeCity(java.lang.String)
 	 */
-	@Override
 	public String getGolferHomeCity(String userId) throws ServiceException {
 		// TODO Auto-generated method stub
 		return "";
@@ -116,7 +135,6 @@ public class UserService implements IUserService {
 	/**
 	 * @see com.gffny.leaderboard.service.IUserService#getGolferFavouriteClub(java.lang.String)
 	 */
-	@Override
 	public List<IGolfCourse> getGolferFavouriteClub(String userId)
 			throws ServiceException {
 		// TODO Auto-generated method stub
@@ -127,11 +145,13 @@ public class UserService implements IUserService {
 	 * @throws ServiceException
 	 * @see com.gffny.leaderboard.service.IUserService#getGolferByHandle(java.lang.String)
 	 */
-	@Override
 	public IGolfer getGolferByHandle(String username) throws ServiceException {
 		// TODO Auto-generated method stub
 		try {
-			return userDao.getGolferByHandle(username);
+			IGolfer golfer = userDao.getGolferByHandle(username);
+			golfer.setGolfBag(equipmentDAO.getGolfBagByUserId(golfer
+					.getUserId()));
+			return golfer;
 		} catch (DAOException e) {
 			throw new ServiceException(e.getMessage());
 		}

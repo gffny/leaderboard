@@ -104,52 +104,27 @@ public interface IScorecard extends IEntity {
 	/**
 	 * 
 	 */
-	public static final int GOLDS_CODE = 100;
+	public static final String GREENS_COLOUR = "00FF00";
 
 	/**
 	 * 
 	 */
-	public static final int WHITES_CODE = 200;
+	public static final String REDS_COLOUR = "FF0000";
 
 	/**
 	 * 
 	 */
-	public static final int BLUES_CODE = 300;
+	public static final String WHITES_COLOUR = "000000";
 
 	/**
 	 * 
 	 */
-	public static final int REDS_CODE = 400;
+	public static final String BLUES_COLOUR = "0000FF";
 
 	/**
 	 * 
 	 */
-	public static final int GREENS_CODE = 500;
-
-	/**
-	 * 
-	 */
-	public static final String GREENS_COLOUR = "GREENS_CODE";
-
-	/**
-	 * 
-	 */
-	public static final String REDS_COLOUR = "REDS_CODE";
-
-	/**
-	 * 
-	 */
-	public static final String WHITES_COLOUR = "WHITES_CODE";
-
-	/**
-	 * 
-	 */
-	public static final String BLUES_COLOUR = "BLUES_CODE";
-
-	/**
-	 * 
-	 */
-	public static final String GOLDS_COLOUR = "GOLDS_CODE";
+	public static final String GOLDS_COLOUR = "FFFF00";
 
 	/**
 	 * 
@@ -168,7 +143,7 @@ public interface IScorecard extends IEntity {
 	 * 
 	 * @return
 	 */
-	public int getTeesPlayedOffCode();
+	public String getTeesPlayedOffCode();
 
 	/**
 	 * 

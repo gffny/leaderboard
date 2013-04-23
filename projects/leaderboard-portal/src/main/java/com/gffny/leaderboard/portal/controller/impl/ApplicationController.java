@@ -1,12 +1,14 @@
 /**
  * 
  */
-package com.gffny.leaderboard.portal.controller;
+package com.gffny.leaderboard.portal.controller.impl;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
+
+import com.gffny.leaderboard.portal.controller.abst.AbstractController;
 
 /**
  * @author John Gaffney (john@gffny.com) Jul 26, 2012
@@ -20,7 +22,7 @@ public class ApplicationController extends AbstractController {
 	 * 
 	 * @return
 	 */
-	@RequestMapping("/")
+	@RequestMapping("/welcome")
 	public ModelAndView welcome() {
 		ModelAndView model = new ModelAndView("welcome");
 		return model;

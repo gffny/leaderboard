@@ -16,7 +16,7 @@ import com.gffny.leaderboard.model.ICompetition.ICompetitionRound;
 import com.gffny.leaderboard.model.ICompetition.IGolfGroup;
 import com.gffny.leaderboard.model.ICompetitionType;
 import com.gffny.leaderboard.model.abst.SQLEntity;
-import com.gffny.leaderboard.util.TimeFunction;
+import com.gffny.leaderboard.util.DateUtils;
 
 /**
  * @author John Gaffney (john@gffny.com) Sep 26, 2012
@@ -42,15 +42,14 @@ public class CompetitionRound extends SQLEntity implements
 	 * @param groupList
 	 * @param teeTimeMap
 	 */
-	public CompetitionRound(final String name, int roundNumber,
-			final Date date, String courseId, final List<IGolfGroup> groupList,
-			final Map<IGolfGroup, Date> teeTimeMap) {
+	public CompetitionRound(String name, int roundNumber, String date,
+			String courseId) {
 		super(name, UNSAVED_ROUND_ID);
-		this.date = date;
+		this.date = formatDate(date);
 		this.number = roundNumber;
 		this.courseId = courseId;
-		this.groupList = groupList;
-		this.teeTimeMap = teeTimeMap;
+		this.groupList = new LinkedList<IGolfGroup>();
+		this.teeTimeMap = new HashMap<IGolfGroup, Date>();
 	}
 
 	/**
@@ -61,33 +60,14 @@ public class CompetitionRound extends SQLEntity implements
 	 * @param groupList
 	 * @param teeTimeMap
 	 */
-	public CompetitionRound(final String name, int roundNumber,
-			final Date date, String courseId) {
-		super(name, UNSAVED_ROUND_ID);
-		this.date = date;
+	public CompetitionRound(int roundId, String name, int roundNumber,
+			String date, String courseId) {
+		super(name, roundId);
+		this.date = formatDate(date);
 		this.number = roundNumber;
 		this.courseId = courseId;
 		this.groupList = new LinkedList<IGolfGroup>();
 		this.teeTimeMap = new HashMap<IGolfGroup, Date>();
-	}
-
-	/**
-	 * @param name
-	 * @param roundNumber
-	 * @param date
-	 * @param firstTeeTime
-	 * @param groupList
-	 * @param teeTimeMap
-	 */
-	public CompetitionRound(int roundId, final String name, int roundNumber,
-			String courseId, final Date date, final List<IGolfGroup> groupList,
-			final Map<IGolfGroup, Date> teeTimeMap) {
-		super(name, roundId);
-		this.date = date;
-		this.number = roundNumber;
-		this.courseId = courseId;
-		this.groupList = groupList;
-		this.teeTimeMap = teeTimeMap;
 	}
 
 	/**
@@ -96,14 +76,6 @@ public class CompetitionRound extends SQLEntity implements
 	@Override
 	public int getCompetitionId() {
 		return competitionId;
-	}
-
-	/**
-	 * @see com.gffny.leaderboard.model.ICompetition.ICompetitionRound#setCompetitionId(int)
-	 */
-	@Override
-	public void setCompetitionId(int competitionId) {
-		this.competitionId = competitionId;
 	}
 
 	/**
@@ -146,11 +118,11 @@ public class CompetitionRound extends SQLEntity implements
 
 	/**
 	 * 
-	 * @see com.gffny.leaderboard.model.ICompetition.ICompetitionRound#getDateAsString()
+	 * @see com.gffny.leaderboard.model.ICompetition.ICompetitionRound#getRoundDateAsString()
 	 */
 	@Override
-	public String getDateAsString() {
-		return TimeFunction.formatDate(date); // TODO implement meaningfully
+	public String getRoundDateAsString() {
+		return DateUtils.format(date, DateUtils.MYSQL_DATE_FORMAT.getPattern());
 	}
 
 	/**
@@ -169,6 +141,22 @@ public class CompetitionRound extends SQLEntity implements
 	@Override
 	public String getCourseIdAsString() {
 		return String.valueOf(courseId);
+	}
+
+	/**
+	 * @see com.gffny.leaderboard.model.ICompetition.ICompetitionRound#getHoleListLength()
+	 */
+	@Override
+	public int getHoleListLength() {
+		return holeListLength;
+	}
+
+	/**
+	 * @return the competitionType
+	 */
+	@Override
+	public ICompetitionType getCompetitionType() {
+		return competitionType;
 	}
 
 	/**
@@ -258,11 +246,12 @@ public class CompetitionRound extends SQLEntity implements
 	};
 
 	/**
-	 * @see com.gffny.leaderboard.model.ICompetition.ICompetitionRound#getHoleListLength()
+	 * 
+	 * @see com.gffny.leaderboard.model.ICompetition.ICompetitionRound#setDate(java.util.Date)
 	 */
 	@Override
-	public int getHoleListLength() {
-		return holeListLength;
+	public void setDate(String date) {
+		this.date = formatDate(date);
 	}
 
 	/**
@@ -271,14 +260,6 @@ public class CompetitionRound extends SQLEntity implements
 	@Override
 	public void setHoleListLength(int holeListLength) {
 		this.holeListLength = holeListLength;
-	}
-
-	/**
-	 * @return the competitionType
-	 */
-	@Override
-	public ICompetitionType getCompetitionType() {
-		return competitionType;
 	}
 
 	/**
@@ -291,15 +272,11 @@ public class CompetitionRound extends SQLEntity implements
 	}
 
 	/**
-	 * 
-	 * @see java.lang.Object#clone()
+	 * @see com.gffny.leaderboard.model.ICompetition.ICompetitionRound#setCompetitionId(int)
 	 */
 	@Override
-	public ICompetitionRound clone() {
-		ICompetitionRound clone = new CompetitionRound(this.getRoundId(),
-				this.getRoundName(), this.getRoundNumber(), this.getCourseId(),
-				this.getRoundDate(), this.getGroupList(), this.getTeeTimeMap());
-		return clone;
+	public void setCompetitionId(int competitionId) {
+		this.competitionId = competitionId;
 	}
 
 	/**
@@ -318,6 +295,15 @@ public class CompetitionRound extends SQLEntity implements
 				+ ", teeTimeMap="
 				+ (teeTimeMap != null ? toString(teeTimeMap.entrySet(), maxLen)
 						: null) + "]";
+	}
+
+	/**
+	 * 
+	 * @see java.lang.Object#clone()
+	 */
+	public ICompetitionRound clone() {
+		return new CompetitionRound(getRoundId(), getRoundName(),
+				getRoundNumber(), getRoundDateAsString(), getCourseId());
 	}
 
 	/**

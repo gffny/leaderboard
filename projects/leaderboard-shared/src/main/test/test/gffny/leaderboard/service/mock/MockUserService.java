@@ -82,4 +82,13 @@ public class MockUserService implements IUserService {
 		// Get some list from the golfService!
 		return Arrays.asList(TestUtilities.getTestGolfCourse(18, 72));
 	}
+
+	/**
+	 * @see com.gffny.leaderboard.service.IUserService#getGolferByHandle(java.lang.String)
+	 */
+	@Override
+	public IGolfer getGolferByHandle(String username) throws ServiceException {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }

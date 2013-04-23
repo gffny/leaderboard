@@ -1,3 +1,86 @@
+User registers themselves online
+A user registers with the system online, creating an account, specifying a password, optionally detailing their golf bag, setting a user handle and profile picture
+
+Data
+	profile handle
+	first name
+	last name
+	security question
+	password
+	
+Optional Data
+	golf bag - specify up to 20 clubs (14 default clubs) that the can choose from to configure their bag
+	profile picture
+	favourite golfer
+	handedness
+	
+Notes
+	when adding clubs to their bag, a user can select a pre-existing club or choose to enter a new one. The process should check that no similar clubs exist before creating a new record, for example (TaylorMade Burner 2.0 ~= Taylor Made Burner 2.0 ~= Taylor Made Burner 2)
+	select b.bg_id, c.clb_nm, c.mnfctrr_nm, c.clb_typ, c.clb_lft from t_usr as u, t_usr_glf_bg as b, t_glf_clb as c where u.usr_id = 1 and b.usr_id = u.usr_id and b.clb_id = c.glf_clb_id;
+
+User creates a competition online
+A user registers a competition, specifies the format of the competition, optionally selects the competitiors that can play (or creates an "invite url"), and optionally selects the number of rounds/host course of the competition
+
+Data
+	name (not unique)
+	format
+	scoring system
+	
+Optional Data
+	field size
+	number of rounds
+	* round data
+		name (default to competition name - round #)
+		date
+		course
+		tee times (list)
+		participant list / handicap for the round
+
+User gets a list of open competitions or competitions to which they have been invited to play
+
+User enters a competition online
+
+User enters a competitor's scorecard for a round of a competition
+
+Data
+	user
+	competitor
+	* hole score
+	
+Optional Data
+	scorecard note
+	* hole note
+
+
+	
+	
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 USER & SOCIETY USE CASES
 1. User
 1.1 Create

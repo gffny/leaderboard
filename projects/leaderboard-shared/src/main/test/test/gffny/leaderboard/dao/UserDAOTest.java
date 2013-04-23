@@ -15,7 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.gffny.leaderboard.dao.IUserDAO;
 import com.gffny.leaderboard.intralayer.DAOException;
-import com.gffny.leaderboard.intralayer.DAOResult;
+import com.gffny.leaderboard.intralayer.IDAOResult;
 import com.gffny.leaderboard.model.IGolfer;
 
 /**
@@ -127,7 +127,7 @@ public class UserDAOTest {
 		log.info("testAddGolfer");
 		// TODO Need to test for non-valid characters, email addresses, etc and
 		// assert if they pass or not
-		DAOResult res;
+		IDAOResult res;
 		try {
 			res = userDao.addGolfer("john@isobar.com", "gffny", "John",
 					"Gaffney");
