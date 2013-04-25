@@ -3,14 +3,19 @@
  */
 package com.gffny.leaderboard.portal.controller.impl;
 
+import java.io.IOException;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.apache.log4j.Logger;
+import org.codehaus.jackson.JsonParseException;
+import org.codehaus.jackson.map.JsonMappingException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -20,6 +25,7 @@ import com.gffny.leaderboard.model.JSONable;
 import com.gffny.leaderboard.portal.controller.ICompetitionCompetitiorController;
 import com.gffny.leaderboard.portal.controller.ICompetitionManagementController;
 import com.gffny.leaderboard.portal.controller.abst.AbstractController;
+import com.gffny.leaderboard.portal.model.dto.CompetitionDto;
 import com.gffny.leaderboard.portal.model.dto.CompetitionOptionsDto;
 import com.gffny.leaderboard.portal.model.ui.JsonResponse;
 import com.gffny.leaderboard.portal.utils.StaticAssetTool;
@@ -123,26 +129,68 @@ public class CompetitionController extends AbstractController implements
 		return model;
 	}
 
-	@Override
+	/**
+	 * URL: /competition/a_create
+	 * 
+	 * @param body
+	 * @param session
+	 * @param request
+	 * @throws IOException
+	 * @throws JsonMappingException
+	 * @throws JsonParseException
+	 */
+	@RequestMapping(value = "/a_create")
 	public ResponseEntity<JsonResponse<JSONable>> createCompetition(
-			String body, HttpSession session, HttpServletRequest request) {
-		// TODO Auto-generated method stub
-		return null;
-	}
+			@RequestBody String body, HttpSession session,
+			HttpServletRequest request) throws JsonParseException,
+			JsonMappingException, IOException {
+		CompetitionDto entity = null;
+		try {
+			entity = objectMapper.readValue(body, CompetitionDto.class);
+			entity.toString();
+		} catch (JsonParseException jpe) {
+			jpe.toString();
+		} catch (JsonMappingException jme) {
+			jme.toString();
+		} catch (IOException ioe) {
+			ioe.toString();
+		}
+		/*
+		 * TODO create a method to map the body to a competition or give out if
+		 * there is an issue
+		 */
+		// Competition competition = objectMapper.readValue(body,
+		// Competition.class);
 
-	@Override
-	public ResponseEntity<JsonResponse<JSONable>> createCompetitionRound(
-			String body, HttpSession session, HttpServletRequest request) {
-		// TODO Auto-generated method stub
-		return null;
+		return returnError("blah", HttpStatus.BAD_REQUEST);
 	}
 
 	/**
+	 * URL: /competition/a_create
+	 * 
 	 * @param body
 	 * @param session
 	 * @param request
 	 */
-	@RequestMapping(value = "/options")
+	@RequestMapping(value = "/a_createround")
+	public ResponseEntity<JsonResponse<JSONable>> createCompetitionRound(
+			String body, HttpSession session, HttpServletRequest request) {
+		body.toString();
+		/*
+		 * TODO create a method to map the body to a competition round array or
+		 * list, or give out if there is an issue
+		 */
+		return null;
+	}
+
+	/**
+	 * URL: /competition/options
+	 * 
+	 * @param body
+	 * @param session
+	 * @param request
+	 */
+	@RequestMapping(value = "/a_options")
 	public ResponseEntity<JsonResponse<JSONable>> getCompetitionOptions(
 			String body, HttpSession session, HttpServletRequest request) {
 		try {

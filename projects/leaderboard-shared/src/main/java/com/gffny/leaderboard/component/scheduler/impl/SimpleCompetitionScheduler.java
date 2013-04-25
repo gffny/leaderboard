@@ -23,6 +23,7 @@ import com.gffny.leaderboard.model.IGolfCourse;
 import com.gffny.leaderboard.model.IGolfer;
 import com.gffny.leaderboard.model.impl.CompetitionRound;
 import com.gffny.leaderboard.model.impl.GolfGroup;
+import com.gffny.leaderboard.util.DateUtils;
 import com.gffny.leaderboard.util.TimeFunction;
 
 /**
@@ -141,8 +142,9 @@ public class SimpleCompetitionScheduler implements ICompetitionScheduler,
 			}
 		}
 		ICompetitionRound competitionRound = new CompetitionRound(roundName,
-				roundNumber, roundDate, roundCourse.getId(), groupList,
-				teeTimeMap);
+				roundNumber, DateUtils.format(roundDate,
+						DateUtils.MYSQL_DATE_FORMAT.getPattern()),
+				roundCourse.getId());
 		competitionRound.setHoleListLength(18);
 		log.debug("Competition Round: " + competitionRound.toString());
 		return competitionRound;

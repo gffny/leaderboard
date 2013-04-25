@@ -3,9 +3,13 @@
  */
 package com.gffny.leaderboard.portal.controller;
 
+import java.io.IOException;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+import org.codehaus.jackson.JsonParseException;
+import org.codehaus.jackson.map.JsonMappingException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.servlet.ModelAndView;
@@ -50,10 +54,14 @@ public interface ICompetitionManagementController {
 	 * @param session
 	 * @param request
 	 * @return
+	 * @throws IOException
+	 * @throws JsonMappingException
+	 * @throws JsonParseException
 	 */
 	public ResponseEntity<JsonResponse<JSONable>> createCompetition(
 			@RequestBody String body, HttpSession session,
-			HttpServletRequest request);
+			HttpServletRequest request) throws JsonParseException,
+			JsonMappingException, IOException;
 
 	/**
 	 * submits the competition round details or competition round details array

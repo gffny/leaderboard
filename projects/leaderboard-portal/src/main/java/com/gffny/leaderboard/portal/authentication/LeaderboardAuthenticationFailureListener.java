@@ -18,7 +18,7 @@ import com.gffny.leaderboard.portal.manager.IUserManager;
  * 
  */
 @Component
-public class LeaderboarAuthenticationFailureListener implements
+public class LeaderboardAuthenticationFailureListener implements
 		ApplicationListener<AuthenticationFailureBadCredentialsEvent> {
 
 	@Autowired

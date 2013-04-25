@@ -1,0 +1,63 @@
+body {
+	background: none repeat scroll 0 0 #202020; 
+	color: #808080;
+}
+
+.form {
+	background: #006957;
+	width: 300px;
+	top: 100px;
+	left: 200px;
+	position: absolute;
+	padding-left: 20px;
+	padding-bottom: 20px;
+	padding-right: 20px; 
+	font-family: Calibri, Helvetica, Arial, sans-serif;
+	color: #808080;
+}
+
+.form h3, h4 {
+	margin-bottom: 6px;
+	margin-top: 6px;
+}
+
+.form h4 {
+	font-size: 14px;
+}
+
+.form label {
+	font-size: 11px;
+	font-weight: bold;
+}
+
+.form .inputBox {
+	padding: 2px;
+}
+
+.formSection {
+	padding-left: 5px;
+	padding-bottom: 5px;
+	padding-right: 5px;
+}
+
+.formButton {
+	float: right;
+	width: 50px;
+	border: 1px solid #777777;
+	background: #3366FF;
+	cursor: pointer;
+	color: white;
+	font: bold 11px 'Trebuchet MS';
+	padding: 4px;
+	border-radius: 4px;
+}
+
+.formInput {
+	width: 200px;
+	position: absolute;
+	right: 50px;
+	box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	-webkit-box-sizing: border-box;
+	font-size: 11px;
+}

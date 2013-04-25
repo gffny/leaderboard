@@ -210,7 +210,7 @@ public class ApplicationConfiguration {
 	@SuppressWarnings("unchecked")
 	public static List<String> getCompetitionVisibilityList() {
 		return config.getList("ldrbrd.competition.visibility.list",
-				CollectionUtils.asList("society"));
+				CollectionUtils.asList("Society"));
 	}
 
 	/**

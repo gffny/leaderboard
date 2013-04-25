@@ -19,10 +19,8 @@ import com.gffny.leaderboard.dao.mysql.CompetitionDAO;
 import com.gffny.leaderboard.intralayer.DAOException;
 import com.gffny.leaderboard.intralayer.IDAOResult;
 import com.gffny.leaderboard.model.ICompetition;
-import com.gffny.leaderboard.model.ICompetition.ICompetitionRound;
 import com.gffny.leaderboard.model.ICompetitionType;
 import com.gffny.leaderboard.model.impl.Competition;
-import com.gffny.leaderboard.model.impl.CompetitionRound;
 
 /**
  * @author John Gaffney (john@gffny.com) Jan 26, 2013
@@ -101,21 +99,6 @@ public class CompetitionDAOTest extends TestCase {
 			// TODO Auto-generated catch block
 			fail();
 		}
-	}
-
-	/**
-	 * Test method for
-	 * {@link com.gffny.leaderboard.dao.mysql.CompetitionDAO#saveCompetitionRound()}
-	 * .
-	 * 
-	 * @throws DAOException
-	 */
-	@Test
-	public final void testSaveCompetitionRound() throws DAOException {
-		ICompetitionRound competitionRound = new CompetitionRound("test round",
-				2, "2004-12-11", "asdfa");
-		// MAY NOT BE A VALID DAO CALL
-		// competitionDao.saveCompetitionRound(competitionRound);
 	}
 
 	/**

@@ -8,7 +8,9 @@ import java.util.List;
 
 import junit.framework.TestCase;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.junit.After;
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -75,7 +77,7 @@ public class CompetitionServiceTest extends TestCase {
 	public final void testGetCompetitionListForUserId() throws ServiceException {
 		List<ICompetition> competitionList = competitionService
 				.getCompetitionListForUserId("");
-
+		Assert.assertEquals(CollectionUtils.isNotEmpty(competitionList), true);
 	}
 
 	/**

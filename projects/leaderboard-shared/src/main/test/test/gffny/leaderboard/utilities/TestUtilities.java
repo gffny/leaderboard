@@ -144,7 +144,7 @@ public class TestUtilities {
 	public static ICompetition getTestCompetition() {
 		return new Competition("President's Day Cup 2012", new CompetitionType(
 				"Stableford", "Stableford", "Stableford", true, true, true),
-				"President's Day Cup 2012", 4);
+				"President's Day Cup 2012");
 	}
 
 	/**

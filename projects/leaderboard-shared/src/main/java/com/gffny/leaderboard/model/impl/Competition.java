@@ -5,6 +5,7 @@ package com.gffny.leaderboard.model.impl;
 
 import java.util.Date;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -22,6 +23,7 @@ public class Competition extends SQLEntity implements ICompetition {
 
 	private ICompetitionType competitionScoringSystem;
 	private String competitionVisibility;
+
 	private Map<Integer, ICompetition.ICompetitionRound> roundNumberMap;
 	private Map<Date, ICompetition.ICompetitionRound> roundDateMap;
 	private static final int DEFAULT_ROUND_NUMBER = 4;
@@ -61,6 +63,25 @@ public class Competition extends SQLEntity implements ICompetition {
 				DEFAULT_ROUND_NUMBER);
 		this.roundDateMap = new HashMap<Date, ICompetition.ICompetitionRound>(
 				DEFAULT_ROUND_NUMBER);
+	}
+
+	/**
+	 * 
+	 * @param competition
+	 * @return
+	 */
+	public Competition create(ICompetition competition) {
+		// Create a new instance of the Competition class
+		Competition instance = new Competition(competition.getName(),
+				competition.getCompetitionScoringSystem(),
+				competition.getCompetitionVisibility());
+		// Then add all the rounds (if there are any)
+		Iterator<ICompetitionRound> roundList = competition
+				.getCompetitionRoundList().iterator();
+		while (roundList.hasNext()) {
+			competition.addCompetitionRound(roundList.next());
+		}
+		return instance;
 	}
 
 	/**

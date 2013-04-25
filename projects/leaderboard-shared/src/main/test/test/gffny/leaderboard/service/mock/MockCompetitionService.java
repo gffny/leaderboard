@@ -23,6 +23,7 @@ import com.gffny.leaderboard.model.impl.Competition;
 import com.gffny.leaderboard.model.impl.CompetitionRound;
 import com.gffny.leaderboard.model.impl.CompetitionType;
 import com.gffny.leaderboard.service.ICompetitionService;
+import com.gffny.leaderboard.util.DateUtils;
 
 /**
  * @author John Gaffney (john@gffny.com) Oct 3, 2012
@@ -136,7 +137,7 @@ public class MockCompetitionService implements ICompetitionService {
 			int numberOfRounds) throws ServiceException {
 		ICompetition competition = new Competition(name, new CompetitionType(
 				"Stableford", "Stableford", "Stableford", true, true, false),
-				competitionVisiblity, numberOfRounds);
+				competitionVisiblity);
 
 		// TODO Use a service layer to cache objects - abstraction task
 		competitionCache.put(competition.getCompetitionIdAsString(),
@@ -162,16 +163,7 @@ public class MockCompetitionService implements ICompetitionService {
 	@Override
 	public ICompetitionRound createCompetitionRound(int roundNumber,
 			String roundName, Date roundDate, int groupSize, String courseId) {
-		return new CompetitionRound(roundName, roundNumber, roundDate, courseId);
-	}
-
-	/**
-	 * @see com.gffny.leaderboard.service.ICompetitionService#updateCompetitionRound(com.gffny.leaderboard.model.ICompetition.ICompetitionRound)
-	 */
-	@Override
-	public IServiceResult updateCompetitionRound(
-			ICompetitionRound competitionRoundToSave) throws ServiceException {
-		// TODO Auto-generated method stub
-		return null;
+		return new CompetitionRound(roundName, roundNumber, DateUtils.format(
+				roundDate, DateUtils.MYSQL_DATE_FORMAT.getPattern()), courseId);
 	}
 }
