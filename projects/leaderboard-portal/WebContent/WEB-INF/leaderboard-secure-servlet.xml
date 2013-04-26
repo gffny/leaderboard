@@ -12,6 +12,8 @@
 
     <!-- the mvc resources tag does the magic -->
 	<mvc:resources mapping="/resources/**" location="/resources/" />
+	<mvc:resources mapping="/app/**" location="/app/" />
+	<mvc:resources mapping="/app" location="/app/" />
 
 	<mvc:annotation-driven />
 
