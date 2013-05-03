@@ -3,13 +3,11 @@
  */
 package test.gffny.leaderboard.service.mock;
 
-import java.util.Arrays;
 import java.util.List;
 
 import test.gffny.leaderboard.utilities.TestUtilities;
 
 import com.gffny.leaderboard.intralayer.ServiceException;
-import com.gffny.leaderboard.model.IGolfCourse;
 import com.gffny.leaderboard.model.IGolfer;
 import com.gffny.leaderboard.service.IUserService;
 
@@ -74,20 +72,20 @@ public class MockUserService implements IUserService {
 	}
 
 	/**
-	 * @see com.gffny.leaderboard.service.IUserService#getGolferFavouriteClub(java.lang.String)
-	 */
-	@Override
-	public List<IGolfCourse> getGolferFavouriteClub(String userId)
-			throws ServiceException {
-		// Get some list from the golfService!
-		return Arrays.asList(TestUtilities.getTestGolfCourse(18, 72));
-	}
-
-	/**
 	 * @see com.gffny.leaderboard.service.IUserService#getGolferByHandle(java.lang.String)
 	 */
 	@Override
 	public IGolfer getGolferByHandle(String username) throws ServiceException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	/**
+	 * @see com.gffny.leaderboard.service.IUserService#getGolferFavouriteCourseList(java.lang.String)
+	 */
+	@Override
+	public List<String> getGolferFavouriteCourseList(String userId)
+			throws ServiceException {
 		// TODO Auto-generated method stub
 		return null;
 	}

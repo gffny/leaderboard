@@ -6,7 +6,9 @@ package com.gffny.leaderboard.dao.mongodb;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Iterator;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.log4j.Logger;
 import org.bson.types.ObjectId;
@@ -19,6 +21,8 @@ import com.gffny.leaderboard.model.IGolfCourse;
 import com.mongodb.BasicDBObject;
 import com.mongodb.DBCollection;
 import com.mongodb.DBCursor;
+import com.mongodb.gridfs.GridFS;
+import com.mongodb.gridfs.GridFSDBFile;
 
 /**
  * @author John Gaffney (john@gffny.com) Aug 14, 2012
@@ -44,13 +48,18 @@ public class GolfCourseDAO extends AbstractMongoDAO implements IGolfCourseDAO {
 	/**
 	 * 
 	 */
-	private static GolfCourseDAO INSTANCE = null;
+	private GridFS courseMapFS = null;
+
+	/**
+	 * 
+	 */
+	private static AbstractMongoDAO INSTANCE = null;
 
 	/**
 	 * 
 	 * @return
 	 */
-	public static GolfCourseDAO getInstance() {
+	public static AbstractMongoDAO getInstance() {
 		if (INSTANCE == null) {
 			INSTANCE = new GolfCourseDAO();
 		}
@@ -64,6 +73,7 @@ public class GolfCourseDAO extends AbstractMongoDAO implements IGolfCourseDAO {
 		super();
 		clubCollection = getCollection(GOLF_CLUB_COLLECTION);
 		courseCollection = getCollection(COURSE_COLLECTION);
+		courseMapFS = new GridFS(getDatabase(), COURSE_MAP_IMAGE_COLLECTION);
 	}
 
 	/**
@@ -78,7 +88,11 @@ public class GolfCourseDAO extends AbstractMongoDAO implements IGolfCourseDAO {
 	public List<IGolfCourse> getCourseByIdAndTeeColour(String courseId,
 			String teeColour) throws DAOException {
 		log.debug("courseId: " + courseId + ", teeColour: " + teeColour);
-		return Arrays.asList(getCourseDBO(courseId).getGolfCourse(teeColour));
+		if (courseId != null && teeColour != null) {
+			return Arrays.asList(getCourseDBO(courseId)
+					.getGolfCourse(teeColour));
+		}
+		return new LinkedList<IGolfCourse>();
 	}
 
 	/**
@@ -90,7 +104,10 @@ public class GolfCourseDAO extends AbstractMongoDAO implements IGolfCourseDAO {
 	public List<String> getCourseNameListByClubName(String clubName)
 			throws DAOException {
 		log.debug("club name: " + clubName);
-		return getClubDBO(clubName).getCourseNameList();
+		if (clubName != null) {
+			return getClubDBO(clubName).getCourseNameList();
+		}
+		return new LinkedList<String>();
 	}
 
 	/**
@@ -104,7 +121,11 @@ public class GolfCourseDAO extends AbstractMongoDAO implements IGolfCourseDAO {
 	public List<String> getTeeColourListByClubNameAndCourseName(
 			String clubName, String courseName) throws DAOException {
 		log.debug("club name: " + clubName + ", courseName: " + courseName);
-		return getClubDBO(clubName).getCourse(courseName).getTeeColourList();
+		if (clubName != null && courseName != null) {
+			return getClubDBO(clubName).getCourse(courseName)
+					.getTeeColourList();
+		}
+		return new LinkedList<String>();
 	}
 
 	/**
@@ -117,7 +138,10 @@ public class GolfCourseDAO extends AbstractMongoDAO implements IGolfCourseDAO {
 	public List<String> getTeeColourListByCourseId(String courseId)
 			throws DAOException {
 		log.debug("courseId: " + courseId);
-		return getCourseDBO(courseId).getTeeColourList();
+		if (courseId != null) {
+			return getCourseDBO(courseId).getTeeColourList();
+		}
+		return new LinkedList<String>();
 	}
 
 	/**
@@ -141,6 +165,54 @@ public class GolfCourseDAO extends AbstractMongoDAO implements IGolfCourseDAO {
 			}
 		}
 		return golfCourseList;
+	}
+
+	/**
+	 * 
+	 * return List<GridFSDBFile> @see {@link GridFSDBFile}
+	 * 
+	 * @see com.gffny.leaderboard.dao.IGolfCourseDAO#getHoleMapList()
+	 */
+	@Override
+	public List<Object> getHoleMapList(String courseId) throws DAOException {
+
+		log.debug("getting map for course " + courseId);
+		// get the list of file names
+		Map<String, String> courseImageNameMap = getCourseDBO(courseId)
+				.getHoleImageList();
+
+		// create a list to house the map images
+		List<Object> imageFileList = new LinkedList<Object>();
+		for (int i = 1; i <= courseImageNameMap.size(); i++) {
+			imageFileList.add(courseMapFS.findOne(courseImageNameMap
+					.get(getImageMapKey(i))));
+		}
+		return imageFileList;
+	};
+
+	/**
+	 * 
+	 * @param courseId
+	 * @param holeNumber
+	 * @return
+	 * @throws DAOException
+	 */
+	public Object getHoleMapImage(String courseId, int holeNumber)
+			throws DAOException {
+		log.debug("getting map for hole" + holeNumber + "course " + courseId);
+		if (courseId != null && holeNumber > 0 && holeNumber < 19) {
+			return getCourseDBO(courseId).getHoleImageList().get(
+					getImageMapKey(holeNumber));
+		}
+		return null; // TODO make this a blankImage;
+	}
+
+	/**
+	 * @param holeNumber
+	 * @return
+	 */
+	private String getImageMapKey(int holeNumber) {
+		return "h" + holeNumber;
 	}
 
 	/**

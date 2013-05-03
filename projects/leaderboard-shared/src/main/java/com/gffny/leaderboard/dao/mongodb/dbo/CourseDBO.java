@@ -73,11 +73,26 @@ public class CourseDBO {
 	 * @return
 	 */
 	@SuppressWarnings("unchecked")
+	public LinkedHashMap<String, String> getHoleImageList() {
+		return (LinkedHashMap<String, String>) courseObject.get("holeMapList");
+	}
+
+	/**
+	 * 
+	 * @param teeColour
+	 * @return
+	 */
+	@SuppressWarnings("unchecked")
 	public Map<String, Map<String, String>> getHoleMap(String teeColour) {
 		return (LinkedHashMap<String, Map<String, String>>) courseObject
 				.get(teeColour);
 	}
 
+	/**
+	 * 
+	 * @param teeColour
+	 * @return
+	 */
 	public IGolfCourse getGolfCourse(String teeColour) {
 
 		Map<String, Map<String, String>> holeMap = getHoleMap(teeColour);

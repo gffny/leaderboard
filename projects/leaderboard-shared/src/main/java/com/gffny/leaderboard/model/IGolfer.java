@@ -21,7 +21,7 @@ public interface IGolfer extends IBasicGolfer {
 	/**
 	 * @param object
 	 */
-	public abstract void setPassword(String object);
+	public abstract void setPassword(String password);
 
 	/**
 	 * 

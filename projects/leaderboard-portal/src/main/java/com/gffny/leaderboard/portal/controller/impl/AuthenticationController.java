@@ -30,6 +30,7 @@ import com.gffny.leaderboard.model.JSONable;
 import com.gffny.leaderboard.portal.controller.abst.AbstractController;
 import com.gffny.leaderboard.portal.manager.impl.UserManager;
 import com.gffny.leaderboard.portal.model.dto.InitResponseDto;
+import com.gffny.leaderboard.portal.model.dto.UserDto;
 import com.gffny.leaderboard.portal.model.ui.JsonResponse;
 
 /**
@@ -46,6 +47,7 @@ public class AuthenticationController extends AbstractController {
 	@Autowired
 	private UserManager userManager;
 
+	/* WEB APPLICATION */
 	@RequestMapping("/")
 	public ModelAndView noUrl() {
 		return login();
@@ -57,13 +59,17 @@ public class AuthenticationController extends AbstractController {
 		return model;
 	}
 
-	@RequestMapping(value = "/asychprocess", method = RequestMethod.POST, headers = "Accept=application/json")
-	public ResponseEntity<JsonResponse<JSONable>> asynchprocess(
-			@RequestBody String body, HttpSession session,
-			HttpServletRequest request) throws JsonParseException,
-			JsonMappingException, IOException {
+	@RequestMapping("/logout")
+	public ModelAndView logout() {
+		ModelAndView model = new ModelAndView("auth/logout");
+		return model;
+	}
 
-		return loginInternal("gffny", "passphrase", session, request);
+	@RequestMapping("/register")
+	public ModelAndView register() {
+		System.out.println("BLAH!");
+		ModelAndView model = new ModelAndView("auth/register");
+		return model;
 	}
 
 	@RequestMapping(value = "/process", method = RequestMethod.POST, headers = "Accept=application/json")
@@ -78,17 +84,15 @@ public class AuthenticationController extends AbstractController {
 		}
 	}
 
-	@RequestMapping("/logout")
-	public ModelAndView logout() {
-		ModelAndView model = new ModelAndView("auth/logout");
-		return model;
-	}
-
-	@RequestMapping("/register")
-	public ModelAndView register() {
-		System.out.println("BLAH!");
-		ModelAndView model = new ModelAndView("auth/register");
-		return model;
+	/* ASYNCHRONOUS REQUESTS */
+	@RequestMapping(value = "/a_process", method = RequestMethod.POST, headers = "Accept=application/json")
+	public ResponseEntity<JsonResponse<JSONable>> asynchprocess(
+			@RequestBody String body, HttpSession session,
+			HttpServletRequest request) throws JsonParseException,
+			JsonMappingException, IOException {
+		UserDto user = objectMapper.readValue(body, UserDto.class);
+		return loginInternal(user.getProfileHandle(), user.getPassword(),
+				session, request);
 	}
 
 	private ResponseEntity<JsonResponse<JSONable>> loginInternal(

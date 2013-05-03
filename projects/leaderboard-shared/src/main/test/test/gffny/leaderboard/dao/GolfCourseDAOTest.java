@@ -47,6 +47,23 @@ public class GolfCourseDAOTest {
 	/**
 	 * Test method for
 	 * {@link com.gffny.leaderboard.dao.mysql.GolfCourseDAO#getGolfCourseById(java.lang.String)}
+	 * 
+	 */
+	@Test
+	public final void getHoleMapList() {
+		try {
+			List<Object> gcList = golfCourseDao
+					.getHoleMapList("50fdb6681cd88454b3b083f9");
+			gcList.size();
+		} catch (DAOException e) {
+			fail();
+			e.printStackTrace();
+		}
+	}
+
+	/**
+	 * Test method for
+	 * {@link com.gffny.leaderboard.dao.mysql.GolfCourseDAO#getGolfCourseById(java.lang.String)}
 	 * .
 	 */
 	@Test

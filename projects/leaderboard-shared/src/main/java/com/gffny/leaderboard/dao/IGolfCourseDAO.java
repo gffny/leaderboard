@@ -67,4 +67,11 @@ public interface IGolfCourseDAO {
 	 */
 	public abstract List<IGolfCourse> getAllGolfCourseList()
 			throws DAOException;
+
+	/**
+	 * 
+	 * @return
+	 */
+	public abstract List<Object> getHoleMapList(String courseId)
+			throws DAOException;
 }

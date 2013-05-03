@@ -36,6 +36,11 @@ public class UserDAO extends AbstractMySQLDAO implements IUserDAO {
 	private static String HANDICAP_COL = "hndcp";
 	private static String SOCIETY_MEMBERSHIP_ID_COL = "scty_mmbr_id";
 	private static final String HANDEDNESS_COL = "hnddnss";
+	private static final String FAVOURITE_COURSE_1_COL = "fvrt_crs_1";
+	private static final String FAVOURITE_COURSE_2_COL = "fvrt_crs_2";
+	private static final String FAVOURITE_COURSE_3_COL = "fvrt_crs_3";
+	private static final String FAVOURITE_COURSE_4_COL = "fvrt_crs_4";
+	private static final String FAVOURITE_COURSE_5_COL = "fvrt_crs_5";
 
 	/**
 	 * @see com.gffny.leaderboard.dao.IUserDAO#getGolferByHandle(java.lang.String)
@@ -253,6 +258,39 @@ public class UserDAO extends AbstractMySQLDAO implements IUserDAO {
 	}
 
 	/**
+	 * @see com.gffny.leaderboard.dao.IUserDAO#getGolfFavouriteCourseIdList(java.lang.String)
+	 */
+	@Override
+	public List<String> getGolfFavouriteCourseIdList(String userId)
+			throws DAOException {
+		try {
+			// create statement to select the golfer with a an profile handle
+			// corresponding to profileHandle
+			PreparedStatement stmnt = getConnection().prepareStatement(
+					"SELECT " + FAVOURITE_COURSE_1_COL + ", "
+							+ FAVOURITE_COURSE_2_COL + ", "
+							+ FAVOURITE_COURSE_3_COL + ", "
+							+ FAVOURITE_COURSE_4_COL + ", "
+							+ FAVOURITE_COURSE_5_COL + " FROM t_usr u WHERE "
+							+ USER_ID_COL + " = ?");
+			stmnt.setString(1, userId);
+			ResultSet res = stmnt.executeQuery();
+			// return the list of favourite courses
+			List<String> courseIdList = new ArrayList<String>();
+			if (res.next()) {
+				courseIdList.add(res.getString(FAVOURITE_COURSE_1_COL));
+				courseIdList.add(res.getString(FAVOURITE_COURSE_2_COL));
+				courseIdList.add(res.getString(FAVOURITE_COURSE_3_COL));
+				courseIdList.add(res.getString(FAVOURITE_COURSE_4_COL));
+				courseIdList.add(res.getString(FAVOURITE_COURSE_5_COL));
+			}
+			return courseIdList;
+		} catch (SQLException sqlEx) {
+			throw new DAOException(sqlEx.getMessage());
+		}
+	}
+
+	/**
 	 * @param res
 	 * @return
 	 * @throws SQLException
@@ -271,7 +309,7 @@ public class UserDAO extends AbstractMySQLDAO implements IUserDAO {
 	private IGolfer mapGolfer(ResultSet res) throws SQLException {
 
 		if (res != null) {
-			return new Golfer(res.getInt(USER_ID_COL), // userId
+			IGolfer golfer = new Golfer(res.getInt(USER_ID_COL), // userId
 					res.getString(FIRST_NAME_COL), // firstName
 					res.getString(LAST_NAME_COL), // lastName
 					res.getString(PROFILE_HANDLE_COL), // profileHandle
@@ -279,6 +317,8 @@ public class UserDAO extends AbstractMySQLDAO implements IUserDAO {
 					res.getString(lOCATION_COL), // location
 					res.getString(HANDEDNESS_COL), // handedness
 					res.getInt(HANDICAP_COL)); // handicap
+			golfer.setPassword("password");
+			return golfer;
 		} else {
 			log.error("result set is null");
 			throw new DAOException("result set is null");

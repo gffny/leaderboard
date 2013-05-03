@@ -96,4 +96,12 @@ public interface IUserDAO {
 	 */
 	public IDAOResult updateSecurityQuestion(String userId, String question,
 			String answer) throws DAOException;
+
+	/**
+	 * @param userId
+	 * @return
+	 * @throws DAOException
+	 */
+	public List<String> getGolfFavouriteCourseIdList(String userId)
+			throws DAOException;
 }

@@ -3,7 +3,6 @@ package com.gffny.leaderboard.service;
 import java.util.List;
 
 import com.gffny.leaderboard.intralayer.ServiceException;
-import com.gffny.leaderboard.model.IGolfCourse;
 import com.gffny.leaderboard.model.IGolfer;
 
 public interface IUserService {
@@ -49,7 +48,7 @@ public interface IUserService {
 	/**
 	 * @param userId
 	 */
-	public List<IGolfCourse> getGolferFavouriteClub(String userId)
+	public List<String> getGolferFavouriteCourseList(String userId)
 			throws ServiceException;
 
 	/**

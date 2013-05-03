@@ -13,7 +13,6 @@ import com.gffny.leaderboard.dao.IEquipmentDAO;
 import com.gffny.leaderboard.dao.IUserDAO;
 import com.gffny.leaderboard.intralayer.DAOException;
 import com.gffny.leaderboard.intralayer.ServiceException;
-import com.gffny.leaderboard.model.IGolfCourse;
 import com.gffny.leaderboard.model.IGolfer;
 import com.gffny.leaderboard.service.IUserService;
 
@@ -135,10 +134,15 @@ public class UserService implements IUserService {
 	/**
 	 * @see com.gffny.leaderboard.service.IUserService#getGolferFavouriteClub(java.lang.String)
 	 */
-	public List<IGolfCourse> getGolferFavouriteClub(String userId)
+	public List<String> getGolferFavouriteCourseList(String handle)
 			throws ServiceException {
-		// TODO Auto-generated method stub
-		return new ArrayList<IGolfCourse>();
+		try {
+			IGolfer golfer = userDao.getGolferByHandle(handle);
+			return userDao.getGolfFavouriteCourseIdList(String.valueOf(golfer
+					.getUserId()));
+		} catch (DAOException e) {
+			throw new ServiceException(e.getMessage());
+		}
 	}
 
 	/**

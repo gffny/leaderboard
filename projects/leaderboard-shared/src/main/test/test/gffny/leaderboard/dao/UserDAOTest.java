@@ -14,6 +14,7 @@ import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.gffny.leaderboard.dao.IUserDAO;
+import com.gffny.leaderboard.dao.mysql.UserDAO;
 import com.gffny.leaderboard.intralayer.DAOException;
 import com.gffny.leaderboard.intralayer.IDAOResult;
 import com.gffny.leaderboard.model.IGolfer;
@@ -25,7 +26,7 @@ import com.gffny.leaderboard.model.IGolfer;
 public class UserDAOTest {
 
 	@Autowired
-	private IUserDAO userDao;
+	private IUserDAO userDao = new UserDAO();
 
 	private static Logger log = Logger.getLogger(UserDAOTest.class);
 
@@ -185,4 +186,16 @@ public class UserDAOTest {
 		}
 	}
 
+	@Test
+	public void testGetGolfFavouriteCourseIdList() {
+		if (userDao == null) {
+			fail();
+		}
+		log.info("testGetGolfFavouriteCourseIdList");
+		try {
+			userDao.getGolfFavouriteCourseIdList("1");
+		} catch (DAOException daoEx) {
+			fail(daoEx.getMessage());
+		}
+	}
 }

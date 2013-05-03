@@ -20,6 +20,7 @@ import com.gffny.leaderboard.model.IScorecard;
 import com.gffny.leaderboard.service.AbstractService;
 import com.gffny.leaderboard.service.IGolfService;
 import com.gffny.leaderboard.service.IUserService;
+import com.gffny.leaderboard.util.CollectionUtils;
 
 public class GolfService extends AbstractService implements IGolfService {
 
@@ -194,14 +195,38 @@ public class GolfService extends AbstractService implements IGolfService {
 
 	/**
 	 * 
+	 * @throws ServiceException
 	 * @see com.gffny.leaderboard.service.IGolfCourseService#getGolfCourseShortListByUserId(java.lang.String)
 	 */
 	@Override
-	public List<IGolfCourse> getGolfCourseShortListByUserId(String userId) {
+	public List<IGolfCourse> getGolfCourseShortListByUserId(String userId)
+			throws ServiceException {
 		try {
-			return userService.getGolferFavouriteClub(userId);
-		} catch (ServiceException serEx) {
-			return logErrorReturnEmptyList(serEx, log, IGolfCourse.class);
+			// get a list of the users favourite courses
+			List<String> favouriteCourseIdList = userService
+					.getGolferFavouriteCourseList(userId);
+			// create a list to populate and return
+			List<IGolfCourse> golfCourseList = new ArrayList<IGolfCourse>();
+			// iterate through the list of favourite course ids and get the
+			// related courses (for each tee colour)
+			for (String courseId : favouriteCourseIdList) {
+				List<String> courseTeeColourList = courseDao
+						.getTeeColourListByCourseId(courseId);
+				for (String teeColour : courseTeeColourList) {
+					List<IGolfCourse> golfCourseSubList = courseDao
+							.getCourseByIdAndTeeColour(courseId, teeColour);
+					golfCourseSubList = CollectionUtils
+							.stripNull(golfCourseSubList);
+					// check if the list is not null
+					if (CollectionUtils.isNotEmpty(golfCourseSubList)) {
+						golfCourseList.addAll(golfCourseSubList);
+					}
+				}
+			}
+			return golfCourseList;
+		} catch (DAOException daoEx) {
+			logErrorReturnEmptyList(daoEx, log, IGolfCourse.class);
 		}
+		return logErrorReturnEmptyList(null, log, IGolfCourse.class);
 	};
 }

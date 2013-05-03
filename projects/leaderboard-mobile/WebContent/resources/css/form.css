@@ -61,3 +61,165 @@ body {
 	-webkit-box-sizing: border-box;
 	font-size: 11px;
 }
+
+ul#menu {
+	margin: 20px;
+	padding: 0;
+	font: 12px Verdana;
+	list-style-type: none;
+	line-height: 80px;
+}
+
+ul#menu li {
+	display: inline;
+}
+
+ul#menu li a {
+	margin: 0px 0px 0px 20px;
+	padding: 5px 10px;
+	border: 1px solid #aaa;
+	background-color: #eee;
+	color: #47a;
+	text-decoration: none;
+}
+
+a.button{
+  display:inline-block;
+  width:80px; 
+  height:80px;
+  padding:5px;
+  border:1px #D7D7D7 solid;
+  text-align:center;
+  text-decoration:none;
+  color:#666666;
+  background:url(button_bg.png) repeat-x;
+  border-radius: 100px;
+  vertical-align:middle;
+}
+
+a.button:hover{
+  background:url(button_bg_hover.png) repeat-x;
+  text-decoration:none;
+}
+
+.course {
+	background: #006957;
+	width: 600px;
+	top: 100px;
+ 	border-radius: 10px;
+	left: 200px;
+	position: absolute;
+	padding-left: 20px;
+	padding-bottom: 20px;
+	padding-right: 20px; 
+	font-family: Calibri, Helvetica, Arial, sans-serif;
+	color: #FFFFFF;
+}
+
+.course h3 {
+	margin: 18px 0px 0px 0px;
+}
+.course .title {
+	margin: 0px 0px 18px 0px;
+}
+
+.courseInformation {
+	display: inline-block;
+	padding: 0px 3px;
+	text-transform: capitalize;
+}
+	
+.course h4 {
+	font-size: 14px;
+}
+
+.course label {
+	font-size: 11px;
+	font-weight: bold;
+}
+
+.scorecard {
+	text-align: center;
+}
+
+.scorecard td {
+	width: 50px;
+	border: thin;
+	border-style: double;
+}
+
+.scorecard th {
+	width: 50px;
+	border-radius: 12px 12px 0px 0px;
+	background: #96B325;
+	font-weight: bold;
+}
+
+.scorecardTitle {
+	width: 70px;
+	background: #FFFFFF;
+	border-radius: 4px 0px 0px 4px;
+	color: #202020;
+	text-align: right;
+	font-weight: bold;
+	padding: 0px 2px 0px 0px;
+}
+
+th.blank {
+	width: 70px;
+	background: #006957;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

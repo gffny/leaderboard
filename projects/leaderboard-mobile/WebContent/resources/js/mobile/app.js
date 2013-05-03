@@ -1,14 +1,12 @@
-angular.module('scorecard', []).config(
+angular.module('scorecard', ['lrdbrdServices']).config(
 		['$routeProvider', function($routeProvider) {
-			$routeProvider.when('/menu', 
-					{templateUrl: 'partials/menu.html', controller: MenuCtrl}
-			).when('/competition/', 
-					{templateUrl: 'partials/competition.html', controller: PhoneDetailCtrl}
-			).when('/competition/:competitionId', 
-					{templateUrl: 'partials/competition-detail.html', controller: PhoneDetailCtrl}
-			).when('/practice/', 
-					{templateUrl: 'partials/practice.html', controller: PhoneDetailCtrl}
-			).when('/practice/:courseId', 
-					{templateUrl: 'partials/phone-detail.html', controller: PhoneDetailCtrl}
-			).otherwise({redirectTo: 'http://localhost:8080/leaderboard'});
+			$routeProvider.when('/login', 
+					{templateUrl: 'resources/html/login.html', controller: LoginCtrl}
+			).when('/menu', 
+					{templateUrl: 'resources/html/menu.html', controller: MenuCtrl}
+			).when('/practice', 
+					{templateUrl: 'resources/html/practice.html', controller: PracticeCtrl}
+			).when('/practice/:course', 
+					{templateUrl: 'resources/html/practice-detail.html', controller: PracticeDetailCtrl}
+			);
     }]);

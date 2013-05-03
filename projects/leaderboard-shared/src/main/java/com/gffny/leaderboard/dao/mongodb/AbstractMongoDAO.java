@@ -30,6 +30,11 @@ public class AbstractMongoDAO extends AbstractDAO {
 	static final String GOLF_CLUB_COLLECTION = "clubList";
 
 	/**
+	 *
+	 */
+	protected static final String COURSE_MAP_IMAGE_COLLECTION = "fresh-pond";
+
+	/**
 	 * 
 	 */
 	private static Logger log = Logger.getLogger(AbstractMongoDAO.class);
@@ -42,7 +47,7 @@ public class AbstractMongoDAO extends AbstractDAO {
 	/**
 	 * 
 	 */
-	AbstractMongoDAO() {
+	protected AbstractMongoDAO() {
 		try {
 			// connect to the database
 			Mongo mongo = new Mongo("localhost", 27017);
@@ -62,5 +67,13 @@ public class AbstractMongoDAO extends AbstractDAO {
 	 */
 	public DBCollection getCollection(String collectionName) {
 		return database.getCollection(collectionName);
+	}
+
+	/**
+	 * 
+	 * @return
+	 */
+	protected DB getDatabase() {
+		return database;
 	}
 }
