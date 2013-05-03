@@ -1,0 +1,124 @@
+<!-- 
+ 
+ ############### EXAMPLE OUTPUT FOR TESTING STYLES 
+<div class="course">
+	<div class="title">
+		<h3>Course Information</h3>
+	</div>
+	<div>
+		<label class="courseInformation">Name</label><span class="courseInformation">{{course.name}}</span>
+		<label class="courseInformation">Tee Colour</label><span class="courseInformation">{{course.teeColour}}</span>
+	</div>
+	<div class="holeInformation">
+		<table class="frontNine scorecard">
+			<thead>
+				<tr>
+					<th class="blank"></th>
+					<th class="">1</th>
+					<th class="">2</th>
+					<th class="">3</th>
+					<th class="">4</th>
+					<th class="">5</th>
+					<th class="">6</th>
+					<th class="">7</th>
+					<th class="">8</th>
+					<th class="">9</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr>
+					<td class="scorecardTitle">index</td>
+					<td class="">15</td>
+					<td class="">3</td>
+					<td class="">13</td>
+					<td class="">9</td>
+					<td class="">1</td>
+					<td class="">11</td>
+					<td class="">7</td>
+					<td class="">18</td>
+					<td class="">5</td>
+				</tr>
+				<tr>
+					<td class="scorecardTitle">par</td>
+					<td class="">4</td>
+					<td class="">4</td>
+					<td class="">4</td>
+					<td class="">4</td>
+					<td class="">5</td>
+					<td class="">4</td>
+					<td class="">4</td>
+					<td class="">3</td>
+					<td class="">4</td>
+				</tr>
+				<tr>
+					<td class="scorecardTitle">distance</td>
+					<td class="">270</td>
+					<td class="">311</td>
+					<td class="">252</td>
+					<td class="">319</td>
+					<td class="">414</td>
+					<td class="">274</td>
+					<td class="">259</td>
+					<td class="">166</td>
+					<td class="">207</td>
+				</tr>
+			</tbody>
+		</table>
+		<table class="backNine scorecard">
+			<thead>
+				<tr>
+					<th class="blank"></th>
+					<th class="">10</th>
+					<th class="">11</th>
+					<th class="">12</th>
+					<th class="">13</th>
+					<th class="">14</th>
+					<th class="">15</th>
+					<th class="">16</th>
+					<th class="">17</th>
+					<th class="">18</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr>
+					<td class="scorecardTitle">index</td>
+					<td class="">10</td>
+					<td class="">17</td>
+					<td class="">6</td>
+					<td class="">12</td>
+					<td class="">2</td>
+					<td class="">8</td>
+					<td class="">14</td>
+					<td class="">4</td>
+					<td class="">16</td>
+				</tr>
+				<tr>
+					<td class="scorecardTitle">par</td>
+					<td class="">4</td>
+					<td class="">3</td>
+					<td class="">4</td>
+					<td class="">4</td>
+					<td class="">5</td>
+					<td class="">4</td>
+					<td class="">4</td>
+					<td class="">4</td>
+					<td class="">4</td>
+				</tr>
+				<tr>
+					<td class="scorecardTitle">distance</td>
+					<td class="">218</td>
+					<td class="">172</td>
+					<td class="">216</td>
+					<td class="">298</td>
+					<td class="">423</td>
+					<td class="">301</td>
+					<td class="">251</td>
+					<td class="">361</td>
+					<td class="">254</td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+</div>
+
+  -->

@@ -1,0 +1,21 @@
+<div class="form">
+	<form name="pratice" ng-submit="playPracticeRound()">
+		<div class="title">
+			<h3>Play Practice Round</h3>
+		</div>
+		<div class="formSection">
+			<h4>Select Course</h4>
+			<div class="inputBox">
+				<label>Course</label>
+				 <select ng-model="practice.course">
+				 	<option ng-repeat="course in courseList" value="{{course.id}}.{{course.teeColour}}">{{course.name}} {{course.teeColour}}</option>
+				 </select>
+			</div>
+		</div>
+		<div class="formSection">
+			<span >
+				<input type=submit value=Login class=formButton>
+			</span>
+		</div>
+	</form>
+</div>

@@ -1,0 +1,26 @@
+<div class="form">
+	<form name="login" ng-submit="loginUser()">
+		<div class="title">
+			<h3>Login</h3>
+		</div>
+		<div class="formSection">
+			<h4>User Handle</h4>
+			<div class="inputBox">
+				<label>Handle</label>
+				<input class="formInput" type=text name=ldrbrdname ng-model="auth.name">
+			</div>
+		</div>
+		<div class="formSection">
+			<h4>Password</h4>
+			<div class="inputBox">
+				<label>Password</label>
+				<input class="formInput" type=password name=ldrbrdpassword ng-model="auth.password">
+			</div>
+		</div>
+		<div class="formSection">
+			<span >
+				<input type=submit value=Login class=formButton>
+			</span>
+		</div>
+	</form>
+</div>

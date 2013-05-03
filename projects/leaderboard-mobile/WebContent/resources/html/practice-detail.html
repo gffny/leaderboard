@@ -1,0 +1,55 @@
+<div class="course">
+	<div class="title">
+		<h3>Course Information</h3>
+		<div>
+			<label class="courseInformation">Name: </label><span class="courseInformation">{{course.name}}</span>
+			<label class="courseInformation">Tee Colour: </label><span class="courseInformation">{{course.teeColour}}</span>
+		</div>
+	</div>
+	<div class="holeInformation">
+		<table class="frontNine scorecard">
+			<thead>
+				<tr>
+					<th class="blank"></th>
+					<th ng-repeat="i in course.frontNine.holeIndexArray">{{$index+1}}</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr>
+					<td class="scorecardTitle">par</td>
+					<td ng-repeat="p in course.frontNine.holeParArray">{{p}}</td>
+				</tr>
+				<tr>
+					<td class="scorecardTitle">index</td>
+					<td ng-repeat="i in course.frontNine.holeIndexArray">{{i}}</td>
+				</tr>
+				<tr>
+					<td class="scorecardTitle">distance</td>
+					<td ng-repeat="d in course.frontNine.teeDistanceArray">{{d}}</td>
+				</tr>
+			</tbody>
+		</table>
+		<table  class="backNine scorecard">
+			<thead>
+				<tr>
+					<th class="blank"></th>
+					<th ng-repeat="i in course.backNine.holeIndexArray">{{$index+10}}</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr>
+					<td class="scorecardTitle">par</td>
+					<td ng-repeat="p in course.backNine.holeParArray">{{p}}</td>
+				</tr>
+				<tr>
+					<td class="scorecardTitle">index</td>
+					<td ng-repeat="i in course.backNine.holeIndexArray">{{i}}</td>
+				</tr>
+				<tr>
+					<td class="scorecardTitle">distance</td>
+					<td ng-repeat="d in course.backNine.teeDistanceArray">{{d}}</td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+</div>
